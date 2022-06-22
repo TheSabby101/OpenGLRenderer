@@ -1,0 +1,20 @@
+#pragma once
+#include "Header.h"
+
+
+class Textures
+{
+private:
+	unsigned int ID;
+	std::string Filepath;
+	unsigned char* LocalBuffer;
+	int Width, Height, BBP;
+public:
+
+	Textures(const std::string& path);
+	~Textures();
+
+	void Bind(unsigned int slot = 0) const;
+	void UnBind() const;
+
+};

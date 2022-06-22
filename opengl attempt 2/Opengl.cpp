@@ -4,9 +4,102 @@
 #include <chrono>
 #include<future>
 #include "VertexArray.h"
+#include "Vertexbufferlayout.h"
+#include <string>
+#include "Textures.h"
+#include "LoadShader2.h"
 float increment = 0.05f;
 
-void colourshuffle(float& colour)
+
+struct vec3F
+{
+	float x, y, z;
+	vec3F(float a, float b, float c)
+	{
+
+		x = a;
+		y = b;
+		z = c;
+
+	}
+	
+};
+
+
+std::vector<GLfloat> OBJImport(std::string objfilepath)
+{
+	vec3F Temp(0, 0, 0);
+	int i = 0;
+	//reading from the OBJ file
+	std::string line = "";
+	std::string prefix = "";
+	std::string OBJ;
+	std::ifstream OBJStream(objfilepath);
+	std::vector<GLfloat> Verticies;
+	
+	if (OBJStream.is_open())
+	{
+		std::cout << objfilepath << " Opened" << std::endl;
+	
+		std::stringstream sstr;
+	//sstr << OBJStream.rdbuf();
+		//OBJ = sstr.str();
+		
+		while (std::getline(OBJStream, line))
+		{
+			
+			sstr.clear();
+			sstr.str(line);
+			sstr >> prefix;
+
+			if (prefix == "#")
+			{
+
+			}
+			else if (prefix == "o")
+			{
+
+			}
+			else if (prefix == "s")
+			{
+
+			}
+			else if (prefix == "vn")
+			{
+				sstr >> Temp.x >> Temp.y >> Temp.z;
+				Verticies.push_back(Temp.x);
+				Verticies.push_back(Temp.y);
+				Verticies.push_back(Temp.z);
+				//std::cout << Verticies[0+ i] << std::endl;
+				//std::cout << Verticies[1+ i] << std::endl;
+				//std::cout << Verticies[2+ i] << std::endl;
+				//std::cout << line << std::endl;
+				i += 3;
+			}
+			else
+			{
+
+			}
+			
+		}
+
+		OBJStream.close();
+	}
+	else
+	{
+		std::cout << "could not open obj at " << objfilepath << std::endl;
+	}
+
+	//converting the Verticies of the OBJ into a usable vector
+
+
+	
+
+
+	return Verticies;
+}
+
+void colourshuffle(GLfloat& colour)
 {
 	
 	if (colour > 1.0f)
@@ -17,41 +110,28 @@ void colourshuffle(float& colour)
 		
 	colour += increment;
 }
-class gameloop
+
+struct gameloop
 {
-private:
-	
-public:
-
-
-
-	void framecount(int& frames)
-	{
-		frames++;
-		//std::cout << std::endl << frames << std::endl;
-
-	}
-
-
-
-
-	gameloop(int uniform, int programid, GLFWwindow *window, float one, float two, float three, float four)
+  gameloop(GLFWwindow* window)
 	{
 		
 		
 		glClearColor(1.0f, 1.0f, 0.4f, 0.0f);
-		glUniform4f(uniform, one, two, three, four);
-		//one += 0.001f;
+
+		
+		
+
 		// Clear the screen.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// Use our shader
-		glUseProgram(programid);
+		// Use the shader
+		
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+		glDrawElements(GL_TRIANGLES, 8, GL_UNSIGNED_INT, nullptr);
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		//std::cout << one<< std::endl;
+
 		
 	};
 	~gameloop()
@@ -63,98 +143,109 @@ public:
 };
 
 
-void EnableVertexArray(int arraynumber, GLuint arraybuffername) {
-	// 1st attribute buffer : vertices
-
-}
 
 
+int main()
+{
 
-int main() {
-    if (!glfwInit())
-    {
-        fprintf(stderr, "Failed to initialize GLFW\n");
-        
-    }
+	if (!glfwInit())
+	{
+		std::cout <<  "Failed to initialize GLFW\n";
 
-    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL 
+	}
 
-    // Open a window and create its OpenGL context
-    GLFWwindow* window; // (In the accompanying source code, this variable is global for simplicity)
-    window = glfwCreateWindow(1024, 768, "Tutorial 01", NULL, NULL);
-    if (window == NULL) {
-        fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
-        glfwTerminate();
-        
-    }
-    glfwMakeContextCurrent(window); // Initialize GLEW
-    glewExperimental = true; // Needed in core profile
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW\n");
-       
-    }
+	glfwWindowHint(GLFW_SAMPLES, 8); // 8x antialiasing
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // dont use old OpenGL 
 
-    // Ensure we can capture the escape key being pressed below
-    glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	GLuint programID = LoadShaders("vertex.shader", "fragment.shader");
+	// Open a window and create its OpenGL context
+	GLFWwindow* window; 
+	window = glfwCreateWindow(1080, 1080, "OpenGL", NULL, NULL);
+	if (window == NULL) {
+		std::cout <<  "Failed to open GLFW window.\n";
+		glfwTerminate();
+
+	}
+	glfwMakeContextCurrent(window); // Initialize GLEW
+	glewExperimental = true; // Needed in core profile
+	if (glewInit() != GLEW_OK) {
+		std::cout <<  "Failed to initialize GLEW" << std::endl;
+
+	}
+
+	//Escape key to exit the program
+
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+
+	//loading shaders
+	//GLuint programID = LoadShaders("vertex.shader", "fragment.shader");
+
+	Shader shader("vertex.shader", "fragment.shader");
 
 
-	// An array of 3 vectors which represents 3 vertices
-	GLfloat g_vertex_buffer_data[] = {
-	   -0.5f, -0.5f, 0.0f,
-	   0.5f, -0.5f, 0.0f,
-	   0.5f,  0.5f, 0.0f,
-	   -0.5f,0.5f,0.0f
+	shader.Bind();
+	//shader.UnBind();
+	shader.SetUniforms1i("Texture", 0);
+
+	
+	//Vertex Array
+	GLfloat VertexBufferData[] =
+	{
+	  -0.5f, -0.5f, 0.0f, 0.0f,
+	   0.5f, -0.5f, 1.0f, 0.0f,
+	   0.5f,  0.5f, 1.0f, 1.0f,
+	  -0.5f,  0.5f, 0.0f, 1.0f
+
 	};
 
-	GLuint indices[] = {
-		0,1,2,
-		2,3,0
+		GLuint Indices[] = {
+			0,1,2,
+			0,2,3
+			
+		};
 
-
-
-	};
-
-VertexBuffer VB(g_vertex_buffer_data, sizeof(g_vertex_buffer_data));
-VertexArray va;
-VertexBuffer vb(g_vertex_buffer_data, 4*sizeof(indices));
-VertexBufferLayout layout;
-layout.Push<float>(3);
-va.AddBuffer(vb,layout);
-
-
-
-
-	IndexBuffer IB(indices, 6);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 	
-	GLint Myuniform = 0;
+
+		VertexBuffer vb(VertexBufferData, 4 * 4 * sizeof(GLfloat));
+		//VertexBuffer vb(&VertexBufferData, 4 * 4 * sizeof(GLfloat));
+		VertexArray va;
+		VertexBufferLayout layout;
+		layout.Push<float>(2);
+		layout.Push<float>(2);
+		va.AddBuffer(vb, layout);
 	
+		IndexBuffer IB(Indices, sizeof(Indices));
+	
+	
+		Textures Texture("test2.png");
+
 		
-	//glClearColor(0.0f, 0.1f, 0.4f, 0.0f);
-	//float one = 0.0f;
-	int frames = 0;
-	double ms = 0;
-	float one = 0.5f;
-	float two = 0.0f;
-	float three = 0.1f;
-	float four = 0.0f;
-	va.Bind();
-	//vb.Bind();
+		
+		Texture.Bind();
+		
+		
 	do {
 		
-		gameloop Loop(Myuniform, programID, window, one, two, three, four);
-		Loop.framecount(frames);
 	
-		colourshuffle(one);
-		colourshuffle(two);
-		colourshuffle(three);
-		//colourshuffle(four);
+		glClearColor(1.0f, 1.0f, 0.4f, 0.0f);
+
+		// Clear the screen.
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Use the shader
 		
-	} // Check if the ESC key was pressed or the window was closed
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		// Swap buffers
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+
+		
+	} 
+	// Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
 	

@@ -1,3 +1,4 @@
+
 #include "VertexArray.h"
 //#include <vector>
 
@@ -30,10 +31,12 @@ void VertexArray::AddBuffer(const VertexBuffer& VB, const VertexBufferLayout& la
 
 void VertexArray::Bind()
 {
+	std::cout << "Array Bound" << std::endl;
 	glBindVertexArray(arrayrenderID);
 }
 
 void VertexArray::Unbind()
 {
+	std::cout << "Array Unbound" << std::endl;
 	glBindVertexArray(0);
 }

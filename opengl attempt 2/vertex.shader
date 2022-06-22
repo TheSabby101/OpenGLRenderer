@@ -1,6 +1,13 @@
-#version 330 core
-layout(location = 0) in vec3 vertexPosition_modelspace;
+#version 430 core
+
+layout (location = 0) in vec4 positions;
+layout (location = 1) in vec2 texturecoords;
+
+out vec2 v_TexCoord;
+
+
 void main() {
-	gl_Position.xyz = vertexPosition_modelspace;
-	gl_Position.w = 1.0;
-}
+
+	gl_Position = positions;
+	v_TexCoord = texturecoords;
+};

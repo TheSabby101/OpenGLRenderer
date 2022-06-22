@@ -1,18 +1,2 @@
-﻿  IndexBuffer.cpp
-  LoadShader.cpp
-  Opengl.cpp
-  Renderer.cpp
-  VertexArray.cpp
-C:\Users\themi\source\repos\opengl attempt 2\opengl attempt 2\VertexArray.cpp(26,117): warning C4312: 'type cast': conversion from 'unsigned int' to 'const void *' of greater size
-  VertexBuffer.cpp
-  VertexBufferLayout.cpp
-  Generating Code...
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\themi\source\repos\opengl attempt 2\x64\Debug\vc120.pdb'; linking object as if no debug info
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4217: symbol '__glewEnableVertexAttribArray' defined in 'glew32s.lib(glew.obj)' is imported by 'VertexArray.obj' in function '"public: void __cdecl VertexArray::AddBuffer(class VertexBuffer const &,class VertexBufferLayout const &)" (?AddBuffer@VertexArray@@QEAAXAEBVVertexBuffer@@AEBVVertexBufferLayout@@@Z)'
-LINK : warning LNK4217: symbol '__glewVertexAttribPointer' defined in 'glew32s.lib(glew.obj)' is imported by 'VertexArray.obj' in function '"public: void __cdecl VertexArray::AddBuffer(class VertexBuffer const &,class VertexBufferLayout const &)" (?AddBuffer@VertexArray@@QEAAXAEBVVertexBuffer@@AEBVVertexBufferLayout@@@Z)'
-LINK : warning LNK4217: symbol '__glewBindVertexArray' defined in 'glew32s.lib(glew.obj)' is imported by 'VertexArray.obj' in function '"public: void __cdecl VertexArray::Bind(void)" (?Bind@VertexArray@@QEAAXXZ)'
-LINK : warning LNK4217: symbol '__glewDeleteVertexArrays' defined in 'glew32s.lib(glew.obj)' is imported by 'VertexArray.obj' in function '"public: __cdecl VertexArray::~VertexArray(void)" (??1VertexArray@@QEAA@XZ)'
-LINK : warning LNK4217: symbol '__glewGenVertexArrays' defined in 'glew32s.lib(glew.obj)' is imported by 'VertexArray.obj' in function '"public: __cdecl VertexArray::VertexArray(void)" (??0VertexArray@@QEAA@XZ)'
-  opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\opengl attempt 2\x64\Debug\opengl attempt 2.exe
+﻿  Opengl.cpp
+  opengl attempt 2.vcxproj -> C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\x64\Debug\opengl attempt 2.exe

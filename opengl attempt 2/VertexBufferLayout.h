@@ -7,7 +7,7 @@ struct VertexBufferElement
 {
 	unsigned int type;
 	unsigned int count;
-	bool normalized;
+	unsigned char normalized;
 
 	static unsigned int GetSizeOfType(unsigned int type)
 	{
@@ -30,20 +30,20 @@ private:
 	GLuint stride;
 public:
 	VertexBufferLayout()
-          :stride(0){}
+		:stride(0) {}
 
 	template<typename t>
 	void Push(GLuint count)
 	{
-		static_assert(false);
+		//static_assert(false);
 	}
 
 	template<>
 	void Push<float>(GLuint count)
 	{
 		ElementsVector.push_back({ GL_FLOAT, count, GL_FALSE });
-		stride += count* VertexBufferElement::GetSizeOfType(GL_FLOAT);
-		
+		stride += count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
+
 	}
 
 	template<>

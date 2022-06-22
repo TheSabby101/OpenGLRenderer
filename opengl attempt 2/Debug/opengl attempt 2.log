@@ -1,0 +1,19 @@
+﻿  IndexBuffer.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  LoadShader.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  LoadShader2.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  Opengl.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  Renderer.cpp
+  stb_image.cpp
+  Textures.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  VertexArray.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  VertexBuffer.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\Header.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  VertexBufferLayout.cpp
+C:\Users\themi\Documents\GitHub\test4\opengl attempt 2\opengl attempt 2\VertexBufferLayout.h(3,10): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  Generating Code...
