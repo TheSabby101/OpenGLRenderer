@@ -24,8 +24,8 @@ VertexBuffer::VertexBuffer(const void* vertexbufferdata, unsigned int size)
 
 VertexBuffer::~VertexBuffer()
 {
-	//std::cout << "Array Deleted" << std::endl;
-	//glDeleteBuffers(1, &RendererID);
+	std::cout << "Array Deleted" << std::endl;
+	glDeleteBuffers(1, &RendererID);
 }
 
 void VertexBuffer::Bind()const

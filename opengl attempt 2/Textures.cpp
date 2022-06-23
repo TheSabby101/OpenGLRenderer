@@ -35,9 +35,9 @@ Textures::Textures(const std::string& path)
 
 	Textures::~Textures()
 	{
-		//UnBind();
-		//std::cout << "Texture Deleted" << std::endl;
-		//glDeleteTextures(1, &ID);
+		UnBind();
+		std::cout << "Texture Deleted" << std::endl;
+		glDeleteTextures(1, &ID);
 	}
 
 	void Textures::Bind(unsigned int slot) const

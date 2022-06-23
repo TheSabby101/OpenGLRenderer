@@ -32,29 +32,22 @@ public:
 	VertexBufferLayout()
 		:stride(0) {}
 
-	template<typename t>
-	void Push(GLuint count)
-	{
-		//static_assert(false);
-	}
-
-	template<>
-	void Push<float>(GLuint count)
+	void PushFloat(GLuint count)
 	{
 		ElementsVector.push_back({ GL_FLOAT, count, GL_FALSE });
 		stride += count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
 
 	}
 
-	template<>
-	void Push<unsigned int>(GLuint count)
+
+	void PushUInt(GLuint count)
 	{
 		ElementsVector.push_back({ GL_UNSIGNED_INT, count, GL_FALSE });
 		stride += count * VertexBufferElement::GetSizeOfType(GL_UNSIGNED_INT);
 	}
 
-	template<>
-	void Push<unsigned char>(GLuint count)
+
+	void PushUChar(GLuint count)
 	{
 		ElementsVector.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE });
 		stride += count * VertexBufferElement::GetSizeOfType(GL_UNSIGNED_BYTE);

@@ -15,8 +15,9 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 	
 	glAttachShader(ID, VertexShaderID);
 	glAttachShader(ID, FragmentShaderID);
+	
 	glLinkProgram(ID);
-
+	
 	//Check(VertexShaderID, Result, InfoLogLength);
 	//Check(FragmentShaderID, Result, InfoLogLength);
 
@@ -31,15 +32,16 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 
 Shader::~Shader()
 {
-	//UnBind();
-	//std::cout << "destroyed shader" << std::endl;
-	//glDeleteProgram(ID);
+	UnBind();
+	std::cout << "destroyed shader" << std::endl;
+	glDeleteProgram(ID);
 }
 
 void Shader::Bind()
 {
 	std::cout << "bound shader" << std::endl;
 	glUseProgram(ID);
+	
 }
 
 void Shader::UnBind()
@@ -48,14 +50,22 @@ void Shader::UnBind()
 	glUseProgram(0);
 }
 
-void Shader::SetUniforms4f(std::string name)
+void Shader::SetUniforms4f(std::string name, float one, float two, float three, float four)
 {
+	glUniform4f(GetUniformLocationnomap(name), one, two, three,four);
+
 }
 
 void Shader::SetUniforms1i(std::string name, int value)
 {
-	std::cout << "uniform set" << std::endl;
+	std::cout << "Uniform " << name << std::endl;
 	glUniform1i(GetUniformLocationnomap(name), value);
+}
+
+void Shader::SetUniforms2fv(std::string name, float one,const float* two )
+{
+	glUniform2fv(GetUniformLocationnomap(name), one, two);
+
 }
 
 const char* Shader::CreateShader(std::string ShaderPath)
@@ -68,6 +78,7 @@ const char* Shader::CreateShader(std::string ShaderPath)
 		sstr << ShaderStream.rdbuf();
 		ShaderCode = sstr.str();
 		ShaderStream.close();
+	//	std::cout << ShaderCode << std::endl;
 	}
 	else {
 		std::cout << "Impossible to open." << std::endl << ShaderPath << std::endl;
@@ -86,7 +97,7 @@ unsigned int Shader::CompileShader(GLuint ShaderID, const char* ShaderSourcePoin
 	return ShaderID;
 }
 
-unsigned int Shader::GetUniformLocation(std::string& name)
+int Shader::GetUniformLocation(std::string& name)
 {
 	if (CachedLocation.find(name) != CachedLocation.end())
 		return CachedLocation[name];
@@ -98,17 +109,22 @@ unsigned int Shader::GetUniformLocation(std::string& name)
 	return location;
 }
 
-unsigned int Shader::GetUniformLocationnomap(std::string& name)
+int Shader::GetUniformLocationnomap(std::string& name)
 {
 
 
-
+	//int location2 = glGetAttribLocation(ID, name.c_str());
 	int location = glGetUniformLocation(ID, name.c_str());
-	std::cout << location << std::endl;
+	//std::cout << location2 << std::endl;
 	if (location == -1)
 	{
-		std::cout << name << " Does not Exist" << std::endl;
+		std::cout <<"Uniform named '" << name << "' Does not exist or was not used " << std::endl;
+		return location;
 	}
+	else
+	
+
+	std::cout << name << " Located at " << location<< std::endl;
 	return location;
 }
 void Shader::Check(GLuint Checking, GLint& Result, int& InfoLogLength)

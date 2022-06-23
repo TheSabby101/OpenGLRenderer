@@ -187,11 +187,12 @@ int main()
 
 	shader.Bind();
 	//shader.UnBind();
-	shader.SetUniforms1i("Texture", 0);
+	
 
 	
 	//Vertex Array
-	GLfloat VertexBufferData[] =
+	
+	float VertexBufferData[] =
 	{
 	  -0.5f, -0.5f, 0.0f, 0.0f,
 	   0.5f, -0.5f, 1.0f, 0.0f,
@@ -199,35 +200,55 @@ int main()
 	  -0.5f,  0.5f, 0.0f, 1.0f
 
 	};
+/*
+	float VertexBufferData[] =
+	{
+	  -1.0f, -1.0f, 0.0f, 0.0f,
+	   1.0f, -1.0f, 1.0f, 0.0f,
+	   1.0f,  1.0f, 1.0f, 1.0f,
+	  -1.0f,  1.0f, 0.0f, 1.0f
 
+	};
+*/
 		GLuint Indices[] = {
 			0,1,2,
 			0,2,3
 			
 		};
 
+		/*
+		GLfloat TextureCoordinates[] =
+		{
+		   0.0f, 0.0f,
+		   1.0f, 0.0f,
+		   1.0f, 1.0f,
+		   0.0f, 1.0f
+
+		};
+*/
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 	
 
-		VertexBuffer vb(VertexBufferData, 4 * 4 * sizeof(GLfloat));
+		VertexBuffer vb(VertexBufferData, 4 * 4 * sizeof(float));
 		//VertexBuffer vb(&VertexBufferData, 4 * 4 * sizeof(GLfloat));
 		VertexArray va;
 		VertexBufferLayout layout;
-		layout.Push<float>(2);
-		layout.Push<float>(2);
+		layout.PushFloat(2);
+		layout.PushFloat(2);
 		va.AddBuffer(vb, layout);
 	
-		IndexBuffer IB(Indices, sizeof(Indices));
+		IndexBuffer IB(Indices, sizeof(Indices));;
 	
 	
 		Textures Texture("test2.png");
 
 		
 		
-		Texture.Bind();
-		
-		
+		Texture.Bind(0);
+		shader.SetUniforms1i("Texture", 0);
+		shader.SetUniforms4f("u_colour", 1.0f,0.5f,0.5f,1.0f);
+		//shader.SetUniforms2fv("TexCoords2",1, TextureCoordinates);
 	do {
 		
 	
