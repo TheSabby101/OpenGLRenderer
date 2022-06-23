@@ -8,7 +8,9 @@
 #include <string>
 #include "Textures.h"
 #include "LoadShader2.h"
-float increment = 0.05f;
+float increment = 0;
+const unsigned int width = 800;
+const unsigned int height = 800;
 
 
 struct vec3F
@@ -157,12 +159,12 @@ int main()
 	glfwWindowHint(GLFW_SAMPLES, 8); // 8x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // dont use old OpenGL 
 
 	// Open a window and create its OpenGL context
 	GLFWwindow* window; 
-	window = glfwCreateWindow(1080, 1080, "OpenGL", NULL, NULL);
+	window = glfwCreateWindow(width, height, "OpenGL", NULL, NULL);
 	if (window == NULL) {
 		std::cout <<  "Failed to open GLFW window.\n";
 		glfwTerminate();
@@ -191,7 +193,7 @@ int main()
 
 	
 	//Vertex Array
-	
+	/*
 	float VertexBufferData[] =
 	{
 	  -0.5f, -0.5f, 0.0f, 0.0f,
@@ -200,20 +202,37 @@ int main()
 	  -0.5f,  0.5f, 0.0f, 1.0f
 
 	};
-/*
+*/
+
+	float screenspace;
 	float VertexBufferData[] =
 	{
-	  -1.0f, -1.0f, 0.0f, 0.0f,
-	   1.0f, -1.0f, 1.0f, 0.0f,
-	   1.0f,  1.0f, 1.0f, 1.0f,
-	  -1.0f,  1.0f, 0.0f, 1.0f
+    // x    y    z							Texture Coords
+	 -0.5,-0.5,-0.5, /* 0 Left  Bottom Back */  0.0f, 0.0f,
+	 -0.5,-0.5, 0.5, /* 1 Left  Bottom Front*/  1.0f, 0.0f,
+	 -0.5, 0.5, 0.5, /* 2 Left  Top    Front*/  1.0f, 1.0f,
+	 -0.5, 0.5,-0.5, /* 3 Left  Top    Back */  0.0f, 1.0f,
+	  0.5,-0.5,-0.5, /* 4 Right Bottom Back */  0.0f, 0.0f,
+	  0.5,-0.5, 0.5, /* 5 Right Bottom Front*/  5.0f, 0.0f,
+	  0.5, 0.5, 0.5, /* 6 Right Top	   Front*/  1.0f, 1.0f,
+	  0.5, 0.5,-0.5, /* 7 Right Top	   Back */  0.0f, 1.0f
 
 	};
-*/
+
 		GLuint Indices[] = {
-			0,1,2,
-			0,2,3
-			
+			1,2,5,//front face bottomleft
+			5,2,6,//front face top right
+			2,3,6,//top face bottom left
+			6,3,7,//top face top right
+			4,5,0,//bottom face bottom left
+			0,5,1,//bottom face top right
+			0,3,1,//left face bottom left
+			1,3,2,//left face top right
+			5,6,4,//right face bottom left
+			4,6,7,//right face top right
+			4,7,3,//bottom face bottom left
+			3,7,0 //bottom face top right
+
 		};
 
 		/*
@@ -230,11 +249,11 @@ int main()
 		glEnable(GL_BLEND);
 	
 
-		VertexBuffer vb(VertexBufferData, 4 * 4 * sizeof(float));
+		VertexBuffer vb(VertexBufferData, sizeof(VertexBufferData) * sizeof(float));
 		//VertexBuffer vb(&VertexBufferData, 4 * 4 * sizeof(GLfloat));
 		VertexArray va;
 		VertexBufferLayout layout;
-		layout.PushFloat(2);
+		layout.PushFloat(3);
 		layout.PushFloat(2);
 		va.AddBuffer(vb, layout);
 	
@@ -245,25 +264,54 @@ int main()
 
 		
 		
-		Texture.Bind(0);
-		shader.SetUniforms1i("Texture", 0);
-		shader.SetUniforms4f("u_colour", 1.0f,0.5f,0.5f,1.0f);
+		glEnable(GL_DEPTH_TEST);
+		
+		double prevTime = glfwGetTime();
+
 		//shader.SetUniforms2fv("TexCoords2",1, TextureCoordinates);
 	do {
 		
 	
 		glClearColor(1.0f, 1.0f, 0.4f, 0.0f);
-
+		
 		// Clear the screen.
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// Use the shader
-		
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+		Texture.Bind();
+		//shader.SetUniforms1i("Texture", 0);
+		shader.SetUniforms4f("u_colour", 1.0f, 0.5f, 0.5f, 1.0f);
+
+		double crntTime = glfwGetTime();
+		if (crntTime - prevTime >= 1 / 60)
+		{
+			increment += 0.5f;
+			prevTime = crntTime;
+
+		}
+
+
+		glm::mat4 Model = glm::mat4(1.0f);
+		glm::mat4 Projection = glm::mat4(1.0f);
+		glm::mat4 View = glm::mat4(1.0f);
+		
+		Model = glm::rotate(Model, glm::radians(increment), glm::vec3(0.0f, 1.0f, 0.0f));
+		View = glm::translate(View, glm::vec3(0.0f, -0.5f, -2.0f));
+		Projection = glm::perspective(glm::radians(45.0f), (float)(width / height), 0.1f, 100.0f);
+
+		shader.UniformMatrix4fv("Model", Model);
+		shader.UniformMatrix4fv("Projection", Projection);
+		shader.UniformMatrix4fv("View", View);
+
+		//glRotatef(increment, 1, 1, 0);
+		//glLoadIdentity();
+		//spin();
+		glDrawElements(GL_TRIANGLES, sizeof(Indices)/ sizeof(int), GL_UNSIGNED_INT, nullptr);
+		//glDrawElements(GL_POLYGON, 6 * 3, GL_UNSIGNED_INT, nullptr);
 		// Swap buffers
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-
+	
 		
 	} 
 	// Check if ESC was pressed or if the window was closed

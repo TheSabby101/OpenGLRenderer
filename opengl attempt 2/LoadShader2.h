@@ -19,6 +19,7 @@ public:
 	void UnBind();
 
 	void SetUniforms4f(std::string name, float one, float two, float three, float four);
+	void UniformMatrix4fv(std::string name, glm::mat4 type);
 	void SetUniforms1i(std::string name, int value);
 	void SetUniforms2fv(std::string name,float one, const float* two);
 	const char* CreateShader(std::string ShaderPath);

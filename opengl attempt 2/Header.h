@@ -7,3 +7,6 @@
 #include <sstream>
 #include <vector>
 #include <unordered_map>
+#include "res/3rd party/glm/glm.hpp"
+#include "res/3rd party/glm/gtc/matrix_transform.hpp"
+#include "res/3rd party/glm/gtc/type_ptr.hpp"

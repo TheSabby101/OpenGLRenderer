@@ -18,8 +18,8 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 	
 	glLinkProgram(ID);
 	
-	//Check(VertexShaderID, Result, InfoLogLength);
-	//Check(FragmentShaderID, Result, InfoLogLength);
+	Check(VertexShaderID, Result, InfoLogLength);
+	Check(FragmentShaderID, Result, InfoLogLength);
 
 	//glDetachShader(ProgramID, VertexShaderID);
 	//glDetachShader(ProgramID, FragmentShaderID);
@@ -54,6 +54,12 @@ void Shader::SetUniforms4f(std::string name, float one, float two, float three, 
 {
 	glUniform4f(GetUniformLocationnomap(name), one, two, three,four);
 
+}
+
+void Shader::UniformMatrix4fv(std::string name, glm::mat4 type)
+{
+	
+	glUniformMatrix4fv(GetUniformLocationnomap(name), 1,GL_FALSE, glm::value_ptr(type));
 }
 
 void Shader::SetUniforms1i(std::string name, int value)
