@@ -19,7 +19,7 @@ VertexBuffer::VertexBuffer(const void* vertexbufferdata, unsigned int size)
 	// Generate 1 buffer, put the resulting identifier in vertexbuffer
 	glGenBuffers(1, &RendererID);
 	glBindBuffer(GL_ARRAY_BUFFER, RendererID);
-	glBufferData(GL_ARRAY_BUFFER, size, vertexbufferdata, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, size, vertexbufferdata, GL_STATIC_DRAW);
 }
 
 VertexBuffer::~VertexBuffer()

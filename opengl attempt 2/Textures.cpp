@@ -4,7 +4,7 @@
 
 
 Textures::Textures(const std::string& path)
-	:ID(0), Filepath(path), LocalBuffer(nullptr), Width(0),Height(0), BBP(0)
+	:ID(0), Filepath(path), Width(0),Height(0),BBP(0)
 
 	{
 	//Flipping the image
@@ -12,6 +12,8 @@ Textures::Textures(const std::string& path)
 	stbi_set_flip_vertically_on_load(1);
 
 	// storing the width, height, and bytes per pixel in the class instance
+	//calling on the heap as  the compiler was complaining about it being too large
+	
 	LocalBuffer = stbi_load(path.c_str(),&Width, &Height, &BBP, 4);
 
 
@@ -20,34 +22,41 @@ Textures::Textures(const std::string& path)
 	glGenTextures(1, &ID);
 	glBindTexture(GL_TEXTURE_2D, ID);
 	//Specifying Texture Paramaters
+
+	//GL_LINEAR = no tiling / GL_NEAREST = tiling
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LocalBuffer);
 	glBindTexture(GL_TEXTURE_2D,0);
 
 	if (LocalBuffer)
 		stbi_image_free(LocalBuffer);
-	std::cout << "Image Freed" << std::endl;
+	std::cout << "Image Freed " << glGetError() << std::endl;
+	
 	}
 
 	Textures::~Textures()
 	{
-		UnBind();
+		//UnBind();
 		std::cout << "Texture Deleted" << std::endl;
 		glDeleteTextures(1, &ID);
+	//	delete LocalBuffer;
 	}
 
 	void Textures::Bind(unsigned int slot) const
 	{
-		std::cout << "Bound Texture" << std::endl;
+	
 
-		
+	
 		glActiveTexture(GL_TEXTURE0 + slot);
-		
+	
 		glBindTexture(GL_TEXTURE_2D, ID);
+	
+		std::cout << "Bound Texture " << glGetError() << std::endl;
+	
 	}
 	void Textures::UnBind() const
 	{

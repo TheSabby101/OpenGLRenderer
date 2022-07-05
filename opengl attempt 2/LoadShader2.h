@@ -1,16 +1,17 @@
 #pragma once
 #include "Header.h"
 
+
 class Shader
 {
 private:
 
-GLint Result;
-int InfoLogLength;
+
+
 std::unordered_map<std::string, int> CachedLocation;
 public:
+	
 	unsigned int ID;
-
 
 	Shader(std::string VertexPath, std::string FragmentPath);
 	~Shader();
@@ -27,6 +28,5 @@ public:
 	
 private:
 	int GetUniformLocation(std::string& name);
-	int GetUniformLocationnomap(std::string& name);
-	void Check(GLuint Checking, GLint& Result, int& InfoLogLength);
+	int GetUniformLocationnomap(const std::string& name);
 };

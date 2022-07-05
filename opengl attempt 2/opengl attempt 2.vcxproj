@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLFW\include;$(SolutionDir)opengl attempt 2\Dependancies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -141,7 +141,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLFW\include;$(SolutionDir)opengl attempt 2\Dependancies\GLEW\include;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -154,23 +154,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Error.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="LoadShader.cpp" />
     <ClCompile Include="LoadShader2.cpp" />
-    <ClCompile Include="Opengl.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="res\3rd party\glm\detail\glm.cpp" />
     <ClCompile Include="res\3rd party\stb_image.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
-    <ClCompile Include="VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Error.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="LoadShader2.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="res\3rd party\glm\common.hpp" />
     <ClInclude Include="res\3rd party\glm\detail\compute_common.hpp" />
     <ClInclude Include="res\3rd party\glm\detail\compute_vector_relational.hpp" />
@@ -422,7 +420,7 @@
     <ClInclude Include="Textures.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.shader" />
+    <None Include="Shaders\fragment.shader" />
     <None Include="res\3rd party\glm\detail\func_common.inl" />
     <None Include="res\3rd party\glm\detail\func_common_simd.inl" />
     <None Include="res\3rd party\glm\detail\func_exponential.inl" />
@@ -557,7 +555,7 @@
     <None Include="res\3rd party\glm\gtx\vector_angle.inl" />
     <None Include="res\3rd party\glm\gtx\vector_query.inl" />
     <None Include="res\3rd party\glm\gtx\wrap.inl" />
-    <None Include="vertex.shader" />
+    <None Include="Shaders\vertex.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

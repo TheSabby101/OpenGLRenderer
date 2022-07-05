@@ -1,3 +1,5 @@
-﻿  Opengl.cpp
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Opengl.cpp(214,8): warning C4101: 'screenspace': unreferenced local variable
-  opengl attempt 2.vcxproj -> C:\Users\themi\Documents\GitHub\HELP5\x64\Debug\opengl attempt 2.exe
+﻿  LoadShader2.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\LoadShader2.cpp(89,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+  opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\HELP5\x64\Debug\opengl attempt 2.exe

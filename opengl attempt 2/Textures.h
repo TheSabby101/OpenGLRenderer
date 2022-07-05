@@ -9,6 +9,7 @@ private:
 	std::string Filepath;
 	unsigned char* LocalBuffer;
 	int Width, Height, BBP;
+	//unsigned char* LocalBuffer = new unsigned char;
 public:
 
 	Textures(const std::string& path);
