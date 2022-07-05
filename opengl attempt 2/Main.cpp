@@ -214,13 +214,13 @@ int main()
 	float VertexBufferData[] =
 	{
     // x    y    z							   Texture Coords
-	 -0.5f,-0.5f,-0.5f, /* 0 Left  Bottom Back */  0.0f, 1.0f,
-	 -0.5f,-0.5f, 0.5f, /* 1 Left  Bottom Front*/  0.0f, 1.0f,
-	 -0.5f, 0.5f, 0.5f, /* 2 Left  Top    Front*/  0.0f, 1.0f,
+	 -0.5f,-0.5f,-0.5f, /* 0 Left  Bottom Back */  0.0f, 0.0f,
+	 -0.5f,-0.5f, 0.5f, /* 1 Left  Bottom Front*/  1.0f, 1.0f,
+	 -0.5f, 0.5f, 0.5f, /* 2 Left  Top    Front*/  1.0f, 0.0f,
 	 -0.5f, 0.5f,-0.5f, /* 3 Left  Top    Back */  0.0f, 1.0f,
-	  0.5f,-0.5f,-0.5f, /* 4 Right Bottom Back */  0.0f, 1.0f,
+	  0.5f,-0.5f,-0.5f, /* 4 Right Bottom Back */  1.0f, 1.0f,
 	  0.5f,-0.5f, 0.5f, /* 5 Right Bottom Front*/  0.0f, 1.0f,
-	  0.5f, 0.5f, 0.5f, /* 6 Right Top	   Front*/ 0.0f, 1.0f,
+	  0.5f, 0.5f, 0.5f, /* 6 Right Top	   Front*/ 0.0f, 0.0f,
 	  0.5f, 0.5f,-0.5f, /* 7 Right Top	   Back */ 0.0f, 1.0f
 
 	};
@@ -278,7 +278,7 @@ int main()
 		
 		
 
-		Textures Texture("res/test5.png");
+		Textures Texture("res/test4.png");
 		
 		
 		glEnable(GL_DEPTH_TEST);

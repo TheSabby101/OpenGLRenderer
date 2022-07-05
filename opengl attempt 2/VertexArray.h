@@ -5,6 +5,7 @@
 class VertexArray
 {
 private:
+	unsigned int offset;
 	unsigned int arrayrenderID;
 public:
 
