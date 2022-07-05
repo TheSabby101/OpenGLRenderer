@@ -1,9 +1,4 @@
-﻿  Main.cpp
+﻿  Textures.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-  VertexArray.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\VertexArray.cpp(26,117): warning C4312: 'type cast': conversion from 'unsigned int' to 'const void *' of greater size
-  Generating Code...
   opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\HELP5\x64\Debug\opengl attempt 2.exe

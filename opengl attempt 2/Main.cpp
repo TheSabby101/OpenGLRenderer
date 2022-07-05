@@ -12,8 +12,8 @@
 
 
 float increment = 0;
-const unsigned int width = 800;
-const unsigned int height = 800;
+const unsigned int width = 1080;
+const unsigned int height = 1080;
 
 
 
@@ -165,10 +165,10 @@ int main()
 
 	}
 
-	glfwWindowHint(GLFW_SAMPLES, 8); // 8x antialiasing
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
+	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // OpenGL 3.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // dont use old OpenGL 
 
 	// Open a window and create its OpenGL context
@@ -180,7 +180,7 @@ int main()
 
 	}
 	glfwMakeContextCurrent(window); // Initialize GLEW
-	glewExperimental = true; // Needed in core profile
+	//glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		std::cout <<  "Failed to initialize GLEW" << std::endl;
 
@@ -267,8 +267,9 @@ int main()
 		VertexBufferLayout layout;
 		layout.PushFloat(3);
 		layout.PushFloat(2);
-		va.Bind();
 		vb.Bind();
+		va.Bind();
+		
 		va.AddBuffer(vb, layout);
 	
 		IndexBuffer IB(Indices, sizeof(Indices));;
@@ -287,7 +288,7 @@ int main()
 		
 	    shader.Bind();
 		Texture.Bind();
-		//shader.SetUniforms2fv("TexCoords2",1, TextureCoordinates);
+
 		shader.SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
 		shader.SetUniforms1i("Texture", 0);
 

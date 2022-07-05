@@ -2,21 +2,34 @@
 
 
 Shader::Shader(std::string VertexPath, std::string FragmentPath)
-	:ID(glCreateProgram())
+	:ID(glCreateProgram()), LinkStatus(0)
 
 {
 
-	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-	GLCall(CompileShader(VertexShaderID, CreateShader(VertexPath)));
 
-	GLCall(CompileShader(FragmentShaderID, CreateShader(FragmentPath)));
 
-	glAttachShader(ID, VertexShaderID);
+	//while (!LinkStatus)
+	//{
+		GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+		GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+		GLCall(CompileShader(VertexShaderID, CreateShader(VertexPath)));
 
-	glAttachShader(ID, FragmentShaderID);
+		GLCall(CompileShader(FragmentShaderID, CreateShader(FragmentPath)));
 
-	GLCall(glLinkProgram(ID));
+		GLCall(glAttachShader(ID, VertexShaderID));
+
+		GLCall(glAttachShader(ID, FragmentShaderID));
+
+		GLCall(glLinkProgram(ID));
+
+
+		glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
+
+
+		std::cout << LinkStatus << std::endl;
+		if (!LinkStatus) std::cout << "failed to link" << std::endl;
+		else std::cout << "Linked" << std::endl;
+	//}
 
 	//Check(VertexShaderID, Result, InfoLogLength);
 	//Check(FragmentShaderID, Result, InfoLogLength);
@@ -39,25 +52,13 @@ Shader::~Shader()
 
 void Shader::Bind()
 {
-	GLint CompileStatus = 0;
-	GLint LinkStatus = 0;
-	
-	glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
-	glGetShaderiv(ID, GL_COMPILE_STATUS, &CompileStatus);
+
 	std::cout << "binding shader " << &ID << std::endl;
-	std::cout << CompileStatus << std::endl << LinkStatus << std::endl;
-
-
-	
-
 
 	//GLCall(glUseProgram(ID));
 	glUseProgram(ID);
-	glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
-	glGetShaderiv(ID, GL_COMPILE_STATUS, &CompileStatus);
-	std::cout << CompileStatus << std::endl << LinkStatus << std::endl;
-	if (!LinkStatus) std::cout << "failed to link" << std::endl;
-	else std::cout << "Linked" << std::endl;
+
+
 }
 
 void Shader::UnBind()

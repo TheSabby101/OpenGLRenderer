@@ -6,7 +6,7 @@ class Shader
 {
 private:
 
-
+	GLint LinkStatus;
 
 std::unordered_map<std::string, int> CachedLocation;
 public:
