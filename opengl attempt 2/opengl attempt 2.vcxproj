@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLFW\include;$(SolutionDir)opengl attempt 2\Dependancies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -125,7 +125,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLEW\lib\Release\x64;$(SolutionDir)opengl attempt 2\Dependancies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <EntryPointSymbol>
       </EntryPointSymbol>
     </Link>
@@ -142,7 +142,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLFW\include;$(SolutionDir)opengl attempt 2\Dependancies\GLEW\include;</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -151,7 +151,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)opengl attempt 2\Dependancies\GLEW\lib\Release\x64;$(SolutionDir)opengl attempt 2\Dependancies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,6 +162,7 @@
     <ClCompile Include="res\3rd party\glm\detail\glm.cpp" />
     <ClCompile Include="res\3rd party\stb_image.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="VAIO.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
@@ -415,6 +416,7 @@
     <ClInclude Include="res\3rd party\glm\vec4.hpp" />
     <ClInclude Include="res\3rd party\glm\vector_relational.hpp" />
     <ClInclude Include="res\3rd party\stb_image.h" />
+    <ClInclude Include="VAIO.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexBufferLayout.h" />
@@ -556,6 +558,8 @@
     <None Include="res\3rd party\glm\gtx\vector_angle.inl" />
     <None Include="res\3rd party\glm\gtx\vector_query.inl" />
     <None Include="res\3rd party\glm\gtx\wrap.inl" />
+    <None Include="Shaders\LightFrag.shader" />
+    <None Include="Shaders\LightVertex.shader" />
     <None Include="Shaders\vertex.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

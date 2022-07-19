@@ -5,15 +5,14 @@ layout(location = 1)in vec2 texturecoords;
 out vec2 v_TexCoord;
 
 
-layout(location = 2)uniform mat4 Model;
-layout(location = 3)uniform mat4 View;
-layout(location = 4)uniform mat4 Projection;
+layout(location = 2)uniform mat4 CamMat;
+layout(location = 3)uniform vec3 coordinates;
 
 
 
 
 
 void main() {
-	gl_Position = Projection * View * Model * vec4(positions, 1.0f);
+	gl_Position = CamMat * vec4(positions + coordinates, 1.0f);
 	v_TexCoord = texturecoords;
 };

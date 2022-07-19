@@ -25,7 +25,8 @@ public:
 	void SetUniforms2fv(std::string name,float one, const float* two);
 	const char* CreateShader(std::string ShaderPath);
 	unsigned int CompileShader(GLuint ShaderID, const char* ShaderSourcePointer);
-	
+	void SetUniforms3f(std::string name, float one, float two, float three);
+
 private:
 	int GetUniformLocation(std::string& name);
 	int GetUniformLocationnomap(const std::string& name);

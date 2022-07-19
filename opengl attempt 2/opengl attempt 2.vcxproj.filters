@@ -45,6 +45,9 @@
     <ClCompile Include="Error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VAIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -806,6 +809,9 @@
     <ClInclude Include="Error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VAIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\fragment.shader" />
@@ -1212,5 +1218,7 @@
     <None Include="res\3rd party\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Shaders\LightFrag.shader" />
+    <None Include="Shaders\LightVertex.shader" />
   </ItemGroup>
 </Project>
