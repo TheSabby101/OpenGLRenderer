@@ -1,4 +1,5 @@
-
+#pragma once
+#include "Header.h"
 class IndexBuffer
 {
 private:

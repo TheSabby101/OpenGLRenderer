@@ -30,8 +30,9 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Bind()const
 {
-	std::cout << "Buffer Bound" << std::endl;
+//	std::cout << "Buffer Bound" << std::endl;
 	glBindBuffer(GL_ARRAY_BUFFER, RendererID);
+	
 }
 
 void VertexBuffer::Unbind()const

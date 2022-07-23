@@ -53,7 +53,7 @@ Shader::~Shader()
 void Shader::Bind()
 {
 
-	std::cout << "binding shader " << &ID << std::endl;
+//	std::cout << "binding shader " << &ID << std::endl;
 
 	//GLCall(glUseProgram(ID));
 	glUseProgram(ID);
@@ -71,6 +71,7 @@ void Shader::SetUniforms4f(std::string name, float one, float two, float three, 
 {
 	glUniform4f(GetUniformLocation(name), one, two, three,four);
 
+
 }
 
 void Shader::SetUniforms3f(std::string name, float one, float two, float three)
@@ -81,13 +82,13 @@ void Shader::SetUniforms3f(std::string name, float one, float two, float three)
 
 void Shader::UniformMatrix4fv(std::string name, glm::mat4 type)
 {
-	
+
 	glUniformMatrix4fv(GetUniformLocation(name), 1,GL_FALSE, glm::value_ptr(type));
 }
 
 void Shader::SetUniforms1i(std::string name, int value)
 {
-	std::cout << "Uniform " << name << std::endl;
+	//std::cout << "Uniform " << name << std::endl;
 	glUniform1i(GetUniformLocation(name), value);
 }
 

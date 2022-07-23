@@ -1,5 +1,6 @@
 #pragma once
 #include "Header.h"
+#include "res/3rd party/stb_image.h"
 
 
 class Textures

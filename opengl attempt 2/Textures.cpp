@@ -1,5 +1,5 @@
 #include "Textures.h"
-#include "res/3rd party/stb_image.h"
+
 
 
 
@@ -12,8 +12,6 @@ Textures::Textures(const std::string& path)
 	stbi_set_flip_vertically_on_load(1);
 
 	// storing the width, height, and bytes per pixel in the class instance
-	//calling on the heap as  the compiler was complaining about it being too large
-	
 	LocalBuffer = stbi_load(path.c_str(),&Width, &Height, &BBP, 4);
 
 
@@ -34,7 +32,7 @@ Textures::Textures(const std::string& path)
 
 	if (LocalBuffer)
 		stbi_image_free(LocalBuffer);
-	std::cout << "Image Freed " << glGetError() << std::endl;
+	//std::cout << "Image Freed " << glGetError() << std::endl;
 	
 	}
 
@@ -43,19 +41,16 @@ Textures::Textures(const std::string& path)
 		//UnBind();
 		std::cout << "Texture Deleted" << std::endl;
 		glDeleteTextures(1, &ID);
-	//	delete LocalBuffer;
+		//delete LocalBuffer;
 	}
 
 	void Textures::Bind(unsigned int slot) const
 	{
 	
-
-	
 		glActiveTexture(GL_TEXTURE0 + slot);
-	
 		glBindTexture(GL_TEXTURE_2D, ID);
 	
-		std::cout << "Bound Texture " << glGetError() << std::endl;
+	//	std::cout << "Bound Texture " << glGetError() << std::endl;
 	
 	}
 	void Textures::UnBind() const

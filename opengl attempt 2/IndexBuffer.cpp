@@ -1,6 +1,6 @@
 
 #include "IndexBuffer.h"
-#include "Header.h"
+
 
 IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
 	:M_Count(count)

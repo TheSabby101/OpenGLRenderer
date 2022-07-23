@@ -1,13 +1,22 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (opengl attempt 2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Camera.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
   LoadShader2.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\LoadShader2.cpp(96,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\LoadShader2.cpp(97,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Main.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-  VAIO.cpp
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(189,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(189,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(189,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Object.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
   Generating Code...
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\themi\source\repos\HELP5\x64\Debug\vc120.pdb'; linking object as if no debug info
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\HELP5\x64\Debug\OpenGLRenderer.exe

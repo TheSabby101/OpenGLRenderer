@@ -32,7 +32,7 @@ void VertexArray::AddBuffer(const VertexBuffer& VB, const VertexBufferLayout& la
 void VertexArray::Bind()
 {
 	
-	std::cout << "Array Bound" << std::endl;
+	//std::cout << "Array Bound" << std::endl;
 	glBindVertexArray(arrayrenderID);
 }
 
