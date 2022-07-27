@@ -2,7 +2,7 @@
 
 
 Object::Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef)
-	:ID(0),Cam(CamRef),X(x),Y(y),Z(z)
+	:ID(0),Cam(CamRef),X(x),Y(y),Z(z),Width(CamRef.width),Height(CamRef.height)
 {
 	
 	
@@ -18,11 +18,35 @@ Object::Object(const char* FilePath, const char* FragmentPath, const char* Verte
 	Shader* shaderlight = new Shader(VertexPath, FragmentPath);
 	shaderlight->Bind();
 	Textures* Texture2 = new Textures(FilePath);
-	Texture2->Bind();
+	//Texture2->Bind();
 	shaderlight->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
 	shaderlight->SetUniforms1i("Texture", 0);
 	shaderlight->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
 	VAO* object2 = new VAO(*lightBuffer, *LightArray, *shaderlight, *Texture2);
+	object = object2;
+	ShaderRef = shaderlight;
+
+}
+
+Object::Object(const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef)
+	:ID(0), Cam(CamRef), X(x), Y(y), Z(z), Width(CamRef.width), Height(CamRef.height)
+{
+
+
+	VertexBuffer* lightBuffer = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+	VertexArray* LightArray = new VertexArray;
+	VertexBufferLayout* LightLayout = new VertexBufferLayout;
+	LightLayout->PushFloat(3);
+	LightLayout->PushFloat(2);
+	lightBuffer->Bind();
+	LightArray->Bind();
+	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+	LightArray->AddBuffer(*lightBuffer, *LightLayout);
+	Shader* shaderlight = new Shader(VertexPath, FragmentPath);
+	shaderlight->Bind();
+	shaderlight->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+	shaderlight->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
+	VAO* object2 = new VAO(*lightBuffer, *LightArray, *shaderlight);
 	object = object2;
 	ShaderRef = shaderlight;
 
@@ -41,13 +65,20 @@ void Object::Bind()
 	
 }
 
-void Object::Draw(unsigned int Width, unsigned int Height)
+void Object::Draw()
 {
-	//Resize(Width, Height);
+	Bind();
 	Cam.Matrix(*ShaderRef,Width,Height);
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
 	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
-	
+}
+
+void Object::DrawAt(float X, float Y, float Z)
+{
+	Bind();
+	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
+	Cam.Matrix(*ShaderRef, Width, Height);
+	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 }
 
 void Object::SetColour(float R, float G, float B, float Transparency)
@@ -56,16 +87,6 @@ void Object::SetColour(float R, float G, float B, float Transparency)
 
 }
 
-
-
-void Object::Resize(unsigned int Width, unsigned int Height)
-{
-	
-	Cam.Projection = glm::perspective(glm::radians(Cam.fov), (float)(Width / Height), 0.1f, 1000.0f);
-	Cam.width = Width;
-	Cam.height = Height;
-	ShaderRef->UniformMatrix4fv("CamMat", (Cam.Projection/(float)Width) * Cam.View);
-}
 
 void Object::Move(float x, float y, float z)
 {
@@ -96,5 +117,17 @@ Object::Object(const char* FilePath, const char* FragmentPath, const char* Verte
 	Texture.UnBind();
 	vb.Unbind();
 	va.Unbind();
+}
+*/
+
+//no longer needed after swapping to references
+/*
+void Object::Resize()
+{
+
+	Cam.Projection = glm::perspective(glm::radians(Cam.fov), ((float)Width / (float)Height), 0.1f, 1000.0f);
+	//Cam.width = Width;
+	//Cam.height = Height;
+	ShaderRef->UniformMatrix4fv("CamMat", (Cam.Projection/(float)Width) * Cam.View);
 }
 */

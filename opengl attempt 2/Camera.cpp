@@ -1,8 +1,9 @@
 #include "Camera.h"
 
-Camera::Camera(double prevTime, glm::vec3 position,unsigned int Width, unsigned int Height)
+Camera::Camera(double prevTime, glm::vec3 position,unsigned int &Width, unsigned int &Height)
 	:PrevTime(prevTime), Position(position),width(Width),height(Height)
 {
+	
 }
 
 void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
@@ -16,13 +17,14 @@ void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
 	}
 
 	View = glm::lookAt(Position, Position + Orientation, Up);
-	Projection = glm::perspective(glm::radians(fov), ((float)Width/(float)Height), 0.1f, 1000.0f);
+	Projection = glm::perspective(glm::radians(fov), ((float)width /(float)height), 0.1f, 1000.0f);
 
 	shader.UniformMatrix4fv("CamMat", Projection * View);
 }
 
 void Camera::inputs(GLFWwindow* window)
 {
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		Position += speed * Orientation;

@@ -10,15 +10,18 @@ class VAO
 {
 private:
 	unsigned int ID;
+	bool TexUsed = false;
 	VertexBuffer& LocalVB;
 	VertexArray& LocalVA;
 	Shader& LocalShader;
-	Textures& LocalTexture;
+	Textures* LocalTexture = 0;
 public:
 
 	VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader, Textures& Texture);
+	VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader);
 	~VAO();
 	void Bind();
 	void UnBind();
 	void update(VertexBuffer& VB, VertexArray& VA, Shader& Shader, Textures& Texture);
+	void update(VertexBuffer& VB, VertexArray& VA, Shader& Shader);
 };

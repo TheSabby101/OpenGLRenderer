@@ -1232,5 +1232,7 @@
     </None>
     <None Include="Shaders\LightFrag.shader" />
     <None Include="Shaders\LightVertex.shader" />
+    <None Include="Shaders\SphereFrag.shader" />
+    <None Include="Shaders\SphereVertex.shader" />
   </ItemGroup>
 </Project>

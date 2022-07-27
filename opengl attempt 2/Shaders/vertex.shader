@@ -2,17 +2,15 @@
 
 layout(location = 0)in vec3 positions;
 layout(location = 1)in vec2 texturecoords;
-out vec2 v_TexCoord;
-
-
 layout(location = 2)uniform mat4 CamMat;
 layout(location = 3)uniform vec3 coordinates;
-
+layout(location = 4)out vec2 v_TexCoord;
 
 
 
 
 void main() {
-	gl_Position = CamMat * vec4(positions + coordinates, 1.0f);
+	gl_Position = CamMat * vec4(positions + coordinates, 1.0);
 	v_TexCoord = texturecoords;
+
 };

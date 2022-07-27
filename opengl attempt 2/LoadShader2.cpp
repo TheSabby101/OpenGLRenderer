@@ -80,6 +80,11 @@ void Shader::SetUniforms3f(std::string name, float one, float two, float three)
 
 }
 
+void Shader::SetUniforms2f(std::string name, float one, float two)
+{
+	glUniform2f(GetUniformLocation(name), one, two);
+}
+
 void Shader::UniformMatrix4fv(std::string name, glm::mat4 type)
 {
 

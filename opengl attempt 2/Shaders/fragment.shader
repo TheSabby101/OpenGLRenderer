@@ -1,6 +1,6 @@
 #version 430 core
 
-in vec2 v_TexCoord;
+layout(location = 4)in vec2 v_TexCoord;
 out vec4 Colour;
 uniform vec4 u_colour;
 

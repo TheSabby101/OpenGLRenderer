@@ -13,6 +13,8 @@
 class Object
 {
 private:
+	unsigned int& Width;
+	unsigned int& Height;
 	unsigned int ID;
 	float VertexBufferData[40] =
 	{
@@ -68,15 +70,17 @@ public:
 	
 	
 	Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef);
+	Object(const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef);
 	~Object();
 	void Bind();
-	void Draw(unsigned int Width, unsigned int Height);
 	void SetColour(float R, float G, float B,float Transparency);
-	void Resize(unsigned int Width, unsigned int Height);
+	
+	void Draw();
+	void DrawAt(float X, float Y, float Z);
 	void Move(float X, float Y, float Z);
 
 
 
 
-
+	//void Resize();
 };

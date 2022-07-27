@@ -564,6 +564,8 @@
     <None Include="res\3rd party\glm\gtx\wrap.inl" />
     <None Include="Shaders\LightFrag.shader" />
     <None Include="Shaders\LightVertex.shader" />
+    <None Include="Shaders\SphereFrag.shader" />
+    <None Include="Shaders\SphereVertex.shader" />
     <None Include="Shaders\vertex.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

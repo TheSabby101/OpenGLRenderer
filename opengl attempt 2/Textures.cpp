@@ -29,7 +29,7 @@ Textures::Textures(const std::string& path)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, Width, Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, LocalBuffer);
 	glBindTexture(GL_TEXTURE_2D,0);
-
+	glDisable(GL_TEXTURE_2D);
 	if (LocalBuffer)
 		stbi_image_free(LocalBuffer);
 	//std::cout << "Image Freed " << glGetError() << std::endl;
