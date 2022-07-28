@@ -157,11 +157,19 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Error.cpp" />
+    <ClCompile Include="Gui.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="LoadShader2.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="res\3rd party\glm\detail\glm.cpp" />
+    <ClCompile Include="res\3rd party\imgui.cpp" />
+    <ClCompile Include="res\3rd party\imgui_demo.cpp" />
+    <ClCompile Include="res\3rd party\imgui_draw.cpp" />
+    <ClCompile Include="res\3rd party\imgui_impl_glfw.cpp" />
+    <ClCompile Include="res\3rd party\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="res\3rd party\imgui_tables.cpp" />
+    <ClCompile Include="res\3rd party\imgui_widgets.cpp" />
     <ClCompile Include="res\3rd party\stb_image.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="VAO.cpp" />
@@ -171,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Error.h" />
+    <ClInclude Include="Gui.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="LoadShader2.h" />
@@ -419,6 +428,15 @@
     <ClInclude Include="res\3rd party\glm\vec3.hpp" />
     <ClInclude Include="res\3rd party\glm\vec4.hpp" />
     <ClInclude Include="res\3rd party\glm\vector_relational.hpp" />
+    <ClInclude Include="res\3rd party\imconfig.h" />
+    <ClInclude Include="res\3rd party\imgui.h" />
+    <ClInclude Include="res\3rd party\imgui_impl_glfw.h" />
+    <ClInclude Include="res\3rd party\imgui_impl_opengl3.h" />
+    <ClInclude Include="res\3rd party\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="res\3rd party\imgui_internal.h" />
+    <ClInclude Include="res\3rd party\imstb_rectpack.h" />
+    <ClInclude Include="res\3rd party\imstb_textedit.h" />
+    <ClInclude Include="res\3rd party\imstb_truetype.h" />
     <ClInclude Include="res\3rd party\stb_image.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VertexArray.h" />

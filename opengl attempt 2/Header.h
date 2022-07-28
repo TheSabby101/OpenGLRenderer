@@ -17,4 +17,6 @@
 #include <future>
 #include <string>
 #include "Error.h"
-
+#include "res/3rd party/imgui.h"
+#include "res/3rd party/imgui_impl_glfw.h"
+#include "res/3rd party/imgui_impl_opengl3.h"

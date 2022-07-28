@@ -1,4 +1,4 @@
-
+#pragma once
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
@@ -9,7 +9,7 @@
 #include "Error.h"
 #include "Object.h"
 #include "Camera.h"
-
+#include "Gui.h"
 
 
 int ScreenWidth = 1080;
@@ -148,27 +148,56 @@ int main()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
 	
-
-
+		
+		glEnable(GL_DEPTH_TEST);
 		double prevTime = glfwGetTime();
 		Camera Camera(prevTime, glm::vec3(0.0f, 0.0f, 2.0f), (unsigned int&)ScreenWidth,(unsigned int&)ScreenHeight);
-		Object Cube("res/test4.png", "Shaders/fragment.shader", "Shaders/vertex.shader", 1.0, 1.0f, 1.0f, Camera);
-		Object Cube2("Shaders/LightFrag.shader", "Shaders/LightVertex.shader", 0.0f, 0.0f, 0.0f, Camera);
-		Cube2.SetColour(0.6f, 0.3f, 0.4f, 0.9f);
-		Object Sphere("Shaders/SphereFrag.shader", "Shaders/SphereVertex.shader", 0.0f, 0.0f, 0.0f, Camera);
-		Sphere.ShaderRef->SetUniforms2f("Res", 1080.0f, 1080.0f);
+		MyGui gui(window);
+		Object Cube("res/test4.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+		
+		Object Cube2("Shaders/LightFrag.shader", "Shaders/LightVertex.shader", Camera);
+		Cube2.SetColour(0.6f, 0.3f, 0.4f, 1.0f);
+		Cube2.SetCoord(0.0f, 0.0f, -1.0f);
+		Object Cube3("res/test2.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+		Cube3.SetColour(1.0f, 1.0f, 0.0f, 0.5f);
+		Object Cube4("res/test.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+
+		//Object Sphere("Shaders/SphereFrag.shader", "Shaders/SphereVertex.shader", 0.0f, 0.0f, 0.0f, Camera);
+	//	Sphere.ShaderRef->SetUniforms2f("Res", 1080.0f, 1080.0f);
 	
 		const wchar_t* path = L"res/rat.wav";
 		//PlaySound(path,NULL,SND_ASYNC);
 
-		
-		glEnable(GL_DEPTH_TEST);
-		
+
+	
+	
 		
 		
 		int x = 1;
 		int y = 1;
+
+		for (int z = -1; z < 0; z++)
+		{
+			for (int y = -50; y < 50; y++)
+			{
+				for (int x = -50; x < 50; x++)
+				{
+
+
+					Cube2.AddToList(x, y, z);
+
+				}
+			}
+		}
+
+		gui.AddToList(&Cube);
+		gui.AddToList(&Cube2);
+		gui.AddToList(&Cube3);
+		gui.AddToList(&Cube4);
+
+
 		do {
+			gui.Render();
 
 			glClearColor(0.3f, 0.3f, 0.4f, 0.0f);
 
@@ -177,58 +206,55 @@ int main()
 			
 			
 			Camera.inputs(window);
-	
-	
-			for (int i = -1; i < x; i++)
-			{
-				Cube.Move(x, y, 1.0f);
-				Cube.Draw();
-			}
-	
-			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 4)
+			Cube3.Bind();
+			Cube3.DrawAt(0.0f, 0.0f, 5.0f);
+
+			Cube.Bind();
+			Cube.Draw();
+			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 50)
 			{
 				
 				if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE)
 				{
 					x++;
 					
-					Cube.Move(x, y, 1.0f);
+					Cube.Move(Cube.X+=1, Cube.Y, 1.0f);
 					Cube.Draw();
 				
 				}
 					
 			}
-			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && x > 0)
+			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && x > -50)
 			{
 
 				if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE)
 				{
 					x--;
-					Cube.Move(x, y, 1.0f);
+					Cube.Move(Cube.X-=1, Cube.Y, 1.0f);
 					Cube.Draw();
 
 				}
 
 			}
-			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && y>0)
+			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && y>-50)
 			{
 
 				if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE)
 				{
 					y--;
-					Cube.Move(x, y, 1.0f);
+					Cube.Move(Cube.X, Cube.Y-=1, 1.0f);
 					Cube.Draw();
 
 				}
 
 			}
-			if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && y < 4)
+			if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && y < 50)
 			{
 
 				if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE)
 				{
 					y++;
-					Cube.Move(x, y, 1.0f);
+					Cube.Move(Cube.X, Cube.Y+=1, 1.0f);
 					Cube.Draw();
 
 		
@@ -238,28 +264,25 @@ int main()
 
 
 
+			
+			Cube.DrawList();
+			Cube3.DrawList();
+			Cube2.DrawList();
+			Cube4.DrawList();
 
-			for (int z = 0; z < 1; z++)
-			{
-				for (int y = 0; y < 5; y++)
-				{
-					for (int x = 0; x < 5; x++)
-					{
-						//Cube2.Draw();
-						//Cube2.Move(x, y, z);
-						
-					}
-				}
-			}
+			Cube3.Bind();
+			Cube3.Draw();
 
 
-			Cube2.DrawAt(1.0f, 1.0f, 2.0f);
-			Sphere.Draw();
+
 		 // Swap buffers
-		 glfwSwapBuffers(window);
+		
 	     glfwPollEvents();
+		// glfwGetFramebufferSize(window, &ScreenWidth, &ScreenHeight);
 		 glfwGetWindowSize(window,&ScreenWidth,&ScreenHeight);
 		 glViewport(0, 0, ScreenWidth, ScreenHeight);
+		 gui.RenderEnder();
+		 glfwSwapBuffers(window);
 		} 
 	// Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&

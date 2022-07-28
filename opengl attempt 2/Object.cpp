@@ -1,8 +1,8 @@
 #include "Object.h"
 
 
-Object::Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef)
-	:ID(0),Cam(CamRef),X(x),Y(y),Z(z),Width(CamRef.width),Height(CamRef.height)
+Object::Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
+	:ID(0),Cam(CamRef),Width(CamRef.width),Height(CamRef.height)
 {
 	
 	
@@ -28,8 +28,8 @@ Object::Object(const char* FilePath, const char* FragmentPath, const char* Verte
 
 }
 
-Object::Object(const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef)
-	:ID(0), Cam(CamRef), X(x), Y(y), Z(z), Width(CamRef.width), Height(CamRef.height)
+Object::Object(const char* FragmentPath, const char* VertexPath, Camera& CamRef)
+	:ID(0), Cam(CamRef), Width(CamRef.width), Height(CamRef.height)
 {
 
 
@@ -67,7 +67,7 @@ void Object::Bind()
 
 void Object::Draw()
 {
-	Bind();
+	//Bind();
 	Cam.Matrix(*ShaderRef,Width,Height);
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
 	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
@@ -75,7 +75,7 @@ void Object::Draw()
 
 void Object::DrawAt(float X, float Y, float Z)
 {
-	Bind();
+//	Bind();
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
 	Cam.Matrix(*ShaderRef, Width, Height);
 	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
@@ -87,12 +87,36 @@ void Object::SetColour(float R, float G, float B, float Transparency)
 
 }
 
+void Object::SetCoord(float x, float y, float z)
+{
+	X = x;
+	Y = y;
+	Z = z;
+}
+
 
 void Object::Move(float x, float y, float z)
 {
 	X = x;
 	Y = y;
 	Z = z;
+}
+
+void Object::AddToList(float X, float Y, float Z)
+{
+	ObjectV3 V3(X, Y, Z);
+	DrawIndex.push_back(V3);
+}
+
+void Object::DrawList()
+{
+	Bind();
+	for(size_t i=0; i< DrawIndex.size();i++)
+	{
+	
+		DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z);
+
+	}
 }
 
 //old stack implement, didnt work

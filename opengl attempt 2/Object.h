@@ -8,6 +8,8 @@
 #include "Textures.h"
 #include "VAO.h"
 #include "Camera.h"
+//#include "Gui.h"
+
 
 
 class Object
@@ -16,6 +18,22 @@ private:
 	unsigned int& Width;
 	unsigned int& Height;
 	unsigned int ID;
+	
+	struct ObjectV3
+	{
+		float x;
+		float y;
+		float z;
+		ObjectV3(float inx,float iny,float inz)
+			:x(inx),y(iny),z(inz)
+		{
+			
+		}
+	};
+
+	std::vector<ObjectV3> DrawIndex;
+
+
 	float VertexBufferData[40] =
 	{
 		// x    y    z							   Texture Coords
@@ -61,25 +79,27 @@ public:
 	Shader* ShaderRef;
 	VAO* object;
 	Camera& Cam;
-	float X;
-	float Y;
-	float Z;
+
+
+	float X = 0.0f;
+	float Y = 0.0f;
+	float Z = 0.0f;
 
 
 
 	
 	
-	Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef);
-	Object(const char* FragmentPath, const char* VertexPath, float x, float y, float z, Camera& CamRef);
+	Object(const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
+	Object(const char* FragmentPath, const char* VertexPath, Camera& CamRef);
 	~Object();
 	void Bind();
 	void SetColour(float R, float G, float B,float Transparency);
-	
+	void SetCoord(float X, float Y, float Z);
 	void Draw();
 	void DrawAt(float X, float Y, float Z);
 	void Move(float X, float Y, float Z);
-
-
+	void AddToList(float X, float Y, float Z);
+	void DrawList();
 
 
 	//void Resize();
