@@ -12,8 +12,8 @@
 #include "Gui.h"
 
 
-int ScreenWidth = 1080;
-int ScreenHeight = 1080;
+int ScreenWidth = 720;
+int ScreenHeight = 720;
 int objectcount = 0;
 
 struct vec3F
@@ -118,8 +118,8 @@ int main()
 
 	glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // OpenGL 3.3
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // for mac
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // dont use old OpenGL 
 
 	// Open a window and create its OpenGL context
@@ -131,7 +131,10 @@ int main()
 
 	}
 	glfwMakeContextCurrent(window); // Initialize GLEW
-	//glewExperimental = true;
+	glfwSwapInterval(0);
+	glCullFace(GL_FRONT);
+	glEnable(GL_CULL_FACE);
+	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
 		std::cout <<  "Failed to initialize GLEW" << std::endl;
 
@@ -147,70 +150,74 @@ int main()
 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-	
+
+		//std::cout << GL_MAX_DRAW_BUFFERS << std::endl; std::cout << GL_DRAW_BUFFER << std::endl;
+		
 		
 		glEnable(GL_DEPTH_TEST);
 		double prevTime = glfwGetTime();
 		Camera Camera(prevTime, glm::vec3(0.0f, 0.0f, 2.0f), (unsigned int&)ScreenWidth,(unsigned int&)ScreenHeight);
-		MyGui gui(window);
-		Object Cube("res/test4.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
-		
-		Object Cube2("Shaders/LightFrag.shader", "Shaders/LightVertex.shader", Camera);
-		Cube2.SetColour(0.6f, 0.3f, 0.4f, 1.0f);
-		Cube2.SetCoord(0.0f, 0.0f, -1.0f);
-		Object Cube3("res/test2.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
-		Cube3.SetColour(1.0f, 1.0f, 0.0f, 0.5f);
-		Object Cube4("res/test.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
 
+
+
+	Object Cube2("Cube2","Shaders/LightFrag.shader", "Shaders/LightVertex.shader", Camera);
+//Object Cube("Cube","res/test5.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+//Object Cube3("Cube3","res/test2.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+//Object Cube4("Cube4","res/test.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
+//Object LightingTest("LightingTest","Shaders/LightingFragment.shader", "Shaders/LightingVertex.shader", Camera);
+		//Object ViewPort( "Shaders/RBOFragment.shader", "Shaders/RBOVertex.shader",Camera,true);
 		//Object Sphere("Shaders/SphereFrag.shader", "Shaders/SphereVertex.shader", 0.0f, 0.0f, 0.0f, Camera);
 	//	Sphere.ShaderRef->SetUniforms2f("Res", 1080.0f, 1080.0f);
-	
+	//Cube2.SetColour(0.6f, 0.3f, 0.4f, 1.0f);
+	//Cube2.SetCoord(0.0f, 0.0f, -1.0f);
+	//Cube.SetCoord(0.0f, 0.0f, 3.0f);
+	//Cube3.SetColour(1.0f, 1.0f, 0.0f, 0.5f);
 		const wchar_t* path = L"res/rat.wav";
 		//PlaySound(path,NULL,SND_ASYNC);
 
-
 	
+		MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 	
 		
 		
 		int x = 1;
 		int y = 1;
 
-		for (int z = -1; z < 0; z++)
+		for (int z = -0; z < 100; z++)
 		{
-			for (int y = -50; y < 50; y++)
+			for (int y = -0; y < 100; y++)
 			{
-				for (int x = -50; x < 50; x++)
+				for (int x = -0; x < 100; x++)
 				{
 
 
-					Cube2.AddToList(x, y, z);
+					Cube2.AddToList(x, y, z,1,1,1);
 
 				}
 			}
 		}
 
-		gui.AddToList(&Cube);
-		gui.AddToList(&Cube2);
-		gui.AddToList(&Cube3);
-		gui.AddToList(&Cube4);
+		//Cube.AddToList(0, 0, 0, 1, 1, 1);
 
+	//	gui.AddToList(&Cube);
+		gui.AddToList(&Cube2);
+		//gui.AddToList(&Cube3);
+		//gui.AddToList(&Cube4);
+		//gui.AddToList(&LightingTest);
+	
 
 		do {
-			gui.Render();
-
-			glClearColor(0.3f, 0.3f, 0.4f, 0.0f);
-
+			
 			// Clear the screen.
+			glClearColor(0.25f, 0.4f, 0.7f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			
-			
+			//Poll Camera Inputs
 			Camera.inputs(window);
-			Cube3.Bind();
-			Cube3.DrawAt(0.0f, 0.0f, 5.0f);
-
-			Cube.Bind();
-			Cube.Draw();
+			// ImGui Windows
+			gui.Init();
+			gui.MakeWindow();
+			//gui.MakeViewport();
+			/*
 			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 50)
 			{
 				
@@ -262,27 +269,28 @@ int main()
 				}
 			}
 
-
-
+*/
+			//LightingTest.Bind();
+			//LightingTest.DrawAt(0.0f, 0.0f, 1.0f,1,1,1);
+			//
+			//
+			//Cube.DrawList();
+			//Cube3.DrawList();
 			
-			Cube.DrawList();
-			Cube3.DrawList();
+			//Cube4.DrawList();
+			//LightingTest.DrawList();
 			Cube2.DrawList();
-			Cube4.DrawList();
+			//ImGui Window Terminator
+			gui.render();
+			gui.RenderEnder();
 
-			Cube3.Bind();
-			Cube3.Draw();
-
-
-
-		 // Swap buffers
-		
+		// Swap buffers
 	     glfwPollEvents();
 		// glfwGetFramebufferSize(window, &ScreenWidth, &ScreenHeight);
 		 glfwGetWindowSize(window,&ScreenWidth,&ScreenHeight);
 		 glViewport(0, 0, ScreenWidth, ScreenHeight);
-		 gui.RenderEnder();
 		 glfwSwapBuffers(window);
+		
 		} 
 	// Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&

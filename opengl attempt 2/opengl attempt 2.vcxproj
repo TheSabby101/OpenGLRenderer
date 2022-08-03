@@ -162,6 +162,7 @@
     <ClCompile Include="LoadShader2.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Query.cpp" />
     <ClCompile Include="res\3rd party\glm\detail\glm.cpp" />
     <ClCompile Include="res\3rd party\imgui.cpp" />
     <ClCompile Include="res\3rd party\imgui_demo.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="LoadShader2.h" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Query.h" />
     <ClInclude Include="res\3rd party\glm\common.hpp" />
     <ClInclude Include="res\3rd party\glm\detail\compute_common.hpp" />
     <ClInclude Include="res\3rd party\glm\detail\compute_vector_relational.hpp" />
@@ -582,6 +584,8 @@
     <None Include="res\3rd party\glm\gtx\wrap.inl" />
     <None Include="Shaders\LightFrag.shader" />
     <None Include="Shaders\LightVertex.shader" />
+    <None Include="Shaders\LightingFragment.shader" />
+    <None Include="Shaders\LightingVertex.shader" />
     <None Include="Shaders\SphereFrag.shader" />
     <None Include="Shaders\SphereVertex.shader" />
     <None Include="Shaders\vertex.shader" />

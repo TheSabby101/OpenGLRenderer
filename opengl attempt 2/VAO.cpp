@@ -6,6 +6,10 @@ VAO::VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader, Textures& Texture)
 	
 		
 }
+VAO::VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader, unsigned int& RBO)
+	:ID(1), TexUsed(true), LocalVB(VB), LocalVA(VA), LocalShader(Shader), LocalRBO(&RBO)
+{
+}
 VAO::VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader)
 	:ID(1), LocalVB(VB), LocalVA(VA), LocalShader(Shader)
 {
@@ -24,6 +28,14 @@ void VAO::Bind()
 	LocalVA.Bind();
 	if(TexUsed)
 	LocalTexture->Bind();
+}
+
+void VAO::BindRBO()
+{
+	LocalShader.Bind();
+	LocalVB.Bind();
+	LocalVA.Bind();
+
 }
 
 void VAO::UnBind()

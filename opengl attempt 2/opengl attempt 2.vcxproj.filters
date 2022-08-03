@@ -78,6 +78,9 @@
     <ClCompile Include="Gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Query.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -878,6 +881,9 @@
     <ClInclude Include="Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Query.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\fragment.shader" />
@@ -1288,5 +1294,7 @@
     <None Include="Shaders\LightVertex.shader" />
     <None Include="Shaders\SphereFrag.shader" />
     <None Include="Shaders\SphereVertex.shader" />
+    <None Include="Shaders\LightingVertex.shader" />
+    <None Include="Shaders\LightingFragment.shader" />
   </ItemGroup>
 </Project>

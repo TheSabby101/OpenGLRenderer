@@ -15,6 +15,7 @@
 #include <windows.h>
 #include <chrono>
 #include <future>
+#include <thread>
 #include <string>
 #include "Error.h"
 #include "res/3rd party/imgui.h"

@@ -4,7 +4,7 @@
 
 
 Textures::Textures(const std::string& path)
-	:ID(0), Filepath(path), Width(0),Height(0),BBP(0)
+	:Filepath(path), Width(0),Height(0),BBP(0),ID(0)
 
 	{
 	//Flipping the image

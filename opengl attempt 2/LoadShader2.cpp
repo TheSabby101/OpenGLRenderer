@@ -2,43 +2,36 @@
 
 
 Shader::Shader(std::string VertexPath, std::string FragmentPath)
-	:ID(glCreateProgram()), LinkStatus(0)
-
+	:ID(glCreateProgram()),VertexShaderID(glCreateShader(GL_VERTEX_SHADER)),FragmentShaderID(glCreateShader(GL_FRAGMENT_SHADER)), LinkStatus(0)
 {
+	//std::cout << ID << "= ID" << std::endl;
 
-
-
-	//while (!LinkStatus)
-	//{
-		GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-		GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 		GLCall(CompileShader(VertexShaderID, CreateShader(VertexPath)));
 
 		GLCall(CompileShader(FragmentShaderID, CreateShader(FragmentPath)));
-
+		
 		GLCall(glAttachShader(ID, VertexShaderID));
 
 		GLCall(glAttachShader(ID, FragmentShaderID));
-
+		
 		GLCall(glLinkProgram(ID));
-
 
 		glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
 
 
-		std::cout << LinkStatus << std::endl;
-		if (!LinkStatus) std::cout << "failed to link" << std::endl;
-		else std::cout << "Linked" << std::endl;
-	//}
+		//std::cout << LinkStatus << std::endl;
+		//if (!LinkStatus) std::cout << "failed to link" << std::endl;
+		//if (LinkStatus) std::cout << "Linked" << std::endl;
+		LinkStatusbool = LinkStatus;
 
-	//Check(VertexShaderID, Result, InfoLogLength);
-	//Check(FragmentShaderID, Result, InfoLogLength);
+		//Check(VertexShaderID, Result, InfoLogLength);
+		//Check(FragmentShaderID, Result, InfoLogLength);
 
-	//glDetachShader(ID, VertexShaderID);
-	//glDetachShader(ID, FragmentShaderID);
+		glDetachShader(ID, VertexShaderID);
+		glDetachShader(ID, FragmentShaderID);
 
-	//glDeleteShader(VertexShaderID);
-    //glDeleteShader(FragmentShaderID);
+		glDeleteShader(VertexShaderID);
+		glDeleteShader(FragmentShaderID);
 	
 	
 }
@@ -52,13 +45,7 @@ Shader::~Shader()
 
 void Shader::Bind()
 {
-
-//	std::cout << "binding shader " << &ID << std::endl;
-
-	//GLCall(glUseProgram(ID));
 	glUseProgram(ID);
-
-
 }
 
 void Shader::UnBind()
@@ -74,6 +61,12 @@ void Shader::SetUniforms4f(std::string name, float one, float two, float three, 
 
 }
 
+void Shader::SetUniforms1f(std::string name, float one)
+{
+	glUniform1f(GetUniformLocation(name), one);
+
+
+}
 void Shader::SetUniforms3f(std::string name, float one, float two, float three)
 {
 	glUniform3f(GetUniformLocation(name), one, two, three);
@@ -105,7 +98,7 @@ void Shader::SetUniforms2fv(std::string name, float one,const float* two )
 
 const char* Shader::CreateShader(std::string ShaderPath)
 {
-	std::cout << "Created Shader using " << ShaderPath << std::endl;
+//	std::cout << "Created Shader using " << ShaderPath << std::endl;
 	std::string ShaderCode;
 	std::ifstream ShaderStream(ShaderPath, std::ios::in);
 	if (ShaderStream.is_open()) {
@@ -126,7 +119,7 @@ const char* Shader::CreateShader(std::string ShaderPath)
 unsigned int Shader::CompileShader(GLuint ShaderID, const char* ShaderSourcePointer)
 {
 	
-	glShaderSource(ShaderID, 1, &ShaderSourcePointer, NULL);
+	glShaderSource(ShaderID, 1, &ShaderSourcePointer,nullptr);
 	glCompileShader(ShaderID);
 	
 
@@ -144,11 +137,11 @@ int Shader::GetUniformLocation(std::string& name)
 
 	if (location == -1)
 	{
-		std::cout << "Uniform named '" << name << "' Does not exist or was not used " << std::endl;
+		//std::cout << "Uniform named '" << name << "' Does not exist or was not used " << std::endl;
 		return location;
 	}
 	else
-		std::cout << name << " Located at " << location << std::endl;
+		//std::cout << name << " Located at " << location << std::endl;
 	return location;
 }
 

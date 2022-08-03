@@ -1,15 +1,9 @@
-#version 430 core
-
-layout(location = 4)in vec2 v_TexCoord;
-out vec4 Colour;
+#version 450 core
+layout(location = 0)out vec4 fragColor;
+layout(location = 3)in vec2 v_TexCoord;
 uniform vec4 u_colour;
-
-
 uniform sampler2D Texture;
 
-
-
 void main() {
-	Colour = texture(Texture, v_TexCoord) * u_colour;
-	
-};
+	fragColor = texture(Texture, v_TexCoord) * u_colour;
+}
