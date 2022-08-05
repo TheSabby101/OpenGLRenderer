@@ -21,10 +21,10 @@ void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
 
 	shader.UniformMatrix4fv("CamMat", Projection * View);
 }
-
+//bool Sprint = true;
 void Camera::inputs(GLFWwindow* window)
 {
-
+	
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		Position += speed * Orientation;
@@ -51,14 +51,41 @@ void Camera::inputs(GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
+		//if (Sprint)
+		//{
+		//	Camera::fov = fov * 1.1;
+		//	Sprint = false;
+		//}
 		speed = 0.2f;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
+	//	if (!Sprint)
+	//	{
+	//		Camera::fov = fov / 1.1;
+	//		Sprint = true;
+	//	}
 		speed = 0.05f;
 	}
 
-
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		//if (Sprint)
+		//{
+		//	Camera::fov = fov * 1.1;
+		//	Sprint = false;
+		//}
+		speed = 0.005f;
+	}
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE)
+	{
+		//	if (!Sprint)
+		//	{
+		//		Camera::fov = fov / 1.1;
+		//		Sprint = true;
+		//	}
+		speed = 0.2f;
+	}
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{

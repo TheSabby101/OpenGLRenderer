@@ -1,40 +1,14 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (opengl attempt 2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Gui.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(55,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(56,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(57,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(65,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(73,38): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(74,38): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(75,38): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(88,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(93,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(93,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(93,36): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(96,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(97,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Gui.cpp(98,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-  Main.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Main.cpp(194,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Main.cpp(194,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Main.cpp(194,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Object.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Object.cpp(203,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Query.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+  LoadShader2.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\HELP5\opengl attempt 2\LoadShader2.cpp(90,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Query.cpp(30): error C4700: uninitialized local variable 'i' used
-C:\Users\themi\Documents\GitHub\HELP5\opengl attempt 2\Query.cpp(40): error C4700: uninitialized local variable 'i' used
-  141 of 3145 functions ( 4.5%) were compiled, the rest were copied from previous compilation.
-    139 functions were new in current compilation
-    27 functions had inline decision re-evaluated but remain unchanged
-LINK : fatal error LNK1257: code generation failed
+  3 of 2583 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    36 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\themi\source\repos\HELP5\x64\Release\vc120.pdb'; linking object as if no debug info
+  opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\HELP5\x64\Release\OpenGLRenderer.exe

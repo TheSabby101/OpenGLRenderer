@@ -10,8 +10,8 @@
 #include "Object.h"
 #include "Camera.h"
 #include "Gui.h"
-
-
+GLint Query::any_samples_passed;
+GLuint Query::Test[2];
 int ScreenWidth = 720;
 int ScreenHeight = 720;
 int objectcount = 0;
@@ -160,13 +160,8 @@ int main()
 
 
 
-	Object Cube2("Cube2","Shaders/LightFrag.shader", "Shaders/LightVertex.shader", Camera);
-//Object Cube("Cube","res/test5.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
-//Object Cube3("Cube3","res/test2.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
-//Object Cube4("Cube4","res/test.png", "Shaders/fragment.shader", "Shaders/vertex.shader", Camera);
-//Object LightingTest("LightingTest","Shaders/LightingFragment.shader", "Shaders/LightingVertex.shader", Camera);
-		//Object ViewPort( "Shaders/RBOFragment.shader", "Shaders/RBOVertex.shader",Camera,true);
-		//Object Sphere("Shaders/SphereFrag.shader", "Shaders/SphereVertex.shader", 0.0f, 0.0f, 0.0f, Camera);
+
+
 	//	Sphere.ShaderRef->SetUniforms2f("Res", 1080.0f, 1080.0f);
 	//Cube2.SetColour(0.6f, 0.3f, 0.4f, 1.0f);
 	//Cube2.SetCoord(0.0f, 0.0f, -1.0f);
@@ -183,31 +178,39 @@ int main()
 		int x = 1;
 		int y = 1;
 
-		for (int z = -0; z < 100; z++)
+
+		Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	//	Object Cube2("Cube2", "Shaders/LightFrag.glsl", "Shaders/LightVertex.glsl", Camera);
+		//Object Cube3("Cube3", "res/test2.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		//Object Cube4("Cube4", "res/test.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
+		//Object Sphere("Sphere", "Shaders/SphereFrag.glsl", "Shaders/SphereVertex.glsl", Camera);
+		for (int z = -1; z < 0; z++)
 		{
-			for (int y = -0; y < 100; y++)
+			for (int y = -50; y < 50; y++)
 			{
-				for (int x = -0; x < 100; x++)
+				for (int x = -50; x < 50; x++)
 				{
 
 
-					Cube2.AddToList(x, y, z,1,1,1);
-
+					//Cube2.AddToList(x, y, z,1,1,1);
+					//Cube.AddToList(x, y, z, 1, 1, 1);
+					LightingTest.AddToList(x, y, z, 1, 1, 1);
 				}
 			}
 		}
 
-		//Cube.AddToList(0, 0, 0, 1, 1, 1);
-
-	//	gui.AddToList(&Cube);
-		gui.AddToList(&Cube2);
+		Cube.AddToList(0, 0, 0, 1, 1, 1);
+		LightingTest.AddToList(0, 0, 0, 1, 1, 1);
+		gui.AddToList(&Cube);
+	//	gui.AddToList(&Cube2);
 		//gui.AddToList(&Cube3);
 		//gui.AddToList(&Cube4);
-		//gui.AddToList(&LightingTest);
-	
+		gui.AddToList(&LightingTest);
+	//	gui.AddToList(&Sphere);
 
 		do {
-			
+			Object::time = glfwGetTime();
 			// Clear the screen.
 			glClearColor(0.25f, 0.4f, 0.7f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -270,16 +273,19 @@ int main()
 			}
 
 */
-			//LightingTest.Bind();
-			//LightingTest.DrawAt(0.0f, 0.0f, 1.0f,1,1,1);
-			//
-			//
-			//Cube.DrawList();
-			//Cube3.DrawList();
+	
 			
-			//Cube4.DrawList();
-			//LightingTest.DrawList();
-			Cube2.DrawList();
+			
+			 Cube.DrawList();
+
+			// Cube2.DrawList();
+		
+
+			// Cube3.DrawList();
+			// Cube4.DrawList();
+			 LightingTest.DrawList();
+			// Cube2.DrawList();
+		//	 Sphere.DrawList();
 			//ImGui Window Terminator
 			gui.render();
 			gui.RenderEnder();

@@ -39,7 +39,7 @@ Textures::Textures(const std::string& path)
 	Textures::~Textures()
 	{
 		//UnBind();
-		std::cout << "Texture Deleted" << std::endl;
+	//	std::cout << "Texture Deleted" << std::endl;
 		glDeleteTextures(1, &ID);
 		//delete LocalBuffer;
 	}
@@ -55,7 +55,7 @@ Textures::Textures(const std::string& path)
 	}
 	void Textures::UnBind() const
 	{
-		std::cout << "Unbound Texture" << std::endl;
+	//	std::cout << "Unbound Texture" << std::endl;
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 	}

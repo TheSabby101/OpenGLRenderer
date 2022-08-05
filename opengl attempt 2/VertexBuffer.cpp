@@ -1,4 +1,3 @@
-
 #include "VertexBuffer.h"
 
 /*
@@ -19,12 +18,12 @@ VertexBuffer::VertexBuffer(const void* vertexbufferdata, unsigned int size)
 	// Generate 1 buffer, put the resulting identifier in vertexbuffer
 	glGenBuffers(1, &RendererID);
 	glBindBuffer(GL_ARRAY_BUFFER, RendererID);
-	glBufferData(GL_ARRAY_BUFFER, size, vertexbufferdata, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, size*4, vertexbufferdata, GL_DYNAMIC_DRAW);
 }
 
 VertexBuffer::~VertexBuffer()
 {
-	std::cout << "Array Deleted" << std::endl;
+	//std::cout << "Array Deleted" << std::endl;
 	glDeleteBuffers(1, &RendererID);
 }
 
@@ -37,6 +36,6 @@ void VertexBuffer::Bind()const
 
 void VertexBuffer::Unbind()const
 {
-	std::cout << "Buffer Unbound" << std::endl;
+//	std::cout << "Buffer Unbound" << std::endl;
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

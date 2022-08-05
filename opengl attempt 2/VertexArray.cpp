@@ -38,6 +38,6 @@ void VertexArray::Bind()
 
 void VertexArray::Unbind()
 {
-	std::cout << "Array Unbound" << std::endl;
+	//std::cout << "Array Unbound" << std::endl;
 	glBindVertexArray(0);
 }

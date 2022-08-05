@@ -6,15 +6,11 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 {
 	//std::cout << ID << "= ID" << std::endl;
 
-		GLCall(CompileShader(VertexShaderID, CreateShader(VertexPath)));
-
-		GLCall(CompileShader(FragmentShaderID, CreateShader(FragmentPath)));
-		
-		GLCall(glAttachShader(ID, VertexShaderID));
-
-		GLCall(glAttachShader(ID, FragmentShaderID));
-		
-		GLCall(glLinkProgram(ID));
+		CompileShader(VertexShaderID, CreateShader(VertexPath));
+		CompileShader(FragmentShaderID, CreateShader(FragmentPath));
+		glAttachShader(ID, VertexShaderID);
+		glAttachShader(ID, FragmentShaderID);
+		glLinkProgram(ID);
 
 		glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
 
@@ -32,14 +28,15 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 
 		glDeleteShader(VertexShaderID);
 		glDeleteShader(FragmentShaderID);
-	
+
+		//std::cout << ID << std::endl;
 	
 }
 
 Shader::~Shader()
 {
-	UnBind();
-	std::cout << "destroyed shader " << glGetError() << std::endl;
+	//UnBind();
+	//std::cout << "destroyed shader " << glGetError() << std::endl;
 	glDeleteProgram(ID);
 }
 
@@ -50,15 +47,13 @@ void Shader::Bind()
 
 void Shader::UnBind()
 {
-	std::cout << "unbound shader " << &ID << std::endl;
+	//std::cout << "unbound shader " << &ID << std::endl;
 	glUseProgram(0);
 }
 
 void Shader::SetUniforms4f(std::string name, float one, float two, float three, float four)
 {
 	glUniform4f(GetUniformLocation(name), one, two, three,four);
-
-
 }
 
 void Shader::SetUniforms1f(std::string name, float one)
@@ -106,27 +101,28 @@ const char* Shader::CreateShader(std::string ShaderPath)
 		sstr << ShaderStream.rdbuf();
 		ShaderCode = sstr.str();
 		ShaderStream.close();
-	//	std::cout << ShaderCode << std::endl;
 	}
 	else {
 		std::cout << "Impossible to open." << std::endl << ShaderPath << std::endl;
 		return 0;
 	}
-	char const* SourcePointer = ShaderCode.c_str();
+	const char* SourcePointer = ShaderCode.c_str();
+	//std::cout << SourcePointer << std::endl;;
 	return SourcePointer;
 }
 
 unsigned int Shader::CompileShader(GLuint ShaderID, const char* ShaderSourcePointer)
 {
 	
-	glShaderSource(ShaderID, 1, &ShaderSourcePointer,nullptr);
+	glShaderSource(ShaderID, 1, &ShaderSourcePointer, nullptr);
+	
 	glCompileShader(ShaderID);
 	
 
 	return ShaderID;
 }
 
-int Shader::GetUniformLocation(std::string& name)
+int Shader::GetUniformLocation(const std::string& name)
 {
 	if (CachedLocation.find(name) != CachedLocation.end())
 		return CachedLocation[name];
@@ -144,7 +140,7 @@ int Shader::GetUniformLocation(std::string& name)
 		//std::cout << name << " Located at " << location << std::endl;
 	return location;
 }
-
+/*
 int Shader::GetUniformLocationnomap(const std::string& name)
 {
 
@@ -163,3 +159,4 @@ int Shader::GetUniformLocationnomap(const std::string& name)
 	return location;
 }
 
+*/

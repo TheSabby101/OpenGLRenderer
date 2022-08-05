@@ -2,82 +2,134 @@
 
 
 Object::Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(glCreateProgram()),Cam(CamRef),Width(CamRef.width),Height(CamRef.height), OBJName(Name)
+	:ID(glCreateProgram()),Cam(CamRef),Width(CamRef.width),Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
 {
+	bool rerun = true;
+	int Attempts = 1;
+		VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+		VertexArray* Array = new VertexArray;
+		VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+		LayoutObject->PushFloat(3);
+		LayoutObject->PushFloat(2);
+		LayoutObject->PushFloat(3);
+		VB->Bind();
+		Array->Bind();
+		IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+		Array->AddBuffer(*VB, *LayoutObject);
+
+
+
+		//Due to shaders constantly failing to link, i redo this every time it fails
+		while (rerun)
+		{
+		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
+		ShaderObject->Bind();
+	    Textures* Texture2 = new Textures(FilePath);
+		Texture2->Bind();
+		//texCoords coords;
+
+
+		VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
 	
 
-	VertexBuffer* lightBuffer = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-	VertexArray* LightArray = new VertexArray;
-	VertexBufferLayout* LightLayout = new VertexBufferLayout;
-	LightLayout->PushFloat(3);
-	LightLayout->PushFloat(2);
-	lightBuffer->Bind();
-	LightArray->Bind();
-	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
-	LightArray->AddBuffer(*lightBuffer, *LightLayout);
-	Shader* shaderlight = new Shader(VertexPath, FragmentPath);
-	shaderlight->Bind();
-	Textures* Texture2 = new Textures(FilePath);
-	//Texture2->Bind();
-	texCoords coords;
-	shaderlight->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
-	shaderlight->SetUniforms2fv("texturecoords", 1, (coords.a, coords.b));
-	shaderlight->SetUniforms1i("Texture", 0);
-	shaderlight->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
-	shaderlight->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
-	
-	VAO* object2 = new VAO(*lightBuffer, *LightArray, *shaderlight, *Texture2);
-	object = object2;
-	ShaderRef = shaderlight;
-	//object->UnBind();
-	if (!shaderlight->LinkStatus)
-	{
-		std::cout << OBJName << " Failed to link shader \n";
+		//object->UnBind();
+		if (!ShaderObject->LinkStatus)
+		{
+		//	std::cout << OBJName << " Failed to link shader \n";
+			delete ShaderObject;
+			delete object2;
+			delete Texture2;
+			Attempts++;
+		}
+		else
+		{
+			object = object2;
+			ShaderRef = ShaderObject;
+			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+			//ShaderRef->SetUniforms2fv("texturecoords", 1, (coords.a, coords.b));
+			ShaderRef->SetUniforms1i("Texture", 0);
+			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+		
+			rerun = false;
+			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
+		}
 	}
-	else
-	{
-		std::cout << OBJName << " Linked \n";
-	}
+	//::cout << ID  << std::endl;
 }
 
 Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(0), Cam(CamRef), Width(CamRef.width), Height(CamRef.height),OBJName(Name)
+	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height),OBJName(Name), textureColorbuffer(0)
 {
+	int Attempts = 1;
+	bool rerun = true;
+	/*
+		VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+		VertexArray* Array = new VertexArray;
+		VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+		LayoutObject->PushFloat(3);
+		LayoutObject->PushFloat(2);
+		VB->Bind();
+		Array->Bind();
+		IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+		Array->AddBuffer(*VB, *LayoutObject);
+		*/
+	
+	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
+	VB->Bind();
+	VertexArray* Array = new VertexArray;
+	Array->Bind();
+	VertexBufferLayout LayoutObject;
+	LayoutObject.PushFloat(3);	LayoutObject.PushFloat(2);	LayoutObject.PushFloat(3);
+	IndexBuffer* LightIndexBuffer =  new IndexBuffer(Indices, 36);
+	Array->AddBuffer(*VB, LayoutObject);
 
-	VertexBuffer* lightBuffer = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-	VertexArray* LightArray = new VertexArray;
-	VertexBufferLayout* LightLayout = new VertexBufferLayout;
-	LightLayout->PushFloat(3);
-	LightLayout->PushFloat(2);
-	lightBuffer->Bind();
-	LightArray->Bind();
-	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
-	LightArray->AddBuffer(*lightBuffer, *LightLayout);
-	Shader* shaderlight = new Shader(VertexPath, FragmentPath);
-	shaderlight->Bind();
-	shaderlight->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
-	shaderlight->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
-	shaderlight->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
-	shaderlight->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
-	shaderlight->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
-	VAO* object2 = new VAO(*lightBuffer, *LightArray, *shaderlight);
-	object = object2;
-	ShaderRef = shaderlight;
-	//object->UnBind();
-	if (!shaderlight->LinkStatus)
+	//Due to shaders constantly failing to link, i redo this every time it fails
+
+
+	while (rerun)
 	{
-		std::cout << OBJName << " Failed to link shader \n";
-	}
-	else
-	{
-		std::cout << OBJName << " Linked \n";
+		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
+		ShaderObject->Bind();
+	
+	
+	
+		if (!ShaderObject->LinkStatus)
+		{
+			//std::cout << OBJName << " Failed to link shader \n";
+			//delete VB;
+			//delete Array;
+			//delete LightIndexBuffer;
+			delete ShaderObject;
+			Attempts++;
+		}
+		else
+		{
+			
+			rerun = false;
+			VAO* object2 = new VAO(*VB, *Array, *ShaderObject);
+			object = object2;
+			ShaderRef = ShaderObject;
+			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.5f, 1.0f);
+			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
+			object->UnBind();
+		}
+		//std::cout << ID << std::endl;
 	}
 }
 
 Object::~Object()
 {
-
-
+	//delete ShaderRef;
+	
 
 }
 
@@ -86,6 +138,7 @@ void Object::Bind()
 	object->Bind();
 	
 }
+
 
 void Object::Draw()
 {
@@ -98,32 +151,18 @@ void Object::Draw()
 
 void Object::DrawAt(float X, float Y, float Z, float W, float H, float D)
 {
-	
-	
-	
-
-	
-
-
+	//queer.Begin();
 	//Bind();
 	ShaderRef->SetUniforms3f("scale", W, H, D);
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
-	Cam.Matrix(*ShaderRef, Width, Height);
+	
 
 	//glGenQueries(3, QID);
-
-
 
 //	glBeginQuery(GL_ANY_SAMPLES_PASSED, QID[1]);
 	
 
 	//glBeginQuery(GL_ANY_SAMPLES_PASSED_CONSERVATIVE, QID[2]);
-
-	
-	
-
-
-
 
 
 		//glEndQuery(GL_ANY_SAMPLES_PASSED);
@@ -143,27 +182,32 @@ void Object::DrawAt(float X, float Y, float Z, float W, float H, float D)
 	//int i = Begin();
 
 //	std::future<void> foo = std::async(std::launch::async, Begin);
-    auto a1 = std::async(RTest.Begin);
+   // auto a1 = std::async(RTest.Begin);
 
 	//Begin();
-	if (RTest.any_samples_passed)
-	{
-		std::cout << "woo" << std::endl;
-		glBeginConditionalRender(*RTest.any_samples_passed, GL_QUERY_BY_REGION_NO_WAIT);
-		glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
-		glEndConditionalRender();
+//	if (RTest.any_samples_passed)
+//	{
+//		std::cout << "woo" << std::endl;
+	   // queer.End();
+	//	glBeginConditionalRender(queer.any_samples_passed, GL_QUERY_BY_REGION_NO_WAIT);
+	//	if (queer.any_samples_passed)
+	//	{
+			std::launch::async, glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
+			//glEndConditionalRender();
+	//	}
+	//	queer.any_samples_passed = 0;
 		
 		
-}
-	else if(!*RTest.any_samples_passed)
-	{
-	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
+//}
+//	else if(!*RTest.any_samples_passed)
+//	{
+//	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 	//std::cout << "fuck" << std::endl;
-	}
+//	}
 
-	auto ret = a1.get();
-	auto a2 = std::async(RTest.End);
-	auto ret2 = a2.get();
+	//auto ret = a1.get();
+	//auto a2 = std::async(RTest.End);
+	//auto ret2 = a2.get();
 	//End();
 	
 	//glDeleteQueries(3, QID);
@@ -200,22 +244,63 @@ void Object::AddToList(float X, float Y, float Z,float W,float H, float D)
 void Object::ShaderToy()
 {
 	ShaderRef->SetUniforms3f("iResolution", (float)Width, (float)Height, (float)Width* (float)Height);
-	ShaderRef->SetUniforms1f("iTime", glfwGetTime());
+	ShaderRef->SetUniforms1f("iTime", time);
 	//std::cout << glfwGetTime() << std::endl;
 }
 
 void Object::DrawList()
 {
-	Bind();
-	ShaderToy();
-	for(size_t i=0; i< DrawIndex.size();i++)
-	{
-		
-	
-		DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z,DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
-	
+	//if(ShaderRef->LinkStatus)
+	//{
+		Bind();
+		ShaderToy();
 
-	}
+		for (size_t i = 0; i < DrawIndex.size(); i++)
+		{
+			std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
+
+		}
+
+
+		/*
+		for (size_t i = 0; i < DrawIndex.size()/16; i += 16)
+		{
+			for (size_t n = 0; n < DrawIndex.size(); n++)
+			{
+				std::launch::async,DrawAt(DrawIndex[n].x, DrawIndex[n].y, DrawIndex[n].z, DrawIndex[n].Width, DrawIndex[n].Height, DrawIndex[n].Depth);
+			}
+
+		}
+		*/
+
+		/*
+		if (DrawIndex.size() < 8)
+		{
+			for (size_t i = 0; i < DrawIndex.size(); i++)
+			{
+				std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
+
+			}
+		}
+		else
+		{
+
+
+			for (size_t i = 0; i < DrawIndex.size(); i += 8)
+			{
+				std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 1].x, DrawIndex[i + 1].y, DrawIndex[i + 1].z, DrawIndex[i + 1].Width, DrawIndex[i + 1].Height, DrawIndex[i + 1].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 2].x, DrawIndex[i + 2].y, DrawIndex[i + 2].z, DrawIndex[i + 2].Width, DrawIndex[i + 2].Height, DrawIndex[i + 2].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 3].x, DrawIndex[i + 3].y, DrawIndex[i + 3].z, DrawIndex[i + 3].Width, DrawIndex[i + 3].Height, DrawIndex[i + 3].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 4].x, DrawIndex[i + 4].y, DrawIndex[i + 4].z, DrawIndex[i + 4].Width, DrawIndex[i + 4].Height, DrawIndex[i + 4].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 5].x, DrawIndex[i + 5].y, DrawIndex[i + 5].z, DrawIndex[i + 5].Width, DrawIndex[i + 5].Height, DrawIndex[i + 5].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 6].x, DrawIndex[i + 6].y, DrawIndex[i + 6].z, DrawIndex[i + 6].Width, DrawIndex[i + 6].Height, DrawIndex[i + 6].Depth);
+				std::launch::async, DrawAt(DrawIndex[i + 7].x, DrawIndex[i + 7].y, DrawIndex[i + 7].z, DrawIndex[i + 7].Width, DrawIndex[i + 7].Height, DrawIndex[i + 7].Depth);
+			}
+		}
+		*/
+		Cam.Matrix(*ShaderRef, Width, Height);
+	//}
 }
 
 /*

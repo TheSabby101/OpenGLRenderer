@@ -1,7 +1,7 @@
 #pragma once
 #include "Header.h"
 #include "Object.h"
-
+#include "Camera.h"
 
 
 

@@ -17,7 +17,7 @@ private:
 
 	
 public:
-	float fov = 90.0f;
+	inline static float fov = 90.0f;
 	unsigned int& width;
 	unsigned int& height;
 	glm::mat4 Projection = glm::mat4(1.0f);
@@ -26,4 +26,5 @@ public:
 	void Matrix(Shader& shader, unsigned int Width, unsigned int Height);
 	void inputs(GLFWwindow* window);
 };
+
 

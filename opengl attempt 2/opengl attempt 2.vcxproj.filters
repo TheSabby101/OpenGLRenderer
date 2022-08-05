@@ -886,8 +886,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\fragment.shader" />
-    <None Include="Shaders\vertex.shader" />
+    <None Include="Shaders\fragment.glsl" />
+    <None Include="Shaders\vertex.glsl" />
     <None Include="res\3rd party\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -1290,11 +1290,11 @@
     <None Include="res\3rd party\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Shaders\LightFrag.shader" />
-    <None Include="Shaders\LightVertex.shader" />
-    <None Include="Shaders\SphereFrag.shader" />
-    <None Include="Shaders\SphereVertex.shader" />
-    <None Include="Shaders\LightingVertex.shader" />
-    <None Include="Shaders\LightingFragment.shader" />
+    <None Include="Shaders\LightFrag.glsl" />
+    <None Include="Shaders\LightVertex.glsl" />
+    <None Include="Shaders\SphereFrag.glsl" />
+    <None Include="Shaders\SphereVertex.glsl" />
+    <None Include="Shaders\LightingVertex.glsl" />
+    <None Include="Shaders\LightingFragment.glsl" />
   </ItemGroup>
 </Project>

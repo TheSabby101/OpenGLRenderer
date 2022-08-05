@@ -52,9 +52,9 @@ void MyGui::MakeWindow()
 	//ImGui::SetNextWindowBgAlpha(0.9f);
 	
 	
-	static int x = 0.0f;
-	static int y = 0.0f;
-	static int z = 0.0f;
+	static int x = 0;
+	static int y = 0;
+	static int z = 0;
 
 	static float w = 1.0f;
 	static float h = 1.0f;
@@ -70,9 +70,12 @@ void MyGui::MakeWindow()
 	ImGui::SliderInt("Y", &y, -100, 100);
 	ImGui::SliderInt("Z", &z, -100, 100); 
 
-	ImGui::SliderFloat("W", &w, 0.1, 100);
-	ImGui::SliderFloat("H", &h, 0.1, 100);
-	ImGui::SliderFloat("D", &d, 0.1, 100);
+	ImGui::SliderFloat("W", &w, 0.1f, 100.0f);
+	ImGui::SliderFloat("H", &h, 0.1f, 100.0f);
+	ImGui::SliderFloat("D", &d, 0.1f, 100.0f);
+	ImGui::NewLine();
+	ImGui::SliderFloat("FOV", &Camera::fov, 20.0f, 120.0f);
+
 
 	for (int i = 0; i < Objectlist.size()-1; i++)
 	{
@@ -146,12 +149,12 @@ void MyGui::SetStyle()
 	ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
 	//ImGui::PopStyleColor(0);
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 12.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 12.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 12.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, 7.0f);
-	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 12.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 12.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 12.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, 7.0f);
+	//ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 	//ImGui::PopStyleVar(0);
 }
