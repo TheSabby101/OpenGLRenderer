@@ -158,7 +158,7 @@ struct texCoords
 
 public:
 
-	inline static enum Block { grass, dirt, sand };
+	inline static enum Block { grass, dirt, sand,craftingbench,furnace,lava};
 
 
 	inline static std::vector<Object*> Objectlist{ 0 };

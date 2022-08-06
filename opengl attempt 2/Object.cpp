@@ -490,11 +490,48 @@ void Object::GetBlockType(Block blocktype)
 		AtlasX = 2; AtlasY = 14;
 		AtlasMapper();
 		break;
+
+	case craftingbench:
+		AtlasX = 11; AtlasY = 13;
+		AtlasMapperPerFace(Topface);
+		AtlasX = 11; AtlasY = 12;
+		AtlasMapperPerFace(Eastface);
+		AtlasX = 12; AtlasY = 12;
+		AtlasMapperPerFace(Westface);
+		AtlasX = 11; AtlasY = 11;
+		AtlasMapperPerFace(Southface);
+		AtlasX = 10; AtlasY = 11;
+		AtlasMapperPerFace(Northface);
+		AtlasX = 6; AtlasY = 3;
+		AtlasMapperPerFace(Bottomface);
+		break;
+
+	case furnace:
+		AtlasX = 14; AtlasY = 12;
+		AtlasMapperPerFace(Topface);
+		AtlasX = 13; AtlasY = 13;
+		AtlasMapperPerFace(Eastface);
+		AtlasX = 13; AtlasY = 13;
+		AtlasMapperPerFace(Westface);
+		AtlasX = 12; AtlasY = 13;
+		AtlasMapperPerFace(Southface);
+		AtlasX = 13; AtlasY = 13;
+		AtlasMapperPerFace(Northface);
+		AtlasX = 14; AtlasY = 12;
+		AtlasMapperPerFace(Bottomface);
+		break;
+
+
+	case lava:
+		AtlasX = 15; AtlasY = 0;
+		AtlasMapper();
+		break;
+
 	}
-
-
-
 }
+
+
+
 
 //old stack implement, didnt work
 /*

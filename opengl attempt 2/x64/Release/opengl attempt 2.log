@@ -3,13 +3,13 @@
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
 C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(161): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(204,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(204,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(204,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(207,28): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(207,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(207,22): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  3 of 2591 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2591 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     34 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
