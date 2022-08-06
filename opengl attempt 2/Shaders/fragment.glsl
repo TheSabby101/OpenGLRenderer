@@ -19,24 +19,24 @@ uniform vec3 iResolution;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 uniform vec3 LightPos;
+//uniform vec2 texturecoords;
 
+uniform vec3 CamPos;
 uniform sampler2D Texture;
 
 
 void main()
 {
-float ambientbase = 0.8;
-    vec3 OutNormals = normalize(OutNormals);
-    vec3 lightDirection = normalize(LightPos - CurrentPosition);
-    float diffuse = max(dot(OutNormals, lightDirection), 0.0);
-    float ambientStrength = 0.2;
-    vec3 ambient = ambientStrength * lightColor;
-    vec3 result = ambient * objectColor;
-    float speclight = 0.5;
-    vec3 viewDirection = normalize(coordinates - CurrentPosition);
-    vec3 reflectionDirection = reflect(-lightDirection, OutNormals);
-    float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0), 8);
-    float specular = specAmount * speclight;
-    fragColor = texture(Texture, v_TexCoord) *vec4(lightColor,1.0)* (diffuse +ambientbase + specular);
+
+   float ambientbase = 0.2;
+   vec3 OutNormals = normalize(OutNormals-coordinates);
+   vec3 lightDirection = normalize(LightPos +coordinates);
+   float diffuse = max(dot(OutNormals, lightDirection), 0.0);
+   float speclight = 0.5;
+   vec3 viewDirection = normalize(coordinates - CamPos);
+   vec3 reflectionDirection = reflect(-lightDirection, OutNormals);
+   float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0), 8);
+   float specular = specAmount * speclight;
+    fragColor = texture(Texture, v_TexCoord) *vec4(lightColor,1000.0) / (diffuse+ambientbase+specular)/5;
 }
 

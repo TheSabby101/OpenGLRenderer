@@ -19,6 +19,7 @@ void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
 	View = glm::lookAt(Position, Position + Orientation, Up);
 	Projection = glm::perspective(glm::radians(fov), ((float)width /(float)height), 0.1f, 1000.0f);
 
+	shader.UniformMatrix4fv("CamPos", Projection);
 	shader.UniformMatrix4fv("CamMat", Projection * View);
 }
 //bool Sprint = true;
@@ -77,15 +78,7 @@ void Camera::inputs(GLFWwindow* window)
 		//}
 		speed = 0.005f;
 	}
-	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_RELEASE)
-	{
-		//	if (!Sprint)
-		//	{
-		//		Camera::fov = fov / 1.1;
-		//		Sprint = true;
-		//	}
-		speed = 0.2f;
-	}
+
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{

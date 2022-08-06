@@ -9,7 +9,6 @@
 #include "VAO.h"
 #include "Camera.h"
 #include "Query.h"
-//#include "Gui.h"
 
 
 class Object
@@ -19,6 +18,12 @@ class Object
 	
 private:
 	
+
+
+	enum BlockFace { Southface,Northface,Eastface,Westface,Topface,Bottomface};
+
+
+
 	unsigned int& Width;
 	unsigned int& Height;
 	unsigned int ID;
@@ -40,71 +45,48 @@ private:
 
 	std::vector<ObjectV3> DrawIndex;
 
+public:
+	inline static float AtlasX, AtlasY;
+	inline static float AtlasSize = 256.0f;
+	inline static float TextureSize = 16.0f;
 
-//  const inline static float VertexBufferData[40] =
-//  {
-//  	//COMMENTS NEED UPDATING
-//  	// x    y    z							   Texture Coords
-//  	-0.5f,-0.5f,-0.5f, /* 0 Left  Bottom Back */    0.0f, 0.0f,
-//  	 0.5f,-0.5f,-0.5f, /* 1 Left  Bottom Front*/    1.0f, 0.0f,
-//  	 0.5f, 0.5f,-0.5f, /* 2 Left  Top    Front*/    1.0f, 1.0f,
-//      -0.5f, 0.5f,-0.5f, /* 3 Left  Top    Back */  0.0f, 1.0f,
-//       -0.5f,-0.5f, 0.5f, /* 4 Right Bottom Back */ 0.0f, 0.0f,
-//       0.5f,-0.5f, 0.5f, /* 5 Right Bottom Front*/  1.0f, 0.0f,
-//       0.5f, 0.5f, 0.5f, /* 6 Right Top	   Front*/  1.0f, 1.0f,
-//      -0.5f, 0.5f, 0.5f, /* 7 Right Top	   Back */  0.0f, 1.0f
-//  
-//  
-//  
-//  
-//  
-//  
-//  
-//  };
-//  
-	const inline static float VertexBufferData[192] =
+	inline static float VertexBufferData[192]
 	{
-		//COMMENTS NEED UPDATING
-		// x    y    z	    Texture Coords	Normals
-		 0.5f,-0.5f, 0.5f,   0.0f, 0.0f,   0.0f,0.5f,0.8f, //bottom right front	   //Front Face
-		-0.5f,-0.5f, 0.5f,   0.0f, 1.0f,   0.0f,0.5f,0.8f, //bottom left front	   //Front Face
-	    -0.5f, 0.5f, 0.5f,   1.0f, 1.0f,   0.0f,0.5f,0.8f, //top left front		   //Front Face
-		 0.5f, 0.5f, 0.5f,   1.0f, 0.0f,   0.0f,0.5f,0.8f, //top right front	   //Front Face
+		
+		// X    Y    z							 Texture Coords													Normals
+		 0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY*TextureSize / AtlasSize,  			   0.0f,0.5f,0.8f, //bottom right front	   //Front Face
+		-0.5f,-0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,AtlasY* TextureSize/AtlasSize, 		  0.0f,0.5f,0.8f, //bottom left front	   //Front Face
+		-0.5f, 0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,(AtlasY+1)*TextureSize/AtlasSize,			 0.0f,0.5f,0.8f, //top left front		   //Front Face
+		 0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize/AtlasSize, 		   0.0f,0.5f,0.8f, //top right front	   //Front Face
 
-	    -0.5f,-0.5f,-0.5f,   0.0f, 0.0f,   0.0f,0.5f,0.8f, //bottom right back    //Back Face
-	     0.5f,-0.5f,-0.5f,   0.0f, 1.0f,   0.0f,0.5f,0.8f, //bottom left back	   //Back Face
-	     0.5f, 0.5f,-0.5f,   1.0f, 1.0f,   0.0f,0.5f,0.8f, //top left back		   //Back Face
-	    -0.5f, 0.5f,-0.5f,   1.0f, 0.0f,   0.0f,0.5f,0.8f, //top right back	   //Back Face
+	    -0.5f,-0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			 0.0f,0.5f,0.8f, //bottom right back    //Back Face
+		 0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.8f, //bottom left back	   //Back Face
+		 0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.8f, //top left back		   //Back Face
+		-0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		  0.0f,0.5f,0.8f, //top right back	   //Back Face
 
-		 0.5f,-0.5f,-0.5f,   0.0f, 0.0f,   0.0f,0.5f,0.0f, //bottom right back	   //Right Face
-		 0.5f,-0.5f, 0.5f,   0.0f, 1.0f,   0.0f,0.5f,0.0f, //bottom right front	   //Right Face
-		 0.5f, 0.5f, 0.5f,   1.0f, 1.0f,   0.0f,0.5f,0.0f, //top right front	   //Right Face
-		 0.5f, 0.5f,-0.5f,   1.0f, 0.0f,   0.0f,0.5f,0.0f, //top right back	       //Right Face
+		 0.5f,-0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,0.5f,0.0f, //bottom right back	   //Right Face
+		 0.5f,-0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.0f, //bottom right front	   //Right Face
+		 0.5f, 0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.0f, //top right front	   //Right Face
+		 0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		 0.0f,0.5f,0.0f, //top right back	       //Right Face
 
-		-0.5f,-0.5f, 0.5f,   0.0f, 0.0f,   0.0f,0.5f,0.0f, //bottom left front	   //Left Face
-		-0.5f,-0.5f,-0.5f,   0.0f, 1.0f,   0.0f,0.5f,0.0f, //bottom left back	   //Left Face
-		-0.5f, 0.5f,-0.5f,   1.0f, 1.0f,   0.0f,0.5f,0.0f, //top left back	       //Left Face
-		-0.5f, 0.5f, 0.5f,   1.0f, 0.0f,   0.0f,0.5f,0.0f, //top left front	       //Left Face
+		-0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,0.5f,0.0f, //bottom left front	   //Left Face
+		-0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.0f, //bottom left back	   //Left Face
+		-0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.0f, //top left back	       //Left Face
+		-0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,			0.0f,0.5f,0.0f, //top left front	       //Left Face
 
-	    0.5f, 0.5f, 0.5f,    0.0f, 0.0f,   0.0f,1.0f,0.0f, //top right front	   //Top Face
-	   -0.5f, 0.5f, 0.5f,    0.0f, 1.0f,   0.0f,1.0f,0.0f, //top left front		   //Top Face
-	   -0.5f, 0.5f, -0.5f,   1.0f, 1.0f,   0.0f,1.0f,0.0f, //top left back		   //Top Face
-	    0.5f, 0.5f, -0.5f,   1.0f, 0.0f,   0.0f,1.0f,0.0f, //top right back		   //Top Face
-    
-       -0.5f,-0.5f,-0.5f,    0.0f, 0.0f,   0.0f,-1.0f,0.0f,  //bottom left back	   //Front Face
-        0.5f,-0.5f,-0.5f,    0.0f, 1.0f,   0.0f,-1.0f,0.0f, //bottom right back	   //Front Face
-        0.5f,-0.5f, 0.5f,    1.0f, 1.0f,   0.0f,-1.0f,0.0f, //bottom right front   //Front Face
-       -0.5f,-0.5f, 0.5f,    1.0f, 0.0f,   0.0f,-1.0f,0.0f, //bottom left front	   //Front Face
-
-
-
-
-
-
+	    0.5f, 0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,1.0f,0.0f, //top right front	   //Top Face
+	   -0.5f, 0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,1.0f,0.0f, //top left front		   //Top Face
+	   -0.5f, 0.5f, -0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,1.0f,0.0f, //top left back		   //Top Face
+		0.5f, 0.5f, -0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,			0.0f,1.0f,0.0f, //top right back		   //Top Face
+		
+       -0.5f,-0.5f,-0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,-1.0f,0.0f,  //bottom left back	   //Bottom Face
+		0.5f,-0.5f,-0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,-1.0f,0.0f, //bottom right back	   //Bottom Face
+		0.5f,-0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,-1.0f,0.0f, //bottom right front      //Bottom Face
+	   -0.5f,-0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		 0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
 	};
 
 
-
+public:
 struct texCoords 
 	{
 	const float a[2]{0.0, 0.0};
@@ -176,7 +158,14 @@ struct texCoords
 
 public:
 
+	inline static enum Block { grass, dirt, sand };
+
+
+	inline static std::vector<Object*> Objectlist{ 0 };
+	inline static int ObjectCount = 0;
 	inline static double time;
+	inline static std::vector< Object*> ObjectDrawList;
+
 	const char* OBJName;
 	unsigned int textureColorbuffer;
 
@@ -200,19 +189,27 @@ public:
 	
 	
 	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
-		 
+	Object(const char* Name,Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
 	Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
 	~Object();
 	void Bind();
+
 	void SetColour(float R, float G, float B,float Transparency);
 	void SetCoord(float X, float Y, float Z);
+
 	void Draw(); 
 	void DrawList();
 	void DrawAt(float X, float Y, float Z, float W, float H, float D);
-	void Move(float X, float Y, float Z);
-	void AddToList(float X, float Y, float Z, float W, float H, float D);
-	void ShaderToy();
 
+	void Move(float X, float Y, float Z);
+
+	void AddToListGui();
+	void AddToList(float X, float Y, float Z, float W, float H, float D);
+
+	void ShaderToy();
+	void AtlasMapper();
+	void AtlasMapperPerFace(BlockFace);
+	void GetBlockType(Block blocktype);
 	/////////////////////////////
 	////       Old Code		/////
 	////////////////////////////
@@ -220,3 +217,5 @@ public:
 	//int Begin();
 	//void End();
 };
+
+

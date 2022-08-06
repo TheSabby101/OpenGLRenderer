@@ -50,7 +50,7 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 			ShaderRef->SetUniforms1i("Texture", 0);
 			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
-			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
 			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
 		
@@ -59,6 +59,75 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 		}
 	}
 	//::cout << ID  << std::endl;
+		AddToListGui();
+		ObjectDrawList.push_back(this);
+}
+
+Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
+	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
+{
+
+
+	GetBlockType(blocktype);
+
+
+	bool rerun = true;
+	int Attempts = 1;
+	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+	VertexArray* Array = new VertexArray;
+	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+	LayoutObject->PushFloat(3);
+	LayoutObject->PushFloat(2);
+	LayoutObject->PushFloat(3);
+	VB->Bind();
+	Array->Bind();
+	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+	Array->AddBuffer(*VB, *LayoutObject);
+
+
+
+	//Due to shaders constantly failing to link, i redo this every time it fails
+	while (rerun)
+	{
+		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
+		ShaderObject->Bind();
+		Textures* Texture2 = new Textures(FilePath);
+		Texture2->Bind();
+		//texCoords coords;
+
+
+		VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
+
+
+		//object->UnBind();
+		if (!ShaderObject->LinkStatus)
+		{
+			//	std::cout << OBJName << " Failed to link shader \n";
+			delete ShaderObject;
+			delete object2;
+			delete Texture2;
+			Attempts++;
+		}
+		else
+		{
+			object = object2;
+			ShaderRef = ShaderObject;
+			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+			//ShaderRef->SetUniforms2fv("texturecoords", 1, (coords.a, coords.b));
+			ShaderRef->SetUniforms1i("Texture", 0);
+			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
+			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+
+			rerun = false;
+			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
+		}
+	}
+	//::cout << ID  << std::endl;
+	AddToListGui();
+	ObjectDrawList.push_back(this);
 }
 
 Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
@@ -124,6 +193,8 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 		}
 		//std::cout << ID << std::endl;
 	}
+	AddToListGui();
+	ObjectDrawList.push_back(this);
 }
 
 Object::~Object()
@@ -235,6 +306,13 @@ void Object::Move(float x, float y, float z)
 	Z = z;
 }
 
+void Object::AddToListGui()
+{
+	Objectlist[ObjectCount] = this;
+	Objectlist.emplace_back();
+	ObjectCount++;
+}
+
 void Object::AddToList(float X, float Y, float Z,float W,float H, float D)
 {
 	ObjectV3 V3(X, Y, Z, W, H,D);
@@ -333,9 +411,90 @@ void Object::End()
 
 
 
+void Object::AtlasMapper()
+{
+	int one = 3, two = 11, three = 19, four = 27;
+	for (int i = 0; i < 6; i++)
+	{
+		if (i != 0)
+		{
+			one += 32;
+			two += 32;
+			three += 32;
+			four += 32;
+		}
+
+		VertexBufferData[one] = AtlasX * TextureSize / AtlasSize;
+		VertexBufferData[one + 1] = AtlasY * TextureSize / AtlasSize;
+		VertexBufferData[two] = (AtlasX + 1) * TextureSize / AtlasSize;
+		VertexBufferData[two + 1] = AtlasY * TextureSize / AtlasSize;
+		VertexBufferData[three] = (AtlasX + 1) * TextureSize / AtlasSize;
+		VertexBufferData[three + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
+		VertexBufferData[four] = AtlasX * TextureSize / AtlasSize;
+		VertexBufferData[four + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
+	}
+}
+
+
+void Object::AtlasMapperPerFace(BlockFace face)
+{
+
+	int one = 3, two = 11, three = 19, four = 27;
+	
+		
+			one += (32 * face);
+			two += (32 * face);
+			three += (32 * face);
+			four += (32 * face);
+		
+
+		VertexBufferData[one] = AtlasX * TextureSize / AtlasSize;
+		VertexBufferData[one + 1] = AtlasY * TextureSize / AtlasSize;
+		VertexBufferData[two] = (AtlasX + 1) * TextureSize / AtlasSize;
+		VertexBufferData[two + 1] = AtlasY * TextureSize / AtlasSize;
+		VertexBufferData[three] = (AtlasX + 1) * TextureSize / AtlasSize;
+		VertexBufferData[three + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
+		VertexBufferData[four] = AtlasX * TextureSize / AtlasSize;
+		VertexBufferData[four + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
+	
+}
+
+void Object::GetBlockType(Block blocktype)
+{
+	switch (blocktype)
+	{
+	case grass:
+		AtlasX = 0;
+		AtlasY = 15;
+		AtlasMapperPerFace(Topface);
+		AtlasX = 3;
+		AtlasY = 15;
+		AtlasMapperPerFace(Northface);
+		AtlasMapperPerFace(Southface);
+		AtlasMapperPerFace(Eastface);
+		AtlasMapperPerFace(Westface);
+		AtlasX = 2;
+		AtlasY = 15;
+		AtlasMapperPerFace(Bottomface);
+
+		break;
+
+
+	case dirt:
+		AtlasX = 2; AtlasY = 15;
+		AtlasMapper();
+		break;
+
+
+	case sand:
+		AtlasX = 2; AtlasY = 14;
+		AtlasMapper();
+		break;
+	}
 
 
 
+}
 
 //old stack implement, didnt work
 /*

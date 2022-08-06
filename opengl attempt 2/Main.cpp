@@ -7,7 +7,6 @@
 #include "LoadShader2.h"
 #include "VAO.h"
 #include "Error.h"
-#include "Object.h"
 #include "Camera.h"
 #include "Gui.h"
 GLint Query::any_samples_passed;
@@ -104,7 +103,15 @@ std::vector<GLfloat> OBJImport(std::string objfilepath)
 	return Verticies;
 }
 
+void DrawAll()
+{
+	for (size_t i = 0; i < Object::ObjectDrawList.size(); i++)
+	{
+		Object::ObjectDrawList[i]->DrawList();
 
+	}
+
+}
 
 
 int main()
@@ -179,11 +186,11 @@ int main()
 		int y = 1;
 
 
-		Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object Cube("Cube", Object::grass, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
 	//	Object Cube2("Cube2", "Shaders/LightFrag.glsl", "Shaders/LightVertex.glsl", Camera);
-		//Object Cube3("Cube3", "res/test2.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object Cube3("Cube3", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
 		//Object Cube4("Cube4", "res/test.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
+		//Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
 		//Object Sphere("Sphere", "Shaders/SphereFrag.glsl", "Shaders/SphereVertex.glsl", Camera);
 		for (int z = -1; z < 0; z++)
 		{
@@ -194,20 +201,17 @@ int main()
 
 
 					//Cube2.AddToList(x, y, z,1,1,1);
-					//Cube.AddToList(x, y, z, 1, 1, 1);
-					LightingTest.AddToList(x, y, z, 1, 1, 1);
+					Cube.AddToList(x, y, z, 1, 1, 1);
+					//LightingTest.AddToList(x, y, z, 1, 1, 1);
 				}
 			}
 		}
 
 		Cube.AddToList(0, 0, 0, 1, 1, 1);
-		LightingTest.AddToList(0, 0, 0, 1, 1, 1);
-		gui.AddToList(&Cube);
-	//	gui.AddToList(&Cube2);
-		//gui.AddToList(&Cube3);
-		//gui.AddToList(&Cube4);
-		gui.AddToList(&LightingTest);
-	//	gui.AddToList(&Sphere);
+	//	LightingTest.AddToList(0, 0, 0, 1, 1, 1);
+
+
+	
 
 		do {
 			Object::time = glfwGetTime();
@@ -274,18 +278,10 @@ int main()
 
 */
 	
+			//Draw all objects 
+			std::launch::async, DrawAll();
 			
-			
-			 Cube.DrawList();
-
-			// Cube2.DrawList();
 		
-
-			// Cube3.DrawList();
-			// Cube4.DrawList();
-			 LightingTest.DrawList();
-			// Cube2.DrawList();
-		//	 Sphere.DrawList();
 			//ImGui Window Terminator
 			gui.render();
 			gui.RenderEnder();

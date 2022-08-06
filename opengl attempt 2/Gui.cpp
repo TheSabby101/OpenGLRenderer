@@ -5,21 +5,21 @@ MyGui::MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();(void)io;
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 430 core");
+	ImGui_ImplOpenGL3_Init("#version 450 core");
 
-	
+
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-	
+
 	io.ConfigWindowsResizeFromEdges = true;
 	//io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 	ImGui::GetMouseCursor();
 
-	
-	
+
+
 	SetStyle();
 }
 
@@ -38,7 +38,7 @@ void MyGui::Init()
 
 	ImGui::NewFrame();
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
-	
+
 }
 
 void MyGui::render()
@@ -48,10 +48,10 @@ void MyGui::render()
 
 void MyGui::MakeWindow()
 {
-	
+
 	//ImGui::SetNextWindowBgAlpha(0.9f);
-	
-	
+
+
 	static int x = 0;
 	static int y = 0;
 	static int z = 0;
@@ -65,22 +65,25 @@ void MyGui::MakeWindow()
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.2, 0.2, 0.2, 0.7f });
 	ImGui::Begin("Placement");
 	ImGui::PopStyleColor(0);
-	ImGui::Text("Wouldnt it be great if this worked");     
-	ImGui::SliderInt("X", &x, -100, 100);  
+	ImGui::Text("Wouldnt it be great if this worked");
+	ImGui::SliderInt("X", &x, -100, 100);
 	ImGui::SliderInt("Y", &y, -100, 100);
-	ImGui::SliderInt("Z", &z, -100, 100); 
+	ImGui::SliderInt("Z", &z, -100, 100);
 
 	ImGui::SliderFloat("W", &w, 0.1f, 100.0f);
 	ImGui::SliderFloat("H", &h, 0.1f, 100.0f);
 	ImGui::SliderFloat("D", &d, 0.1f, 100.0f);
 	ImGui::NewLine();
 	ImGui::SliderFloat("FOV", &Camera::fov, 20.0f, 120.0f);
+	ImGui::NewLine();
 
 
-	for (int i = 0; i < Objectlist.size()-1; i++)
+
+
+	for (int i = 0; i < Object::Objectlist.size() - 1; i++)
 	{
-		ImGui::Checkbox(Objectlist[i]->OBJName, &Objectlist[i]->ShaderRef->LinkStatusbool);
-		for (int i = 0; i < Objectlist.size() - 1; i++)
+		ImGui::Checkbox(Object::Objectlist[i]->OBJName, &Object::Objectlist[i]->ShaderRef->LinkStatusbool);
+		for (int i = 0; i < Object::Objectlist.size() - 1; i++)
 		{
 			//ImGui::Text("%i Passed", Objectlist[i]->any_samples_passed);
 
@@ -88,23 +91,23 @@ void MyGui::MakeWindow()
 
 	}
 
-	ImGui::SliderInt("LoadShape", &LoadShape, -0, Objectlist.size()-2);
-	
-	
-	if (ImGui::Button("Place"))                            
+	ImGui::SliderInt("LoadShape", &LoadShape, -0, Object::Objectlist.size() - 2);
+
+
+	if (ImGui::Button("Place"))
 	{
-		Objectlist[LoadShape]->AddToList(x, y, z,w,h,d);
+		Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
 	}
-	
+
 	X = x;
 	Y = y;
 	Z = z;
-	
+
 	W = w;
 	H = h;
 	D = d;
-	
-	
+
+
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 	///
@@ -130,15 +133,15 @@ void MyGui::RenderEnder()
 	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
+/*
 void MyGui::AddToList(Object* obj)
 {
-	
+
 	Objectlist[ObjectCount] = obj;
 	Objectlist.emplace_back();
 	ObjectCount++;
 }
-
+*/
 void MyGui::Docking()
 {
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
