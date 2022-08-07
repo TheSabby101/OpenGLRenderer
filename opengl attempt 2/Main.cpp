@@ -119,7 +119,7 @@ int main()
 
 	if (!glfwInit())
 	{
-		std::cout <<  "Failed to initialize GLFW\n";
+		std::cout << "Failed to initialize GLFW\n";
 
 	}
 
@@ -130,10 +130,10 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // dont use old OpenGL 
 
 	// Open a window and create its OpenGL context
-	GLFWwindow* window; 
+	GLFWwindow* window;
 	window = glfwCreateWindow(ScreenWidth, ScreenHeight, "OpenGL", NULL, NULL);
 	if (window == NULL) {
-		std::cout <<  "Failed to open GLFW window.\n";
+		std::cout << "Failed to open GLFW window.\n";
 		glfwTerminate();
 
 	}
@@ -143,11 +143,11 @@ int main()
 	glEnable(GL_CULL_FACE);
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) {
-		std::cout <<  "Failed to initialize GLEW" << std::endl;
+		std::cout << "Failed to initialize GLEW" << std::endl;
 
 	}
-	
-	
+
+
 	//Escape key to exit the program
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
@@ -155,15 +155,15 @@ int main()
 	float screenspace = 0;
 
 
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 
-		//std::cout << GL_MAX_DRAW_BUFFERS << std::endl; std::cout << GL_DRAW_BUFFER << std::endl;
-		
-		
-		glEnable(GL_DEPTH_TEST);
-		double prevTime = glfwGetTime();
-		Camera Camera(prevTime, glm::vec3(0.0f, 0.0f, 2.0f), (unsigned int&)ScreenWidth,(unsigned int&)ScreenHeight);
+	//std::cout << GL_MAX_DRAW_BUFFERS << std::endl; std::cout << GL_DRAW_BUFFER << std::endl;
+
+
+	glEnable(GL_DEPTH_TEST);
+	double prevTime = glfwGetTime();
+	Camera Camera(prevTime, glm::vec3(0.0f, 0.0f, 2.0f), (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
 
 
@@ -174,28 +174,29 @@ int main()
 	//Cube2.SetCoord(0.0f, 0.0f, -1.0f);
 	//Cube.SetCoord(0.0f, 0.0f, 3.0f);
 	//Cube3.SetColour(1.0f, 1.0f, 0.0f, 0.5f);
-		const wchar_t* path = L"res/rat.wav";
-		//PlaySound(path,NULL,SND_ASYNC);
-
-	
-		MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
-	
-		
-		
-		int x = 1;
-		int y = 1;
+	const wchar_t* path = L"res/rat.wav";
+	//PlaySound(path,NULL,SND_ASYNC);
 
 
-		Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
-		Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+
+
+	int x = 1;
+	int y = 1;
+
+	//Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	//	Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	//	Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+
+		//Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		//Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
 		//Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
 		//Object Sphere("Sphere", "Shaders/SphereFrag.glsl", "Shaders/SphereVertex.glsl", Camera);
 
 
+	for (int i = -1; i < 10; i++)
 
 		for (int z = -1; z < 0; z++)
 		{
@@ -206,13 +207,16 @@ int main()
 
 
 					//Cube2.AddToList(x, y, z,1,1,1);
-					Lava.AddToList(x, y, z, 1, 1, 1);
+					//Lava.AddToList(x, y, z, 1, 1, 1);
 					//LightingTest.AddToList(x, y, z, 1, 1, 1);
+					//Grass.InstanceCoordinates[i].x = x;
+					//Grass.InstanceCoordinates[i].x = y;
+					//Grass.InstanceCoordinates[i].x = z;
 				}
 			}
 		}
 
-		//CraftingBench.AddToList(0, 0, 0, 1, 1, 1);
+		Grass.AddToList(0, 0, 0, 1, 1, 1);
 	//	LightingTest.AddToList(0, 0, 0, 1, 1, 1);
 
 

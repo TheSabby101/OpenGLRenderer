@@ -21,3 +21,14 @@
 #include "res/3rd party/imgui.h"
 #include "res/3rd party/imgui_impl_glfw.h"
 #include "res/3rd party/imgui_impl_opengl3.h"
+
+
+struct ObjectV4
+{
+	float x, y, z, w;
+	ObjectV4(float inx, float iny, float inz, float inw)
+		:x(inx), y(iny), z(inz), w(inw)
+	{
+
+	}
+};

@@ -6,6 +6,7 @@
 #include "Textures.h"
 
 
+
 class VAO
 {
 private:
@@ -29,4 +30,5 @@ public:
 	void UnBind();
 	void update(VertexBuffer& VB, VertexArray& VA, Shader& Shader, Textures& Texture);
 	void update(VertexBuffer& VB, VertexArray& VA, Shader& Shader);
+	void AddAttribute(int vao, int vbo, int attribute, int size, int datalength, int offset);
 };

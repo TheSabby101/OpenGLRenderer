@@ -43,9 +43,8 @@ private:
 		}
 	};
 
-	
-
 public:
+	
 	
 	inline static float AtlasX, AtlasY;
 	inline static float AtlasSize = 256.0f;
@@ -55,35 +54,35 @@ public:
 	{
 		
 		// X    Y    z							 Texture Coords													Normals
-		 0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY*TextureSize / AtlasSize,  			   0.0f,0.5f,0.8f, //bottom right front	   //Front Face
-		-0.5f,-0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,AtlasY* TextureSize/AtlasSize, 		  0.0f,0.5f,0.8f, //bottom left front	   //Front Face
-		-0.5f, 0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,(AtlasY+1)*TextureSize/AtlasSize,			 0.0f,0.5f,0.8f, //top left front		   //Front Face
-		 0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize/AtlasSize, 		   0.0f,0.5f,0.8f, //top right front	   //Front Face
+		 0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY*TextureSize / AtlasSize,  				 0.0f,0.5f,0.8f, //bottom right front //Front Face	 
+		-0.5f,-0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,AtlasY* TextureSize/AtlasSize, 			 0.0f,0.5f,0.8f, //bottom left front	//Front Face 
+		-0.5f, 0.5f, 0.5f,   (AtlasX + 1)*TextureSize / AtlasSize,(AtlasY+1)*TextureSize/AtlasSize,			 0.0f,0.5f,0.8f, //top left front	 //Front Face	 
+		 0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize/AtlasSize, 			 0.0f,0.5f,0.8f, //top right front	   //Front Face	 
 
 	    -0.5f,-0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			 0.0f,0.5f,0.8f, //bottom right back    //Back Face
-		 0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.8f, //bottom left back	   //Back Face
-		 0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.8f, //top left back		   //Back Face
-		-0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		  0.0f,0.5f,0.8f, //top right back	   //Back Face
+		 0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 		 0.0f,0.5f,0.8f, //bottom left back	   //Back Face
+		 0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 0.0f,0.5f,0.8f, //top left back		   //Back Face
+		-0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		 0.0f,0.5f,0.8f, //top right back	   //Back Face
 
-		 0.5f,-0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,0.5f,0.0f, //bottom right back	   //Right Face
-		 0.5f,-0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.0f, //bottom right front	   //Right Face
-		 0.5f, 0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.0f, //top right front	   //Right Face
-		 0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		 0.0f,0.5f,0.0f, //top right back	       //Right Face
+		 0.5f,-0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			 0.0f,0.5f,0.0f, //bottom right back	   //Right Face
+		 0.5f,-0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 		 0.0f,0.5f,0.0f, //bottom right front	   //Right Face
+		 0.5f, 0.5f, 0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize, 	 0.0f,0.5f,0.0f, //top right front	   //Right Face
+		 0.5f, 0.5f,-0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,0.5f,0.0f, //top right back	       //Right Face
 
-		-0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,0.5f,0.0f, //bottom left front	   //Left Face
-		-0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,0.5f,0.0f, //bottom left back	   //Left Face
-		-0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,0.5f,0.0f, //top left back	       //Left Face
-		-0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,			0.0f,0.5f,0.0f, //top left front	       //Left Face
+		-0.5f,-0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  		 	 0.0f,0.5f,0.0f, //bottom left front	   //Left Face
+		-0.5f,-0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	 	 0.0f,0.5f,0.0f, //bottom left back	   //Left Face
+		-0.5f, 0.5f,-0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize, 	 0.0f,0.5f,0.0f, //top left back	       //Left Face
+		-0.5f, 0.5f, 0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,0.5f,0.0f, //top left front	       //Left Face
 
-	    0.5f, 0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,1.0f,0.0f, //top right front	   //Top Face
-	   -0.5f, 0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,1.0f,0.0f, //top left front		   //Top Face
-	   -0.5f, 0.5f, -0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,1.0f,0.0f, //top left back		   //Top Face
-		0.5f, 0.5f, -0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,			0.0f,1.0f,0.0f, //top right back		   //Top Face
+	    0.5f, 0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  		 	 0.0f,1.0f,0.0f, //top right front	   //Top Face
+	   -0.5f, 0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	 	 0.0f,1.0f,0.0f, //top left front		   //Top Face
+	   -0.5f, 0.5f, -0.5f,   (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize, 	 0.0f,1.0f,0.0f, //top left back		   //Top Face
+		0.5f, 0.5f, -0.5f,    AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,1.0f,0.0f, //top right back		   //Top Face
 		
-       -0.5f,-0.5f,-0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  			0.0f,-1.0f,0.0f,  //bottom left back	   //Bottom Face
-		0.5f,-0.5f,-0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	    0.0f,-1.0f,0.0f, //bottom right back	   //Bottom Face
-		0.5f,-0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,   0.0f,-1.0f,0.0f, //bottom right front      //Bottom Face
-	   -0.5f,-0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,		 0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
+       -0.5f,-0.5f,-0.5f,     AtlasX* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize,  		 	 0.0f,-1.0f,0.0f,  //bottom left back	   //Bottom Face
+		0.5f,-0.5f,-0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,AtlasY* TextureSize / AtlasSize, 	 	 0.0f,-1.0f,0.0f, //bottom right back	   //Bottom Face
+		0.5f,-0.5f, 0.5f,    (AtlasX + 1)* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize, 	 0.0f,-1.0f,0.0f, //bottom right front      //Bottom Face
+	   -0.5f,-0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
 	};
 
 
@@ -186,8 +185,33 @@ struct texCoords
 
 
 
-	
-	
+	unsigned int MeshInstances = 4;
+	//std::vector<glm::mat4> InstanceMatrix = {};
+
+	//x z y
+
+	/*
+	std::vector<glm::vec4> InstanceCoordinates
+	{
+	glm::vec4{ 1.0f,1.0f,0.0f,0.0f },
+	glm::vec4{ 1.0f,1.0f,1.0f,0.0f },
+	glm::vec4{ 1.0f,7.0f,2.0f,0.0f },
+	glm::vec4{ 1.0f,1.0f,3.0f,0.0f },
+	glm::vec4{ 1.0f,1.0f,4.0f,0.0f }
+	};
+	*/
+
+	std::vector<ObjectV4> InstanceCoordinates
+	{
+		ObjectV4{ 1.0f,1.0f,1.0f,1.0f },
+		ObjectV4{ 1.0f,1.0f,1.0f,1.0f },
+		ObjectV4{ 1.0f,7.0f,2.0f,1.0f },
+		ObjectV4{ 1.0f,1.0f,3.0f,1.0f },
+		ObjectV4{ 1.0f,1.0f,4.0f,1.0f }
+
+	};
+
+
 	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
 	Object(const char* Name,Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
 	Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
@@ -200,7 +224,7 @@ struct texCoords
 	void Draw(); 
 	void DrawList();
 	void Remove(int i);
-	void DrawAt(float X, float Y, float Z, float W, float H, float D);
+	void DrawAt(float X, float Y, float Z, float W, float H, float D, int DrawCount);
 
 	
 

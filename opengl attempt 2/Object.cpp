@@ -11,10 +11,28 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	int Attempts = 1;
 
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-
+	//VertexBuffer* VBOinstance = new VertexBuffer(InstanceCoordinates);
 	VertexArray* Array = new VertexArray;
-
 	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+
+
+	//if (MeshInstances != 1)
+	//{
+	//	VBOinstance->Bind();
+	//
+	//	Array->LinkAttrib(*VBOinstance, 4, 3, GL_FLOAT, sizeof(glm::vec3), (void*)0);
+	//	Array->LinkAttrib(*VBOinstance, 5, 3, GL_FLOAT, sizeof(glm::vec3), (void*)(1* sizeof(glm::vec3)));
+	//	Array->LinkAttrib(*VBOinstance, 6, 3, GL_FLOAT, sizeof(glm::vec3), (void*)(2* sizeof(glm::vec3)));
+	//
+	//	glVertexAttribDivisor(4, 1);
+	//	glVertexAttribDivisor(5, 1);
+	//	glVertexAttribDivisor(6, 1);
+	//	
+	//}
+	
+
+	//InstanceCoordinates.push_back(trans * rot * scale);
+
 	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
 	
 	VB->Bind();	Array->Bind();
@@ -22,7 +40,7 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
-
+	VB->Add(InstanceCoordinates);
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
 	{
@@ -44,6 +62,10 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 			VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
 			object = object2;
 			ShaderRef = ShaderObject;
+
+			//VB->Add(3 * MeshInstances);
+			//object->AddAttribute(Array->arrayrenderID, (int)VB->RendererID, 1, 3, 3, 0);
+
 			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms1i("Texture", 0);
 			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
@@ -51,6 +73,7 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
 			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+
 			object->UnBind();
 			rerun = false;
 			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
@@ -68,10 +91,10 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	bool rerun = true;
 	int Attempts = 1;
 
-	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
 
 	VertexArray* Array = new VertexArray;
-
+	
 	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
 	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
 
@@ -80,6 +103,17 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
+
+	if (MeshInstances != 1)
+	{
+		//VertexArray* ArrayInstance = new VertexArray;
+		//VBinstance->Bind(); //ArrayInstance->Bind();
+	//	VertexBufferLayout* LayoutObjectInstance = new VertexBufferLayout;
+		//LayoutObjectInstance->PushFloat(3);
+	//	Array->AddBuffer(*VBinstance, *LayoutObjectInstance);
+
+		//glVertexAttribDivisor(3, 1);
+	}
 
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
@@ -199,12 +233,15 @@ void Object::Draw()
 
 
 // Draws at a location
-void Object::DrawAt(float X, float Y, float Z, float W, float H, float D)
+void Object::DrawAt(float X, float Y, float Z, float W, float H, float D,int DrawCount)
 {
 	//Bind();
-	ShaderRef->SetUniforms3f("scale", W, H, D);
-	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
-	std::launch::async, glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
+	//ShaderRef->SetUniforms3f("scale", W, H, D);
+	//ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
+
+
+	std::launch::async, glDrawElementsInstanced(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr, DrawCount);
+
 }
 
 void Object::SetColour(float R, float G, float B, float Transparency)
@@ -268,8 +305,8 @@ void Object::DrawList()
 
 		for (size_t i = 0; i < DrawIndex.size(); i++)
 		{
-			std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
-
+			//std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
+			DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth, MeshInstances);
 		}
 
 
