@@ -1,90 +1,27 @@
 #include "Object.h"
 
 
+
+
+//Initialiser for Texutred Objects
 Object::Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
 	:ID(glCreateProgram()),Cam(CamRef),Width(CamRef.width),Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
 {
 	bool rerun = true;
 	int Attempts = 1;
-		VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-		VertexArray* Array = new VertexArray;
-		VertexBufferLayout* LayoutObject = new VertexBufferLayout;
-		LayoutObject->PushFloat(3);
-		LayoutObject->PushFloat(2);
-		LayoutObject->PushFloat(3);
-		VB->Bind();
-		Array->Bind();
-		IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
-		Array->AddBuffer(*VB, *LayoutObject);
 
-
-
-		//Due to shaders constantly failing to link, i redo this every time it fails
-		while (rerun)
-		{
-		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
-		ShaderObject->Bind();
-	    Textures* Texture2 = new Textures(FilePath);
-		Texture2->Bind();
-		//texCoords coords;
-
-
-		VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
-	
-
-		//object->UnBind();
-		if (!ShaderObject->LinkStatus)
-		{
-		//	std::cout << OBJName << " Failed to link shader \n";
-			delete ShaderObject;
-			delete object2;
-			delete Texture2;
-			Attempts++;
-		}
-		else
-		{
-			object = object2;
-			ShaderRef = ShaderObject;
-			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
-			//ShaderRef->SetUniforms2fv("texturecoords", 1, (coords.a, coords.b));
-			ShaderRef->SetUniforms1i("Texture", 0);
-			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
-			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
-			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
-			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
-			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
-		
-			rerun = false;
-			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
-		}
-	}
-	//::cout << ID  << std::endl;
-		AddToListGui();
-		ObjectDrawList.push_back(this);
-}
-
-Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
-{
-
-
-	GetBlockType(blocktype);
-
-
-	bool rerun = true;
-	int Attempts = 1;
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+
 	VertexArray* Array = new VertexArray;
+
 	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
-	LayoutObject->PushFloat(3);
-	LayoutObject->PushFloat(2);
-	LayoutObject->PushFloat(3);
-	VB->Bind();
-	Array->Bind();
+	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
+	
+	VB->Bind();	Array->Bind();
+	
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+
 	Array->AddBuffer(*VB, *LayoutObject);
-
-
 
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
@@ -93,34 +30,86 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 		ShaderObject->Bind();
 		Textures* Texture2 = new Textures(FilePath);
 		Texture2->Bind();
-		//texCoords coords;
 
 
-		VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
-
-
-		//object->UnBind();
 		if (!ShaderObject->LinkStatus)
 		{
-			//	std::cout << OBJName << " Failed to link shader \n";
+		//	std::cout << OBJName << " Failed to link shader \n";
 			delete ShaderObject;
-			delete object2;
 			delete Texture2;
 			Attempts++;
 		}
 		else
 		{
+			VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
 			object = object2;
 			ShaderRef = ShaderObject;
 			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
-			//ShaderRef->SetUniforms2fv("texturecoords", 1, (coords.a, coords.b));
 			ShaderRef->SetUniforms1i("Texture", 0);
 			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
 			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
 			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+			object->UnBind();
+			rerun = false;
+			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
+		}
+	}
 
+	AddToListGui();
+	ObjectDrawList.push_back(this);
+}
+//Initialiser for objects using a texture atlas
+Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
+	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
+{
+	GetBlockType(blocktype);
+	bool rerun = true;
+	int Attempts = 1;
+
+	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
+
+	VertexArray* Array = new VertexArray;
+
+	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
+
+	VB->Bind();	Array->Bind();
+
+	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+
+	Array->AddBuffer(*VB, *LayoutObject);
+
+	//Due to shaders constantly failing to link, i redo this every time it fails
+	while (rerun)
+	{
+		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
+		ShaderObject->Bind();
+		Textures* Texture2 = new Textures(FilePath);
+		Texture2->Bind();
+
+	
+		if (!ShaderObject->LinkStatus)
+		{
+			//	std::cout << OBJName << " Failed to link shader \n";
+			delete ShaderObject;
+			delete Texture2;
+			Attempts++;
+		}
+		else
+		{
+			VAO* object2 = new VAO(*VB, *Array, *ShaderObject, *Texture2);
+			object = object2;
+			ShaderRef = ShaderObject;
+			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms1i("Texture", 0);
+			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
+			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+			object->UnBind();
 			rerun = false;
 			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
 		}
@@ -129,23 +118,12 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	AddToListGui();
 	ObjectDrawList.push_back(this);
 }
-
+//Initialiser for textureless Objects
 Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
 	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height),OBJName(Name), textureColorbuffer(0)
 {
 	int Attempts = 1;
 	bool rerun = true;
-	/*
-		VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-		VertexArray* Array = new VertexArray;
-		VertexBufferLayout* LayoutObject = new VertexBufferLayout;
-		LayoutObject->PushFloat(3);
-		LayoutObject->PushFloat(2);
-		VB->Bind();
-		Array->Bind();
-		IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
-		Array->AddBuffer(*VB, *LayoutObject);
-		*/
 	
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
 	VB->Bind();
@@ -199,15 +177,15 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 
 Object::~Object()
 {
-	//delete ShaderRef;
-	
-
+	delete ShaderRef;
 }
 
+
+
+//Binds the VAO
 void Object::Bind()
 {
 	object->Bind();
-	
 }
 
 
@@ -220,69 +198,13 @@ void Object::Draw()
 }
 
 
+// Draws at a location
 void Object::DrawAt(float X, float Y, float Z, float W, float H, float D)
 {
-	//queer.Begin();
 	//Bind();
 	ShaderRef->SetUniforms3f("scale", W, H, D);
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
-	
-
-	//glGenQueries(3, QID);
-
-//	glBeginQuery(GL_ANY_SAMPLES_PASSED, QID[1]);
-	
-
-	//glBeginQuery(GL_ANY_SAMPLES_PASSED_CONSERVATIVE, QID[2]);
-
-
-		//glEndQuery(GL_ANY_SAMPLES_PASSED);
-	
-	//glGetQueryObjectiv(GL_SAMPLES_PASSED, GL_QUERY_RESULT, &any_samples_passed);
-
-	//glEndQuery(GL_ANY_SAMPLES_PASSED_CONSERVATIVE);
-
-	//std::cout << any_samples_passed << "\n";
-
-	
-
-	//std::future<bool> Futures = std::launch::async,RTest.Begin();
-	//std::vector<std::future<int>> ran;
-	//ran.push_back(std::async(std::launch::async,RTest.Begin()));
-	//std::future<int> f = std::launch::async,&Query::Begin, std::ref(RTest));
-	//int i = Begin();
-
-//	std::future<void> foo = std::async(std::launch::async, Begin);
-   // auto a1 = std::async(RTest.Begin);
-
-	//Begin();
-//	if (RTest.any_samples_passed)
-//	{
-//		std::cout << "woo" << std::endl;
-	   // queer.End();
-	//	glBeginConditionalRender(queer.any_samples_passed, GL_QUERY_BY_REGION_NO_WAIT);
-	//	if (queer.any_samples_passed)
-	//	{
-			std::launch::async, glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
-			//glEndConditionalRender();
-	//	}
-	//	queer.any_samples_passed = 0;
-		
-		
-//}
-//	else if(!*RTest.any_samples_passed)
-//	{
-//	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
-	//std::cout << "fuck" << std::endl;
-//	}
-
-	//auto ret = a1.get();
-	//auto a2 = std::async(RTest.End);
-	//auto ret2 = a2.get();
-	//End();
-	
-	//glDeleteQueries(3, QID);
-	
+	std::launch::async, glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 }
 
 void Object::SetColour(float R, float G, float B, float Transparency)
@@ -291,6 +213,8 @@ void Object::SetColour(float R, float G, float B, float Transparency)
 
 }
 
+
+//sets the objects coordinates
 void Object::SetCoord(float x, float y, float z)
 {
 	X = x;
@@ -299,13 +223,17 @@ void Object::SetCoord(float x, float y, float z)
 }
 
 
+// Moves objecct
+/*
 void Object::Move(float x, float y, float z)
 {
 	X = x;
 	Y = y;
 	Z = z;
 }
+*/
 
+//Adds this object to the GUI's placment selecter
 void Object::AddToListGui()
 {
 	Objectlist[ObjectCount] = this;
@@ -313,19 +241,24 @@ void Object::AddToListGui()
 	ObjectCount++;
 }
 
+
+//Adds an object location and scale into the draw list
 void Object::AddToList(float X, float Y, float Z,float W,float H, float D)
 {
 	ObjectV3 V3(X, Y, Z, W, H,D);
 	DrawIndex.push_back(V3);
 }
 
+
+// inputs for shadertoy compatability go here
 void Object::ShaderToy()
 {
 	ShaderRef->SetUniforms3f("iResolution", (float)Width, (float)Height, (float)Width* (float)Height);
 	ShaderRef->SetUniforms1f("iTime", time);
-	//std::cout << glfwGetTime() << std::endl;
 }
 
+
+//draws this object at each location in the draw list
 void Object::DrawList()
 {
 	//if(ShaderRef->LinkStatus)
@@ -381,36 +314,14 @@ void Object::DrawList()
 	//}
 }
 
-/*
-void Object::GenQueries()
+void Object::Remove(int i)
 {
-	if (any_samples_passed)
-		glGenQueries(1, &Test);
-}
-
-int Object::Begin()
-{
-	GenQueries();
-	glBeginQuery(GL_SAMPLES_PASSED, Test);
-	return 0;
-}
-
-void Object::End()
-{
-
-	glEndQuery(GL_SAMPLES_PASSED);
-	glGetQueryiv(GL_SAMPLES_PASSED, GL_QUERY_RESULT_AVAILABLE, &any_samples_passed);
-	//glGetQueryObjectiv(Test, GL_QUERY_RESULT_AVAILABLE, &any_samples_passed);
+	if(DrawIndex.size()!=0)
+	DrawIndex.erase(DrawIndex.begin()+i);
 }
 
 
-
-
-
-*/
-
-
-
+//sets the texture coordinates for all sizes of a cube
 void Object::AtlasMapper()
 {
 	int one = 3, two = 11, three = 19, four = 27;
@@ -435,7 +346,7 @@ void Object::AtlasMapper()
 	}
 }
 
-
+//sets the texture coordinates per face of a cube, this is used for objects that dont use the same texture for every size
 void Object::AtlasMapperPerFace(BlockFace face)
 {
 
@@ -459,6 +370,7 @@ void Object::AtlasMapperPerFace(BlockFace face)
 	
 }
 
+//Gets the texture coordinates of a cube from a texture atlas
 void Object::GetBlockType(Block blocktype)
 {
 	switch (blocktype)
@@ -530,42 +442,58 @@ void Object::GetBlockType(Block blocktype)
 	}
 }
 
-
-
-
-//old stack implement, didnt work
-/*
-Object::Object(const char* FilePath, const char* FragmentPath, const char* VertexPath)
-	:shader(VertexPath, FragmentPath), Texture(FilePath), vb(VertexBufferData, sizeof(VertexBufferData) * 4), IB(Indices, sizeof(Indices)), ID(0), object(vb, va, shader, Texture)
+void Object::MoveInputs(GLFWwindow* window)
+{
+	
+	int x = ObjectDrawList[1]->X;
+	int y = ObjectDrawList[1]->Y;
+if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 50)
 {
 
-	layout.PushFloat(3);
-	layout.PushFloat(2);
-	vb.Bind();
-	va.Bind();
-	va.AddBuffer(vb, layout);
-	shader.Bind();
-	Texture.Bind();
-	shader.SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
-	shader.SetUniforms1i("Texture", 0);
-	shader.SetUniforms3f("coordinates", 0.0f, 0.0f, 2.0f);
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE)
+	{
+		x++;
 
+		Move(ObjectDrawList[1]->X +=1, ObjectDrawList[1]->Y, 1.0f);
+		
 
-	shader.UnBind();
-	Texture.UnBind();
-	vb.Unbind();
-	va.Unbind();
+	}
+
 }
-*/
-
-//no longer needed after swapping to references
-/*
-void Object::Resize()
+if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && x > -50)
 {
 
-	Cam.Projection = glm::perspective(glm::radians(Cam.fov), ((float)Width / (float)Height), 0.1f, 1000.0f);
-	//Cam.width = Width;
-	//Cam.height = Height;
-	ShaderRef->UniformMatrix4fv("CamMat", (Cam.Projection/(float)Width) * Cam.View);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE)
+	{
+		x--;
+		Move(ObjectDrawList[1]->X -=1, ObjectDrawList[1]->Y, 1.0f);
+		
+
+	}
+
 }
-*/
+if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && y>-50)
+{
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE)
+	{
+		y--;
+		Move(ObjectDrawList[1]->X, ObjectDrawList[1]->Y -=1, 1.0f);
+		
+
+	}
+
+}
+if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && y < 50)
+{
+
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE)
+	{
+		y++;
+		Move(ObjectDrawList[1]->X, ObjectDrawList[1]->X +=1, 1.0f);
+	
+	}
+}
+
+
+}

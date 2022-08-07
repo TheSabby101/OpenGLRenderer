@@ -60,12 +60,14 @@ void MyGui::MakeWindow()
 	static float h = 1.0f;
 	static float d = 1.0f;
 
+	static int ObjectIndex = 0;
+
 	static int ObjectNumber = 0;
 	bool truetho = true;
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.2, 0.2, 0.2, 0.7f });
 	ImGui::Begin("Placement");
 	ImGui::PopStyleColor(0);
-	ImGui::Text("Wouldnt it be great if this worked");
+	ImGui::Text("I Cant Believe its Not Butter");
 	ImGui::SliderInt("X", &x, -100, 100);
 	ImGui::SliderInt("Y", &y, -100, 100);
 	ImGui::SliderInt("Z", &z, -100, 100);
@@ -75,8 +77,7 @@ void MyGui::MakeWindow()
 	ImGui::SliderFloat("D", &d, 0.1f, 100.0f);
 	ImGui::NewLine();
 	ImGui::SliderFloat("FOV", &Camera::fov, 20.0f, 120.0f);
-	ImGui::NewLine();
-
+	
 
 
 
@@ -90,14 +91,45 @@ void MyGui::MakeWindow()
 		}
 
 	}
-
+	
 	ImGui::SliderInt("LoadShape", &LoadShape, -0, Object::Objectlist.size() - 2);
+
+
+	
+
+	ImGui::NewLine();
+
+	ImGui::Text(Object::Objectlist[LoadShape]->OBJName);
+
+	if (Object::Objectlist[LoadShape]->DrawIndex.size() > 0)
+	ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 0.0f, Object::Objectlist[LoadShape]->DrawIndex.size()-1);
+
+	if(ObjectIndex > Object::Objectlist[LoadShape]->DrawIndex.size() - 1)
+	ObjectIndex = Object::Objectlist[LoadShape]->DrawIndex.size() - 1;
+
+	if (Object::Objectlist[LoadShape]->DrawIndex.size() > 0)
+	{
+		ImGui::Text("%f X", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].x);
+		ImGui::Text("%f Y", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].y);
+		ImGui::Text("%f Z", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].z);
+	}
+
 
 
 	if (ImGui::Button("Place"))
 	{
 		Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
 	}
+	if (ImGui::Button("Remove"))
+	{
+		Object::Objectlist[LoadShape]->Remove(ObjectIndex);
+		//if(ObjectIndex > Object::Objectlist[LoadShape]->DrawIndex.size() - 1)
+		//ObjectIndex -= 1;
+	}
+	
+
+
+
 
 	X = x;
 	Y = y;
@@ -151,13 +183,20 @@ void MyGui::SetStyle()
 {
 	ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
-	//ImGui::PopStyleColor(0);
-	//ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 12.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 12.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 12.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, 7.0f);
-	//ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-	//ImGui::PopStyleVar(0);
+#ifdef NDEBUG
+
+
+	
+	ImGui::PopStyleColor(0);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 12.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 12.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 12.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, 7.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+	//ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+	//ImGui::SetNextItemWidth(ImGui::GetFontSize() * 80);
+	ImGui::PopStyleVar(0);
+#endif // release
 }

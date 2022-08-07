@@ -43,9 +43,10 @@ private:
 		}
 	};
 
-	std::vector<ObjectV3> DrawIndex;
+	
 
 public:
+	
 	inline static float AtlasX, AtlasY;
 	inline static float AtlasSize = 256.0f;
 	inline static float TextureSize = 16.0f;
@@ -86,7 +87,6 @@ public:
 	};
 
 
-public:
 struct texCoords 
 	{
 	const float a[2]{0.0, 0.0};
@@ -156,11 +156,11 @@ struct texCoords
 	3,2,4
 	};
 
-public:
+
 
 	inline static enum Block { grass, dirt, sand,craftingbench,furnace,lava};
 
-
+	std::vector<ObjectV3> DrawIndex;
 	inline static std::vector<Object*> Objectlist{ 0 };
 	inline static int ObjectCount = 0;
 	inline static double time;
@@ -199,9 +199,10 @@ public:
 
 	void Draw(); 
 	void DrawList();
+	void Remove(int i);
 	void DrawAt(float X, float Y, float Z, float W, float H, float D);
 
-	void Move(float X, float Y, float Z);
+	
 
 	void AddToListGui();
 	void AddToList(float X, float Y, float Z, float W, float H, float D);
@@ -210,12 +211,9 @@ public:
 	void AtlasMapper();
 	void AtlasMapperPerFace(BlockFace);
 	void GetBlockType(Block blocktype);
-	/////////////////////////////
-	////       Old Code		/////
-	////////////////////////////
-	//void GenQueries();
-	//int Begin();
-	//void End();
+
+	inline static void Move(float X, float Y, float Z);
+	inline static void MoveInputs(GLFWwindow* window);
 };
 
 

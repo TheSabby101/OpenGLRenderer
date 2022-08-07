@@ -1,20 +1,36 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(514,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (opengl attempt 2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  LoadShader2.cpp
+  Camera.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\LoadShader2.cpp(90,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+  Gui.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(161): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(67,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(95,77): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(105,106): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(105,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(108,67): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(121,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(121,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(121,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(134,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(135,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(136,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Main.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(198,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(198,32): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Main.cpp(198,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(161): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(209,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(209,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(209,21): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Object.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Object.cpp(247,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  VertexBuffer.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\HELP5\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(161): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(257,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(448,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(449,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(500,1): warning C4506: no definition for inline function 'void Object::Move(float,float,float)'
   Generating Code...
-  opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\HELP5\x64\Debug\OpenGLRenderer.exe
+  opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\OpenGLRenderer\x64\Debug\OpenGLRenderer.exe

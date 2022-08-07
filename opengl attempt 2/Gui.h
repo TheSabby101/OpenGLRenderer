@@ -26,9 +26,6 @@ public:
 	unsigned int& width;
 	unsigned int& height;
 
-	//Object* Objectlist[50];
-
-
 
 
 	MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height);
@@ -39,7 +36,6 @@ public:
 	void MakeWindow();
 	void MakeViewport();
 	void RenderEnder();
-	//void AddToList(Object* obj);
 	void Docking();
 	void SetStyle();
 };
