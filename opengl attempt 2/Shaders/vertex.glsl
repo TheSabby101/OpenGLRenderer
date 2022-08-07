@@ -5,9 +5,9 @@ layout(location = 1)in vec2 texturecoords;
 layout(location = 2)in vec3 normals;
 //layout(location = 3)in vec3 instanceMat;
 
-layout(std140) buffer SSBO
+layout(std140, binding=3) buffer SSBO
 {
-  vec4 Coordsin;
+  vec4 Coordsin[];
 };
 
 
@@ -29,10 +29,10 @@ void main()
 {
 
 
-	Coords = vec3(Coordsin.x,Coordsin.y,Coordsin.z);
+	Coords = Coordsin[gl_InstanceID].xyz;
 	CurrentPosition = vec3(CamPos * vec4(positions, 1.0));
 	v_TexCoord = texturecoords+TextureOffset;
 	OutNormals = normals;
-	gl_Position = CamMat * vec4((positions * scale) + Coordsin.xyz, 1.0);
+	gl_Position = CamMat * vec4((positions * scale) + Coords, 1.0);
 
 }

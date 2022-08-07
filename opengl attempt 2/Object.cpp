@@ -27,16 +27,16 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	//	glVertexAttribDivisor(4, 1);
 	//	glVertexAttribDivisor(5, 1);
 	//	glVertexAttribDivisor(6, 1);
-	//	
+	//
 	//}
-	
+
 
 	//InstanceCoordinates.push_back(trans * rot * scale);
 
 	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
-	
+
 	VB->Bind();	Array->Bind();
-	
+
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
@@ -94,7 +94,7 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
 
 	VertexArray* Array = new VertexArray;
-	
+
 	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
 	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
 
@@ -103,6 +103,7 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
+	VB->Add(InstanceCoordinates);
 
 	if (MeshInstances != 1)
 	{
@@ -123,7 +124,7 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 		Textures* Texture2 = new Textures(FilePath);
 		Texture2->Bind();
 
-	
+
 		if (!ShaderObject->LinkStatus)
 		{
 			//	std::cout << OBJName << " Failed to link shader \n";
@@ -158,7 +159,7 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 {
 	int Attempts = 1;
 	bool rerun = true;
-	
+
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
 	VB->Bind();
 	VertexArray* Array = new VertexArray;
@@ -175,9 +176,9 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 	{
 		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
 		ShaderObject->Bind();
-	
-	
-	
+
+
+
 		if (!ShaderObject->LinkStatus)
 		{
 			//std::cout << OBJName << " Failed to link shader \n";
@@ -189,7 +190,7 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 		}
 		else
 		{
-			
+
 			rerun = false;
 			VAO* object2 = new VAO(*VB, *Array, *ShaderObject);
 			object = object2;
@@ -388,13 +389,13 @@ void Object::AtlasMapperPerFace(BlockFace face)
 {
 
 	int one = 3, two = 11, three = 19, four = 27;
-	
-		
+
+
 			one += (32 * face);
 			two += (32 * face);
 			three += (32 * face);
 			four += (32 * face);
-		
+
 
 		VertexBufferData[one] = AtlasX * TextureSize / AtlasSize;
 		VertexBufferData[one + 1] = AtlasY * TextureSize / AtlasSize;
@@ -404,7 +405,7 @@ void Object::AtlasMapperPerFace(BlockFace face)
 		VertexBufferData[three + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
 		VertexBufferData[four] = AtlasX * TextureSize / AtlasSize;
 		VertexBufferData[four + 1] = (AtlasY + 1) * TextureSize / AtlasSize;
-	
+
 }
 
 //Gets the texture coordinates of a cube from a texture atlas
@@ -481,7 +482,7 @@ void Object::GetBlockType(Block blocktype)
 
 void Object::MoveInputs(GLFWwindow* window)
 {
-	
+
 	int x = ObjectDrawList[1]->X;
 	int y = ObjectDrawList[1]->Y;
 if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 50)
@@ -492,7 +493,7 @@ if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && x < 50)
 		x++;
 
 		Move(ObjectDrawList[1]->X +=1, ObjectDrawList[1]->Y, 1.0f);
-		
+
 
 	}
 
@@ -504,7 +505,7 @@ if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && x > -50)
 	{
 		x--;
 		Move(ObjectDrawList[1]->X -=1, ObjectDrawList[1]->Y, 1.0f);
-		
+
 
 	}
 
@@ -516,7 +517,7 @@ if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && y>-50)
 	{
 		y--;
 		Move(ObjectDrawList[1]->X, ObjectDrawList[1]->Y -=1, 1.0f);
-		
+
 
 	}
 
@@ -528,7 +529,7 @@ if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && y < 50)
 	{
 		y++;
 		Move(ObjectDrawList[1]->X, ObjectDrawList[1]->X +=1, 1.0f);
-	
+
 	}
 }
 
