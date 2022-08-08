@@ -10,28 +10,10 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	bool rerun = true;
 	int Attempts = 1;
 
-	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData) * 4);
-	//VertexBuffer* VBOinstance = new VertexBuffer(InstanceCoordinates);
+	VertexBuffer* VB = new VertexBuffer(VertexBufferDataNoAtlas, sizeof(VertexBufferData) * 4);
+
 	VertexArray* Array = new VertexArray;
 	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
-
-
-	//if (MeshInstances != 1)
-	//{
-	//	VBOinstance->Bind();
-	//
-	//	Array->LinkAttrib(*VBOinstance, 4, 3, GL_FLOAT, sizeof(glm::vec3), (void*)0);
-	//	Array->LinkAttrib(*VBOinstance, 5, 3, GL_FLOAT, sizeof(glm::vec3), (void*)(1* sizeof(glm::vec3)));
-	//	Array->LinkAttrib(*VBOinstance, 6, 3, GL_FLOAT, sizeof(glm::vec3), (void*)(2* sizeof(glm::vec3)));
-	//
-	//	glVertexAttribDivisor(4, 1);
-	//	glVertexAttribDivisor(5, 1);
-	//	glVertexAttribDivisor(6, 1);
-	//
-	//}
-
-
-	//InstanceCoordinates.push_back(trans * rot * scale);
 
 	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
 
@@ -63,9 +45,6 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 			object = object2;
 			ShaderRef = ShaderObject;
 
-			//VB->Add(3 * MeshInstances);
-			//object->AddAttribute(Array->arrayrenderID, (int)VB->RendererID, 1, 3, 3, 0);
-
 			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms1i("Texture", 0);
 			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
@@ -73,7 +52,6 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
 			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
-
 			object->UnBind();
 			rerun = false;
 			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
@@ -82,6 +60,7 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 
 	AddToListGui();
 	ObjectDrawList.push_back(this);
+	BatchDrawIndex.push_back(this);
 }
 //Initialiser for objects using a texture atlas
 Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
@@ -104,17 +83,6 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 
 	Array->AddBuffer(*VB, *LayoutObject);
 	VB->Add(InstanceCoordinates);
-
-	if (MeshInstances != 1)
-	{
-		//VertexArray* ArrayInstance = new VertexArray;
-		//VBinstance->Bind(); //ArrayInstance->Bind();
-	//	VertexBufferLayout* LayoutObjectInstance = new VertexBufferLayout;
-		//LayoutObjectInstance->PushFloat(3);
-	//	Array->AddBuffer(*VBinstance, *LayoutObjectInstance);
-
-		//glVertexAttribDivisor(3, 1);
-	}
 
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
@@ -149,65 +117,66 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
 		}
 	}
-	//::cout << ID  << std::endl;
+
 	AddToListGui();
 	ObjectDrawList.push_back(this);
+	BatchDrawIndex.push_back(this);
 }
 //Initialiser for textureless Objects
 Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
 	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height),OBJName(Name), textureColorbuffer(0)
 {
-	int Attempts = 1;
 	bool rerun = true;
+	int Attempts = 1;
 
 	VertexBuffer* VB = new VertexBuffer(VertexBufferData, sizeof(VertexBufferData));
-	VB->Bind();
+
 	VertexArray* Array = new VertexArray;
-	Array->Bind();
-	VertexBufferLayout LayoutObject;
-	LayoutObject.PushFloat(3);	LayoutObject.PushFloat(2);	LayoutObject.PushFloat(3);
-	IndexBuffer* LightIndexBuffer =  new IndexBuffer(Indices, 36);
-	Array->AddBuffer(*VB, LayoutObject);
+
+	VertexBufferLayout* LayoutObject = new VertexBufferLayout;
+	LayoutObject->PushFloat(3);	LayoutObject->PushFloat(2);	LayoutObject->PushFloat(3);
+
+	VB->Bind();	Array->Bind();
+
+	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
+
+	Array->AddBuffer(*VB, *LayoutObject);
+	VB->Add(InstanceCoordinates);
 
 	//Due to shaders constantly failing to link, i redo this every time it fails
-
-
 	while (rerun)
 	{
 		Shader* ShaderObject = new Shader(VertexPath, FragmentPath);
 		ShaderObject->Bind();
-
-
-
+		
 		if (!ShaderObject->LinkStatus)
 		{
-			//std::cout << OBJName << " Failed to link shader \n";
-			//delete VB;
-			//delete Array;
-			//delete LightIndexBuffer;
+			//	std::cout << OBJName << " Failed to link shader \n";
 			delete ShaderObject;
+
 			Attempts++;
 		}
 		else
 		{
-
-			rerun = false;
 			VAO* object2 = new VAO(*VB, *Array, *ShaderObject);
 			object = object2;
 			ShaderRef = ShaderObject;
 			ShaderRef->SetUniforms4f("u_colour", 1.0f, 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms1i("Texture", 0);
 			ShaderRef->SetUniforms3f("scale", 1.0f, 1.0f, 1.0f);
 			ShaderRef->SetUniforms3f("coordinates", 0.0f, 0.0f, 1.0f);
-			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
+			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.0f, 0.0f);
 			ShaderRef->SetUniforms3f("objectColor", 1.0f, 1.0f, 1.0f);
-			ShaderRef->SetUniforms3f("LightPos", 0.0f, 0.5f, 1.0f);
-			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
+			ShaderRef->SetUniforms3f("lightColor", 1.0f, 1.0f, 1.0f);
 			object->UnBind();
+			rerun = false;
+			std::cout << OBJName << " Linked after " << Attempts << " Attempts \n";
 		}
-		//std::cout << ID << std::endl;
 	}
+
 	AddToListGui();
 	ObjectDrawList.push_back(this);
+	BatchDrawIndex.push_back(this);
 }
 
 Object::~Object()
@@ -234,14 +203,12 @@ void Object::Draw()
 
 
 // Draws at a location
-void Object::DrawAt(float X, float Y, float Z, float W, float H, float D,int DrawCount)
+void Object::DrawAt(float X, float Y, float Z, float W, float H, float D)
 {
 	//Bind();
-	//ShaderRef->SetUniforms3f("scale", W, H, D);
-	//ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
-
-
-	std::launch::async, glDrawElementsInstanced(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr, DrawCount);
+	ShaderRef->SetUniforms3f("scale", W, H, D);
+	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
+	std::launch::async, glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 
 }
 
@@ -285,6 +252,8 @@ void Object::AddToList(float X, float Y, float Z,float W,float H, float D)
 {
 	ObjectV3 V3(X, Y, Z, W, H,D);
 	DrawIndex.push_back(V3);
+	//InstanceCoordinates.push_back(
+	
 }
 
 
@@ -299,18 +268,13 @@ void Object::ShaderToy()
 //draws this object at each location in the draw list
 void Object::DrawList()
 {
-	//if(ShaderRef->LinkStatus)
-	//{
 		Bind();
 		ShaderToy();
-
 		for (size_t i = 0; i < DrawIndex.size(); i++)
 		{
 			//std::launch::async, DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
-			DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth, MeshInstances);
+			DrawAt(DrawIndex[i].x, DrawIndex[i].y, DrawIndex[i].z, DrawIndex[i].Width, DrawIndex[i].Height, DrawIndex[i].Depth);
 		}
-
-
 		/*
 		for (size_t i = 0; i < DrawIndex.size()/16; i += 16)
 		{
@@ -349,14 +313,51 @@ void Object::DrawList()
 		}
 		*/
 		Cam.Matrix(*ShaderRef, Width, Height);
-	//}
 }
 
 void Object::Remove(int i)
 {
 	if(DrawIndex.size()!=0)
 	DrawIndex.erase(DrawIndex.begin()+i);
+	MeshInstances--;
 }
+
+
+void Object::BatchDraw()
+{
+	Bind();
+	ShaderToy();
+	
+	std::launch::async, glDrawElementsInstanced(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr, MeshInstances);
+	
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ObjectV4) * InstanceCoordinates.size(), InstanceCoordinates.data(), GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, object->LocalVB.RendererID[1]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	Cam.Matrix(*ShaderRef, Width, Height);
+}
+
+
+void Object::BatchAddToList(float inX, float inY, float inZ)
+{
+	
+
+
+	ObjectV4 V4( inX, inY, -inZ,1.0 );
+	InstanceCoordinates.push_back(V4);
+	MeshInstances++;
+
+}
+
+
+void Object::BatchRemove(int i)
+{
+	if (MeshInstances != 0)
+	{
+		InstanceCoordinates.erase(InstanceCoordinates.begin() + i);
+		MeshInstances--;
+	}
+}
+
 
 
 //sets the texture coordinates for all sizes of a cube

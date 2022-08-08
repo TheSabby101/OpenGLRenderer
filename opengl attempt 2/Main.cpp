@@ -112,7 +112,17 @@ void DrawAll()
 	}
 
 }
+void BatchDrawAll()
+{
+	for (size_t i = 0; i < Object::BatchDrawIndex.size(); i++)
+	{
+		Object::BatchDrawIndex[i]->BatchDraw();
 
+	}
+
+
+
+}
 
 int main()
 {
@@ -185,22 +195,20 @@ int main()
 	int x = 1;
 	int y = 1;
 
-	//Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+	Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
 	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-	//	Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-	//	Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
 
-		//Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		//Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		//Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
+		Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
+		Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
 		//Object Sphere("Sphere", "Shaders/SphereFrag.glsl", "Shaders/SphereVertex.glsl", Camera);
 
 
-	for (int i = -1; i < 10; i++)
-
-		for (int z = -1; z < 0; z++)
+		for (int z = -50; z < 50; z++)
 		{
-			for (int y = -50; y < 50; y++)
+			for (int y = -1; y < 0; y++)
 			{
 				for (int x = -50; x < 50; x++)
 				{
@@ -209,17 +217,15 @@ int main()
 					//Cube2.AddToList(x, y, z,1,1,1);
 					//Lava.AddToList(x, y, z, 1, 1, 1);
 					//LightingTest.AddToList(x, y, z, 1, 1, 1);
-					//Grass.InstanceCoordinates[i].x = x;
-					//Grass.InstanceCoordinates[i].x = y;
-					//Grass.InstanceCoordinates[i].x = z;
+					Grass.BatchAddToList(x, y, z);
 				}
 			}
 		}
 
-		Grass.AddToList(0, 0, 0, 1, 1, 1);
+		//Grass.AddToList(0, 0, 0, 1, 1, 1);
 	//	LightingTest.AddToList(0, 0, 0, 1, 1, 1);
-
-
+//	Grass.BatchAddToList(1.0f, 1.0f, 2.0f);
+//	Grass.BatchAddToList(2.0f, 2.0f, 2.0f);
 	
 
 		do {
@@ -236,9 +242,8 @@ int main()
 			
 	
 			//Draw all objects 
-			std::launch::async, DrawAll();
-			
-		
+			//std::launch::async, DrawAll();
+			BatchDrawAll();
 			//ImGui Window Terminator
 			gui.render();
 			gui.RenderEnder();

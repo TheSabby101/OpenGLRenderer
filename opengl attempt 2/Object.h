@@ -85,10 +85,45 @@ public:
 	   -0.5f,-0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
 	};
 
+	inline static float VertexBufferDataNoAtlas[192]
+	{
+
+		// X    Y    z							 Texture Coords													Normals
+		 0.5f,-0.5f, 0.5f,   0.0f, 0.0f,    	 0.0f,0.5f,0.8f, //bottom right front //Front Face	 
+		-0.5f,-0.5f, 0.5f,   1.0f, 0.0f,    	 0.0f,0.5f,0.8f, //bottom left front	//Front Face 
+		-0.5f, 0.5f, 0.5f,   1.0f, 1.0f,    		 0.0f,0.5f,0.8f, //top left front	 //Front Face	 
+		 0.5f, 0.5f, 0.5f,   0.0f, 1.0f,    	 0.0f,0.5f,0.8f, //top right front	   //Front Face	 
+							    
+		-0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom right back    //Back Face
+		 0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom left back	   //Back Face
+		 0.5f, 0.5f,-0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.8f, //top left back		   //Back Face
+		-0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.8f, //top right back	   //Back Face
+							    
+		 0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right back	   //Right Face
+		 0.5f,-0.5f, 0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right front	   //Right Face
+		 0.5f, 0.5f, 0.5f,   1.0f, 1.0f,    	 0.0f,0.5f,0.0f, //top right front	   //Right Face
+		 0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top right back	       //Right Face
+							    
+		-0.5f,-0.5f, 0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left front	   //Left Face
+		-0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left back	   //Left Face
+		-0.5f, 0.5f,-0.5f,   1.0f, 1.0f,    	 0.0f,0.5f,0.0f, //top left back	       //Left Face
+		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top left front	       //Left Face
+							     
+		0.5f, 0.5f, 0.5f,    0.0f, 0.0f,     0.0f,1.0f,0.0f, //top right front	   //Top Face
+	   -0.5f, 0.5f, 0.5f,    1.0f, 0.0f,     0.0f,1.0f,0.0f, //top left front		   //Top Face
+	   -0.5f, 0.5f, -0.5f,   1.0f, 1.0f,    	 0.0f,1.0f,0.0f, //top left back		   //Top Face
+		0.5f, 0.5f, -0.5f,   0.0f, 1.0f,     0.0f,1.0f,0.0f, //top right back		   //Top Face
+							   
+	   -0.5f,-0.5f,-0.5f,    0.0f, 0.0f,     0.0f,-1.0f,0.0f,  //bottom left back	   //Bottom Face
+		0.5f,-0.5f,-0.5f,    1.0f, 0.0f,     0.0f,-1.0f,0.0f, //bottom right back	   //Bottom Face
+		0.5f,-0.5f, 0.5f,    1.0f, 1.0f,    	 0.0f,-1.0f,0.0f, //bottom right front      //Bottom Face
+	   -0.5f,-0.5f, 0.5f,    0.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
+	};
+
 
 struct texCoords 
 	{
-	const float a[2]{0.0, 0.0};
+	const float a[2] {0.0, 0.0};
 	const float b[2]{ 1.0, 0.0 };
 	const float c[2]{ 1.0, 1.0 };
 	const float d[2]{ 0.0, 1.0 };
@@ -98,36 +133,8 @@ struct texCoords
 
 
 	};
-	float Plane[16] =
-	{0.0f,0.0f,		   0.0f, 0.0f,
-	 1.0f,0.0f,		   1.0f, 1.0f,
-	 1.0f,1.0f,		   1.0f, 0.0f,
-	 0.0f,1.0f,		   0.0f, 1.0f
-	};
 
-	/*
-	inline static const GLuint Indices[36] = {
 
-	0, 1, 3,
-	3, 1, 2,
-
-	1, 5, 2,
-	2, 5, 6,
-
-	5, 4, 6,
-	6, 4, 7,
-
-	4, 0, 7,
-	7, 0, 3,
-
-	3, 2, 7,
-	7, 2, 6,
-
-	4, 5, 0,
-	0, 5, 1
-
-	};
-	*/
 	inline static const GLuint Indices[36] = {
 
 		0,1,2,
@@ -150,9 +157,16 @@ struct texCoords
 
 	};
 
+	float Plane[16] =
+	{ 0.0f,0.0f,		   0.0f, 0.0f,
+	 1.0f,0.0f,		   1.0f, 1.0f,
+	 1.0f,1.0f,		   1.0f, 0.0f,
+	 0.0f,1.0f,		   0.0f, 1.0f
+	};
+
 	GLuint PlaneIndices[6] = {
-	1,2,3,
-	3,2,4
+	0,1,2,
+	2,3,0,
 	};
 
 
@@ -164,6 +178,8 @@ struct texCoords
 	inline static int ObjectCount = 0;
 	inline static double time;
 	inline static std::vector< Object*> ObjectDrawList;
+	inline static std::vector< Object*> BatchDrawIndex;
+
 
 	const char* OBJName;
 	unsigned int textureColorbuffer;
@@ -185,31 +201,8 @@ struct texCoords
 
 
 
-	unsigned int MeshInstances = 4;
-	//std::vector<glm::mat4> InstanceMatrix = {};
-
-	//x z y
-
-	/*
-	std::vector<glm::vec4> InstanceCoordinates
-	{
-	glm::vec4{ 1.0f,1.0f,0.0f,0.0f },
-	glm::vec4{ 1.0f,1.0f,1.0f,0.0f },
-	glm::vec4{ 1.0f,7.0f,2.0f,0.0f },
-	glm::vec4{ 1.0f,1.0f,3.0f,0.0f },
-	glm::vec4{ 1.0f,1.0f,4.0f,0.0f }
-	};
-	*/
-
-	std::vector<ObjectV4> InstanceCoordinates
-	{
-		ObjectV4{ 1.0f,1.0f,1.0f,1.0f },
-		ObjectV4{ 1.0f,1.0f,1.0f,1.0f },
-		ObjectV4{ 1.0f,7.0f,2.0f,1.0f },
-		ObjectV4{ 1.0f,1.0f,3.0f,1.0f },
-		ObjectV4{ 1.0f,1.0f,4.0f,1.0f }
-
-	};
+	unsigned int MeshInstances = 0;
+	std::vector<ObjectV4> InstanceCoordinates{};
 
 
 	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
@@ -224,7 +217,10 @@ struct texCoords
 	void Draw(); 
 	void DrawList();
 	void Remove(int i);
-	void DrawAt(float X, float Y, float Z, float W, float H, float D, int DrawCount);
+	void BatchDraw();
+	void BatchAddToList(float X, float Y, float Z);
+	void BatchRemove(int i);
+	void DrawAt(float X, float Y, float Z, float W, float H, float D);
 
 	
 

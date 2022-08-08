@@ -78,8 +78,10 @@ void MyGui::MakeWindow()
 	ImGui::NewLine();
 	ImGui::SliderFloat("FOV", &Camera::fov, 20.0f, 120.0f);
 	
-
-
+	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
+	{
+		//	Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex-1].w = 1.0;
+	}
 
 	for (int i = 0; i < Object::Objectlist.size() - 1; i++)
 	{
@@ -101,28 +103,36 @@ void MyGui::MakeWindow()
 
 	ImGui::Text(Object::Objectlist[LoadShape]->OBJName);
 
-	if (Object::Objectlist[LoadShape]->DrawIndex.size() > 0)
-	ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 0.0f, Object::Objectlist[LoadShape]->DrawIndex.size()-1);
-
-	if(ObjectIndex > Object::Objectlist[LoadShape]->DrawIndex.size() - 1)
-	ObjectIndex = Object::Objectlist[LoadShape]->DrawIndex.size() - 1;
-
-	if (Object::Objectlist[LoadShape]->DrawIndex.size() > 0)
+	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
 	{
-		ImGui::Text("%f X", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].x);
-		ImGui::Text("%f Y", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].y);
-		ImGui::Text("%f Z", Object::Objectlist[LoadShape]->DrawIndex[ObjectIndex].z);
+		ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 1, Object::Objectlist[LoadShape]->MeshInstances);
+		//Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex-1].w = 0.8;
+	}
+
+	if(ObjectIndex > Object::BatchDrawIndex[LoadShape]->MeshInstances)
+	ObjectIndex = Object::BatchDrawIndex[LoadShape]->MeshInstances;
+
+	if (ObjectIndex == 0 )
+		ObjectIndex = 1;
+	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
+	{
+		ImGui::Text("%f X", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].x);
+		ImGui::Text("%f Y", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].y);
+		ImGui::Text("%f Z", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].z);
 	}
 
 
+	
 
 	if (ImGui::Button("Place"))
 	{
-		Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
+	//	Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
+		Object::Objectlist[LoadShape]->BatchAddToList(x, y, z);
 	}
 	if (ImGui::Button("Remove"))
 	{
-		Object::Objectlist[LoadShape]->Remove(ObjectIndex);
+		if(ObjectIndex !=0)
+		Object::Objectlist[LoadShape]->BatchRemove(ObjectIndex-1);
 		//if(ObjectIndex > Object::Objectlist[LoadShape]->DrawIndex.size() - 1)
 		//ObjectIndex -= 1;
 	}
@@ -139,10 +149,11 @@ void MyGui::MakeWindow()
 	H = h;
 	D = d;
 
+	
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
-	///
+	
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
 	ImGui::PopStyleColor(0);
 }
@@ -161,19 +172,11 @@ void MyGui::MakeViewport()
 
 void MyGui::RenderEnder()
 {
-
 	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
-/*
-void MyGui::AddToList(Object* obj)
-{
 
-	Objectlist[ObjectCount] = obj;
-	Objectlist.emplace_back();
-	ObjectCount++;
-}
-*/
+
 void MyGui::Docking()
 {
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());

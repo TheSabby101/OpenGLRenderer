@@ -9,7 +9,8 @@
 
 class VAO
 {
-private:
+//private:
+public:
 	unsigned int ID;
 	bool TexUsed = false;
 	VertexBuffer& LocalVB;
@@ -19,7 +20,7 @@ private:
 	unsigned int* LocalRBO = 0;
 	
 
-public:
+
 	
 	VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader, Textures& Texture);
 	VAO(VertexBuffer& VB, VertexArray& VA, Shader& Shader, unsigned int& RBO);

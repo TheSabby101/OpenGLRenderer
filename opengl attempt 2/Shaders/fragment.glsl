@@ -3,10 +3,11 @@ layout(location = 0)out vec4 fragColor;
 
 
 
-
 in vec2 v_TexCoord;
 in vec3 OutNormals;
 in vec3 CurrentPosition;
+in vec3 Coords;
+in float Highlight;
 
 out vec4 Colour;
 out vec2 uv;
@@ -19,7 +20,6 @@ uniform vec3 iResolution;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 uniform vec3 LightPos;
-//uniform vec2 texturecoords;
 
 uniform vec3 CamPos;
 uniform sampler2D Texture;
@@ -29,11 +29,11 @@ void main()
 {
 
    float ambientbase = 0.2;
-   vec3 OutNormals = normalize(OutNormals-coordinates);
-   vec3 lightDirection = normalize(LightPos +coordinates);
+   vec3 OutNormals = normalize(OutNormals-Coords);
+   vec3 lightDirection = normalize(LightPos +Coords);
    float diffuse = max(dot(OutNormals, lightDirection), 0.0);
    float speclight = 0.5;
-   vec3 viewDirection = normalize(coordinates - CamPos);
+   vec3 viewDirection = normalize(Coords - CamPos);
    vec3 reflectionDirection = reflect(-lightDirection, OutNormals);
    float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0), 8);
    float specular = specAmount * speclight;
