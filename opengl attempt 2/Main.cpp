@@ -184,13 +184,13 @@ int main()
 	MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
 	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	//Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	//Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
 	//Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
 	//Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
 	//Object LightingTest("LightingTest", "Shaders/LightingFragment.frag", "Shaders/LightingVertex.vert", Camera);
 	//Object Sphere("Sphere", "Shaders/SphereFrag.frag", "Shaders/SphereVertex.vert", Camera);
-	Object Cube("Cube", "res/DebugFolder/test5.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object Cube("Cube", "res/DebugFolder/test5.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
 
 		for (int y = -1; y < 0; y++)
 		{

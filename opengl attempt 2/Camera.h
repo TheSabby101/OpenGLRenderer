@@ -17,11 +17,18 @@ private:
 
 	
 public:
+
+	double MouseX;
+	double MouseY;
+
 	inline static float fov = 90.0f;
 	unsigned int& width;
 	unsigned int& height;
+
+	glm::mat4 MousePos = glm::mat4(1.0f);
 	glm::mat4 Projection = glm::mat4(1.0f);
 	glm::mat4 View = glm::mat4(1.0f);
+
 	Camera(double prevTime, glm::vec3 position, unsigned int &Width, unsigned int &Height);
 	void Matrix(Shader& shader, unsigned int Width, unsigned int Height);
 	void inputs(GLFWwindow* window);

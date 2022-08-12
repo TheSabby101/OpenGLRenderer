@@ -37,6 +37,8 @@ public:
 	unsigned int& width;
 	unsigned int& height;
 
+
+
 	MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height);
 	~MyGui();
 

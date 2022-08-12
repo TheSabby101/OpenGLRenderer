@@ -15,10 +15,17 @@ void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
 		PrevTime = crntTime;
 
 	}
+	
+
 
 	View = glm::lookAt(Position, Position + Orientation, Up);
 	Projection = glm::perspective(glm::radians(fov), ((float)width /(float)height), 0.1f, 1000.0f);
 
+	//MousePos = glm::perspective(glm::radians(fov), ((float)MouseX / (float)MouseY), 0.1f, 1000.0f);
+
+	
+
+	//shader.UniformMatrix4fv("MousePos", MousePos);
 	shader.UniformMatrix4fv("CamPos", Projection);
 	shader.UniformMatrix4fv("CamMat", Projection * View);
 }
@@ -117,8 +124,11 @@ void Camera::inputs(GLFWwindow* window)
 		// Rotates the Orientation left and right
 		Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
 
+		glfwGetCursorPos(window, &MouseX, &MouseY);
+
 		// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
 		glfwSetCursorPos(window, (width / 2), (height / 2));
+		
 	}
 	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
 	{
