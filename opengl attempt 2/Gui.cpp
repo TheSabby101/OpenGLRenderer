@@ -21,6 +21,7 @@ MyGui::MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height)
 
 
 	SetStyle();
+	
 }
 
 MyGui::~MyGui()
@@ -44,7 +45,62 @@ void MyGui::Init()
 void MyGui::render()
 {
 	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
+void MyGui::Highlight()
+{
+//	This old code checks if the value has changed before changing it, but it was determined to be slower than just changing the value anyway;
+
+//	if (!Stop)
+//	{
+//		if (Object::Objectlist[LoadShape]->MeshInstances > 0)
+//		{
+//			Resets object back to original size
+//			if(changed)
+//			Object::Objectlist[LoadShape]->InstanceCoordinates[a].w = 1.0;
+//			a = ObjectIndex - 1;
+//
+//			Sets object size
+//			ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 1, Object::Objectlist[LoadShape]->MeshInstances);
+//			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 0.8;
+//			b = ObjectIndex - 1;
+//			//std::cout << a  << " " <<  b << std::endl;
+//
+//		}
+//	}
+//	if (a != b)
+//	{
+//		changed = true;
+//		std::cout << "changed";
+//	}
+//	else
+//		changed = false;
+
+
+
+
+
+
+
+
+
+
+	if (!Stop)
+	{
+		if (Object::Objectlist[LoadShape]->MeshInstances > 0)
+		{
+//			Resets object back to original size
+			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 1.0;
+		
+
+//			Sets object size
+			ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 1, Object::Objectlist[LoadShape]->MeshInstances);
+			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 0.8;
+
+		}
+	}
+}
+
 
 void MyGui::MakeWindow()
 {
@@ -60,10 +116,8 @@ void MyGui::MakeWindow()
 	static float h = 1.0f;
 	static float d = 1.0f;
 
-	static int ObjectIndex = 0;
 
-	static int ObjectNumber = 0;
-	bool truetho = true;
+
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.2, 0.2, 0.2, 0.7f });
 	ImGui::Begin("Placement");
 	ImGui::PopStyleColor(0);
@@ -76,54 +130,59 @@ void MyGui::MakeWindow()
 	ImGui::SliderFloat("H", &h, 0.1f, 100.0f);
 	ImGui::SliderFloat("D", &d, 0.1f, 100.0f);
 	ImGui::NewLine();
+
 	ImGui::SliderFloat("FOV", &Camera::fov, 20.0f, 120.0f);
 	
-	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
-	{
-		//	Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex-1].w = 1.0;
-	}
-
-	for (int i = 0; i < Object::Objectlist.size() - 1; i++)
-	{
-		ImGui::Checkbox(Object::Objectlist[i]->OBJName, &Object::Objectlist[i]->ShaderRef->LinkStatusbool);
-		for (int i = 0; i < Object::Objectlist.size() - 1; i++)
-		{
-			//ImGui::Text("%i Passed", Objectlist[i]->any_samples_passed);
-
-		}
-
-	}
-	
-	ImGui::SliderInt("LoadShape", &LoadShape, -0, Object::Objectlist.size() - 2);
-
-
 	
 
+//	for (int i = 0; i < Object::Objectlist.size() - 1; i++)
+//	{
+//		ImGui::Checkbox(Object::Objectlist[i]->OBJName, &Object::Objectlist[i]->ShaderRef->LinkStatusbool);
+//		for (int i = 0; i < Object::Objectlist.size() - 1; i++)
+//		{
+//			ImGui::Text("%i Passed", Objectlist[i]->any_samples_passed);
+//
+//		}
+//
+//	}
+
+
+	ImGui::SliderInt("LoadShape", &LoadShape, 0, Object::Objectlist.size() - 2);
 	ImGui::NewLine();
 
 	ImGui::Text(Object::Objectlist[LoadShape]->OBJName);
 
-	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
-	{
-		ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 1, Object::Objectlist[LoadShape]->MeshInstances);
-		//Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex-1].w = 0.8;
-	}
+
+	
 
 	if(ObjectIndex > Object::BatchDrawIndex[LoadShape]->MeshInstances)
 	ObjectIndex = Object::BatchDrawIndex[LoadShape]->MeshInstances;
 
+	//Highlight();
+
+	
 	if (ObjectIndex == 0 )
 		ObjectIndex = 1;
 	if (Object::Objectlist[LoadShape]->MeshInstances > 0)
 	{
 		ImGui::Text("%f X", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].x);
 		ImGui::Text("%f Y", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].y);
-		ImGui::Text("%f Z", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].z);
+		ImGui::Text("%f Z", -Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].z);
 	}
 
+	if (!Stop)
+	{
+		if (Object::Objectlist[LoadShape]->MeshInstances > 0)
+		{
+			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 1.0;
+		}
+	}
 
+//	Increases the size of the object by 20% to make it clear what you have selected
+	Highlight();
 	
 
+//	Places and removes selected objects based on their index
 	if (ImGui::Button("Place"))
 	{
 	//	Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
@@ -140,7 +199,6 @@ void MyGui::MakeWindow()
 
 
 
-
 	X = x;
 	Y = y;
 	Z = z;
@@ -149,13 +207,12 @@ void MyGui::MakeWindow()
 	H = h;
 	D = d;
 
-	
-
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 	
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
 	ImGui::PopStyleColor(0);
+
 }
 
 void MyGui::MakeViewport()

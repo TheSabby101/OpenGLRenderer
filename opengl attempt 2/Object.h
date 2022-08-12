@@ -89,49 +89,44 @@ public:
 	{
 
 		// X    Y    z							 Texture Coords													Normals
-		 0.5f,-0.5f, 0.5f,   0.0f, 0.0f,    	 0.0f,0.5f,0.8f, //bottom right front //Front Face	 
-		-0.5f,-0.5f, 0.5f,   1.0f, 0.0f,    	 0.0f,0.5f,0.8f, //bottom left front	//Front Face 
-		-0.5f, 0.5f, 0.5f,   1.0f, 1.0f,    		 0.0f,0.5f,0.8f, //top left front	 //Front Face	 
-		 0.5f, 0.5f, 0.5f,   0.0f, 1.0f,    	 0.0f,0.5f,0.8f, //top right front	   //Front Face	 
+		 0.5f,-0.5f, 0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom right front	 //Front Face	 
+		-0.5f,-0.5f, 0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom left front	 //Front Face 
+		-0.5f, 0.5f, 0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.8f, //top left front		 //Front Face	 
+		 0.5f, 0.5f, 0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.8f, //top right front		 //Front Face	 
 							    
-		-0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom right back    //Back Face
-		 0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom left back	   //Back Face
-		 0.5f, 0.5f,-0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.8f, //top left back		   //Back Face
-		-0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.8f, //top right back	   //Back Face
+		-0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom right back	 //Back Face
+		 0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.8f, //bottom left back		 //Back Face
+		 0.5f, 0.5f,-0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.8f, //top left back		 //Back Face
+		-0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.8f, //top right back		 //Back Face
 							    
-		 0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right back	   //Right Face
-		 0.5f,-0.5f, 0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right front	   //Right Face
-		 0.5f, 0.5f, 0.5f,   1.0f, 1.0f,    	 0.0f,0.5f,0.0f, //top right front	   //Right Face
-		 0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top right back	       //Right Face
+		 0.5f,-0.5f,-0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right back	 //Right Face
+		 0.5f,-0.5f, 0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom right front	 //Right Face
+		 0.5f, 0.5f, 0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.0f, //top right front	     //Right Face
+		 0.5f, 0.5f,-0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top right back	     //Right Face
 							    
-		-0.5f,-0.5f, 0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left front	   //Left Face
-		-0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left back	   //Left Face
-		-0.5f, 0.5f,-0.5f,   1.0f, 1.0f,    	 0.0f,0.5f,0.0f, //top left back	       //Left Face
-		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top left front	       //Left Face
+		-0.5f,-0.5f, 0.5f,   0.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left front	 //Left Face
+		-0.5f,-0.5f,-0.5f,   1.0f, 0.0f,     0.0f,0.5f,0.0f, //bottom left back		 //Left Face
+		-0.5f, 0.5f,-0.5f,   1.0f, 1.0f,     0.0f,0.5f,0.0f, //top left back	     //Left Face
+		-0.5f, 0.5f, 0.5f,   0.0f, 1.0f,     0.0f,0.5f,0.0f, //top left front	     //Left Face
 							     
-		0.5f, 0.5f, 0.5f,    0.0f, 0.0f,     0.0f,1.0f,0.0f, //top right front	   //Top Face
-	   -0.5f, 0.5f, 0.5f,    1.0f, 0.0f,     0.0f,1.0f,0.0f, //top left front		   //Top Face
-	   -0.5f, 0.5f, -0.5f,   1.0f, 1.0f,    	 0.0f,1.0f,0.0f, //top left back		   //Top Face
-		0.5f, 0.5f, -0.5f,   0.0f, 1.0f,     0.0f,1.0f,0.0f, //top right back		   //Top Face
+		0.5f, 0.5f, 0.5f,    0.0f, 0.0f,     0.0f,1.0f,0.0f, //top right front		 //Top Face
+	   -0.5f, 0.5f, 0.5f,    1.0f, 0.0f,     0.0f,1.0f,0.0f, //top left front		 //Top Face
+	   -0.5f, 0.5f, -0.5f,   1.0f, 1.0f,     0.0f,1.0f,0.0f, //top left back		 //Top Face
+		0.5f, 0.5f, -0.5f,   0.0f, 1.0f,     0.0f,1.0f,0.0f, //top right back		 //Top Face
 							   
-	   -0.5f,-0.5f,-0.5f,    0.0f, 0.0f,     0.0f,-1.0f,0.0f,  //bottom left back	   //Bottom Face
-		0.5f,-0.5f,-0.5f,    1.0f, 0.0f,     0.0f,-1.0f,0.0f, //bottom right back	   //Bottom Face
-		0.5f,-0.5f, 0.5f,    1.0f, 1.0f,    	 0.0f,-1.0f,0.0f, //bottom right front      //Bottom Face
-	   -0.5f,-0.5f, 0.5f,    0.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
+	   -0.5f,-0.5f,-0.5f,    0.0f, 0.0f,     0.0f,-1.0f,0.0f, //bottom left back	 //Bottom Face
+		0.5f,-0.5f,-0.5f,    1.0f, 0.0f,     0.0f,-1.0f,0.0f, //bottom right back	 //Bottom Face
+		0.5f,-0.5f, 0.5f,    1.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom right front   //Bottom Face
+	   -0.5f,-0.5f, 0.5f,    0.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom left front	 //Bottom Face
 	};
 
 
 struct texCoords 
 	{
-	const float a[2] {0.0, 0.0};
+	const float a[2]{ 0.0, 0.0 };
 	const float b[2]{ 1.0, 0.0 };
 	const float c[2]{ 1.0, 1.0 };
 	const float d[2]{ 0.0, 1.0 };
-	
-	
-
-
-
 	};
 
 

@@ -162,7 +162,7 @@ int main()
 
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	float screenspace = 0;
+	//float screenspace = 0;
 
 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -177,38 +177,24 @@ int main()
 
 
 
-
-
-	//	Sphere.ShaderRef->SetUniforms2f("Res", 1080.0f, 1080.0f);
-	//Cube2.SetColour(0.6f, 0.3f, 0.4f, 1.0f);
-	//Cube2.SetCoord(0.0f, 0.0f, -1.0f);
-	//Cube.SetCoord(0.0f, 0.0f, 3.0f);
-	//Cube3.SetColour(1.0f, 1.0f, 0.0f, 0.5f);
-	const wchar_t* path = L"res/rat.wav";
+	const wchar_t* path = L"res/DebugFolder/rat.wav";
 	//PlaySound(path,NULL,SND_ASYNC);
 
 
 	MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
+	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	//Object LightingTest("LightingTest", "Shaders/LightingFragment.frag", "Shaders/LightingVertex.vert", Camera);
+	//Object Sphere("Sphere", "Shaders/SphereFrag.frag", "Shaders/SphereVertex.vert", Camera);
+	Object Cube("Cube", "res/DebugFolder/test5.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
 
-
-	int x = 1;
-	int y = 1;
-
-	Object Cube("Cube", "res/test5.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-
-		Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.glsl", "Shaders/vertex.glsl", Camera);
-		Object LightingTest("LightingTest", "Shaders/LightingFragment.glsl", "Shaders/LightingVertex.glsl", Camera);
-		//Object Sphere("Sphere", "Shaders/SphereFrag.glsl", "Shaders/SphereVertex.glsl", Camera);
-
-
-		for (int z = -50; z < 50; z++)
+		for (int y = -1; y < 0; y++)
 		{
-			for (int y = -1; y < 0; y++)
+			for (int z = -50; z< 50; z++)
 			{
 				for (int x = -50; x < 50; x++)
 				{
@@ -221,43 +207,45 @@ int main()
 				}
 			}
 		}
-
-		//Grass.AddToList(0, 0, 0, 1, 1, 1);
-	//	LightingTest.AddToList(0, 0, 0, 1, 1, 1);
-//	Grass.BatchAddToList(1.0f, 1.0f, 2.0f);
-//	Grass.BatchAddToList(2.0f, 2.0f, 2.0f);
 	
-
 		do {
+//			Recieving the loop duration for shader uniforms
 			Object::time = glfwGetTime();
-			// Clear the screen.
+			
+//			Clear the screen.
 			glClearColor(0.25f, 0.4f, 0.7f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			//Poll Camera Inputs
+
+//			Poll Camera Inputs
 			Camera.inputs(window);
-			// ImGui Windows
+
+//			ImGui Windows
 			gui.Init();
 			gui.MakeWindow();
 			//gui.MakeViewport();
 			
-	
-			//Draw all objects 
+//			Draw all non batch objects
 			//std::launch::async, DrawAll();
-			BatchDrawAll();
-			//ImGui Window Terminator
-			gui.render();
-			gui.RenderEnder();
 
-		// Swap buffers
-	     glfwPollEvents();
-		// glfwGetFramebufferSize(window, &ScreenWidth, &ScreenHeight);
-		 glfwGetWindowSize(window,&ScreenWidth,&ScreenHeight);
-		 glViewport(0, 0, ScreenWidth, ScreenHeight);
-		 glfwSwapBuffers(window);
-		
+//			Draw batch objects
+			BatchDrawAll();
+
+//			ImGui Window Terminator
+			gui.render();
+	
+//			Swap buffers
+			glfwPollEvents();
+			glfwGetFramebufferSize(window, &ScreenWidth, &ScreenHeight);
+			glfwGetWindowSize(window,&ScreenWidth,&ScreenHeight);
+			glViewport(0, 0, ScreenWidth, ScreenHeight);
+			glfwSwapBuffers(window);
 		} 
-	// Check if ESC was pressed or if the window was closed
+//	Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
-
+		gui.Stop = true;
+		
+		//delete &gui;
+	
+		
 }
