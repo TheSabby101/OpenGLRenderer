@@ -177,7 +177,7 @@ int main()
 
 
 
-	const wchar_t* path = L"res/DebugFolder/rat.wav";
+	//const wchar_t* path = L"res/DebugFolder/rat.wav";
 	//PlaySound(path,NULL,SND_ASYNC);
 
 

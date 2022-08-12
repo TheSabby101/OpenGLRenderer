@@ -6,3 +6,6 @@ opengl attempt 2/Debug/
 opengl attempt 2/res/DebugFolder/
 opengl attempt 2/x64/Debug/
 opengl attempt 2/x64/Release/
+*.log
+*.pdb
+*.pdb
