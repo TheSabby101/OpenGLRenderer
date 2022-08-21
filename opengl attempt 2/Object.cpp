@@ -4,8 +4,8 @@
 
 
 //Initialiser for Texutred Objects
-Object::Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(glCreateProgram()),Cam(CamRef),Width(CamRef.width),Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
+Object::Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath)
+	:ID(glCreateProgram()),Width(Camera::CamRef->width),Height(Camera::CamRef->height), OBJName(Name), textureColorbuffer(0)
 {
 	bool rerun = true;
 	int Attempts = 1;
@@ -22,7 +22,9 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
-	VB->Add(InstanceCoordinates);
+	VB->Add(InstanceCoordinates,1);
+	//VB->Add(InstanceDimentions, 2);
+
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
 	{
@@ -63,8 +65,8 @@ Object::Object(const char* Name, const char* FilePath, const char* FragmentPath,
 	BatchDrawIndex.push_back(this);
 }
 //Initialiser for objects using a texture atlas
-Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height), OBJName(Name), textureColorbuffer(0)
+Object::Object(const char* Name, Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath)
+	:ID(glCreateProgram()), Width(Camera::CamRef->width), Height(Camera::CamRef->height), OBJName(Name), textureColorbuffer(0)
 {
 	GetBlockType(blocktype);
 	bool rerun = true;
@@ -82,7 +84,8 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
-	VB->Add(InstanceCoordinates);
+	VB->Add(InstanceCoordinates,1);
+//	VB->Add(InstanceDimentions,2);
 
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
@@ -123,8 +126,8 @@ Object::Object(const char* Name, Block blocktype, const char* FilePath, const ch
 	BatchDrawIndex.push_back(this);
 }
 //Initialiser for textureless Objects
-Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef)
-	:ID(glCreateProgram()), Cam(CamRef), Width(CamRef.width), Height(CamRef.height),OBJName(Name), textureColorbuffer(0)
+Object::Object(const char* Name, const char* FragmentPath, const char* VertexPath)
+	:ID(glCreateProgram()), Width(Camera::CamRef->width), Height(Camera::CamRef->height),OBJName(Name), textureColorbuffer(0)
 {
 	bool rerun = true;
 	int Attempts = 1;
@@ -141,8 +144,8 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 	IndexBuffer* LightIndexBuffer = new IndexBuffer(Indices, sizeof(Indices));
 
 	Array->AddBuffer(*VB, *LayoutObject);
-	VB->Add(InstanceCoordinates);
-
+	VB->Add(InstanceCoordinates,1);
+//	VB->Add(InstanceDimentions, 2);
 	//Due to shaders constantly failing to link, i redo this every time it fails
 	while (rerun)
 	{
@@ -181,7 +184,7 @@ Object::Object(const char* Name, const char* FragmentPath, const char* VertexPat
 
 Object::~Object()
 {
-	delete ShaderRef;
+	//delete ShaderRef;
 }
 
 
@@ -196,7 +199,7 @@ void Object::Bind()
 void Object::Draw()
 {
 	//Bind();
-	Cam.Matrix(*ShaderRef,Width,Height);
+	Camera::CamRef->Matrix(*ShaderRef,Width,Height);
 	ShaderRef->SetUniforms3f("coordinates", X, Z, Y);
 	glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 }
@@ -252,7 +255,6 @@ void Object::AddToList(float X, float Y, float Z,float W,float H, float D)
 {
 	ObjectV3 V3(X, Y, Z, W, H,D);
 	DrawIndex.push_back(V3);
-	//InstanceCoordinates.push_back(
 	
 }
 
@@ -312,7 +314,7 @@ void Object::DrawList()
 			}
 		}
 		*/
-		Cam.Matrix(*ShaderRef, Width, Height);
+		Camera::CamRef->Matrix(*ShaderRef, Width, Height);
 }
 
 void Object::Remove(int i)
@@ -333,17 +335,24 @@ void Object::BatchDraw()
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ObjectV4) * InstanceCoordinates.size(), InstanceCoordinates.data(), GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, object->LocalVB.RendererID[1]);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	Cam.Matrix(*ShaderRef, Width, Height);
+	
+
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ObjectV4) * InstanceDimentions.size(), InstanceDimentions.data(), GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, object->LocalVB.RendererID[2]);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	Camera::CamRef->Matrix(*ShaderRef, Width, Height);
 }
 
 
-void Object::BatchAddToList(float inX, float inY, float inZ)
+void Object::BatchAddToList(float inX, float inY, float inZ, float inW, float inH, float inD)
 {
 	
+	ObjectV4 V4Coords( inX, inY, -inZ,1.0 );
+	InstanceCoordinates.push_back(V4Coords);
 
+	ObjectV4 V4Dimentions(inW, inH, inD, 0.0);
+	InstanceDimentions.push_back(V4Dimentions);
 
-	ObjectV4 V4( inX, inY, -inZ,1.0 );
-	InstanceCoordinates.push_back(V4);
 	MeshInstances++;
 
 }

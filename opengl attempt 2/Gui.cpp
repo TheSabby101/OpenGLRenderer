@@ -10,18 +10,13 @@ MyGui::MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height)
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 450 core");
 
-
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
 
 	io.ConfigWindowsResizeFromEdges = true;
 	//io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 	ImGui::GetMouseCursor();
 
-
-
 	SetStyle();
-	
 }
 
 MyGui::~MyGui()
@@ -77,28 +72,25 @@ void MyGui::Highlight()
 //		changed = false;
 
 
-
-
-
-
-
-
-
-
-	if (!Stop)
-	{
+	
 		if (Object::Objectlist[LoadShape]->MeshInstances > 0)
 		{
 //			Resets object back to original size
-			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 1.0;
-		
-
+			if(!first)
+//			Resets the previous selection, then sets the new previous for the next frame
+			*prevSelect = 1.0;
+			prevSelect = &Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w;
+			
+			
+			
 //			Sets object size
 			ImGui::SliderInt("DrawlistSelect", &ObjectIndex, 1, Object::Objectlist[LoadShape]->MeshInstances);
 			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 0.8;
-
+			
+			//only reset the previous selection if there was a previous selection
+			first = false;
 		}
-	}
+	
 }
 
 
@@ -107,7 +99,6 @@ void MyGui::MakeWindow()
 
 	//ImGui::SetNextWindowBgAlpha(0.9f);
 
-
 	static int x = 0;
 	static int y = 0;
 	static int z = 0;
@@ -115,8 +106,6 @@ void MyGui::MakeWindow()
 	static float w = 1.0f;
 	static float h = 1.0f;
 	static float d = 1.0f;
-
-
 
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.2, 0.2, 0.2, 0.7f });
 	ImGui::Begin("Placement");
@@ -152,13 +141,8 @@ void MyGui::MakeWindow()
 
 	ImGui::Text(Object::Objectlist[LoadShape]->OBJName);
 
-
-	
-
 	if(ObjectIndex > Object::BatchDrawIndex[LoadShape]->MeshInstances)
 	ObjectIndex = Object::BatchDrawIndex[LoadShape]->MeshInstances;
-
-	//Highlight();
 
 	
 	if (ObjectIndex == 0 )
@@ -169,14 +153,7 @@ void MyGui::MakeWindow()
 		ImGui::Text("%f Y", Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].y);
 		ImGui::Text("%f Z", -Object::BatchDrawIndex[LoadShape]->InstanceCoordinates[ObjectIndex-1].z);
 	}
-
-	if (!Stop)
-	{
-		if (Object::Objectlist[LoadShape]->MeshInstances > 0)
-		{
-			Object::Objectlist[LoadShape]->InstanceCoordinates[ObjectIndex - 1].w = 1.0;
-		}
-	}
+	
 
 //	Increases the size of the object by 20% to make it clear what you have selected
 	Highlight();
@@ -186,7 +163,7 @@ void MyGui::MakeWindow()
 	if (ImGui::Button("Place"))
 	{
 	//	Object::Objectlist[LoadShape]->AddToList(x, y, z, w, h, d);
-		Object::Objectlist[LoadShape]->BatchAddToList(x, y, z);
+		Object::Objectlist[LoadShape]->BatchAddToList(x, y, z,w,h,d);
 	}
 	if (ImGui::Button("Remove"))
 	{
@@ -196,9 +173,6 @@ void MyGui::MakeWindow()
 		//ObjectIndex -= 1;
 	}
 	
-
-
-
 	X = x;
 	Y = y;
 	Z = z;
@@ -208,10 +182,12 @@ void MyGui::MakeWindow()
 	D = d;
 
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+	FPS = 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate;
 	ImGui::End();
 	
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
-	ImGui::PopStyleColor(0);
+	//ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
+	ImGui::PopStyleColor(1);
 
 }
 
@@ -219,12 +195,13 @@ void MyGui::MakeViewport()
 {
 
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.2f, 0.2f, 0.2f, 0.7f });
-	ImGui::PopStyleColor(0);
+	
 	ImGui::Begin("Scene Window");
+	ImGui::PopStyleColor(0);
 	ImGui::ShowStyleEditor();
 	ImGui::End();
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
-	ImGui::PopStyleColor(0);
+	//ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4{ 0.0f, 0.0f, 0.0f, 0.0f });
+	//ImGui::PopStyleColor(0);
 }
 
 void MyGui::RenderEnder()
@@ -247,7 +224,7 @@ void MyGui::SetStyle()
 
 
 	
-	ImGui::PopStyleColor(0);
+	
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 12.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 	ImGui::PushStyleVar(ImGuiStyleVar_ScrollbarRounding, 12.0f);
@@ -257,6 +234,7 @@ void MyGui::SetStyle()
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 	//ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
 	//ImGui::SetNextItemWidth(ImGui::GetFontSize() * 80);
-	ImGui::PopStyleVar(0);
+	
 #endif // release
+	//ImGui::PopStyleColor(0);
 }

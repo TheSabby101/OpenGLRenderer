@@ -7,9 +7,11 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 	//std::cout << ID << "= ID" << std::endl;
 
 		CompileShader(VertexShaderID, CreateShader(VertexPath));
-		CompileShader(FragmentShaderID, CreateShader(FragmentPath));
 		glAttachShader(ID, VertexShaderID);
+
+		CompileShader(FragmentShaderID, CreateShader(FragmentPath));
 		glAttachShader(ID, FragmentShaderID);
+
 		glLinkProgram(ID);
 
 		glGetProgramiv(ID, GL_LINK_STATUS, &LinkStatus);
@@ -30,7 +32,7 @@ Shader::Shader(std::string VertexPath, std::string FragmentPath)
 		glDeleteShader(FragmentShaderID);
 
 		//std::cout << ID << std::endl;
-	
+		delete ShaderCode;
 }
 
 Shader::~Shader()
@@ -91,22 +93,25 @@ void Shader::SetUniforms2fv(std::string name, float one,const float* two )
 
 }
 
+//ShaderCode only reliably works on the heap, i assume due to the sheer size of that lad
 const char* Shader::CreateShader(std::string ShaderPath)
 {
 //	std::cout << "Created Shader using " << ShaderPath << std::endl;
-	std::string ShaderCode;
+
 	std::ifstream ShaderStream(ShaderPath, std::ios::in);
 	if (ShaderStream.is_open()) {
 		std::stringstream sstr;
 		sstr << ShaderStream.rdbuf();
-		ShaderCode = sstr.str();
+		*ShaderCode = sstr.str();
 		ShaderStream.close();
+	
 	}
 	else {
 		std::cout << "Impossible to open." << std::endl << ShaderPath << std::endl;
 		return 0;
 	}
-	const char* SourcePointer = ShaderCode.c_str();
+	const char* SourcePointer = ShaderCode->c_str();
+	
 	//std::cout << SourcePointer << std::endl;;
 	return SourcePointer;
 }

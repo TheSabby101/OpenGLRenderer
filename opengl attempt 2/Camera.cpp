@@ -1,9 +1,9 @@
 #include "Camera.h"
 
-Camera::Camera(double prevTime, glm::vec3 position,unsigned int &Width, unsigned int &Height)
-	:PrevTime(prevTime), Position(position),width(Width),height(Height)
+Camera::Camera(unsigned int &Width, unsigned int &Height)
+	:width(Width),height(Height)
 {
-	
+	CamRef = this;
 }
 
 void Camera::Matrix(Shader& shader,unsigned int Width, unsigned int Height)
@@ -64,7 +64,7 @@ void Camera::inputs(GLFWwindow* window)
 		//	Camera::fov = fov * 1.1;
 		//	Sprint = false;
 		//}
-		speed = 0.2f;
+		speed = 0.2f * MyGui::FPS;
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
@@ -73,7 +73,7 @@ void Camera::inputs(GLFWwindow* window)
 	//		Camera::fov = fov / 1.1;
 	//		Sprint = true;
 	//	}
-		speed = 0.05f;
+		speed = 0.05f*MyGui::FPS;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
@@ -83,7 +83,7 @@ void Camera::inputs(GLFWwindow* window)
 		//	Camera::fov = fov * 1.1;
 		//	Sprint = false;
 		//}
-		speed = 0.005f;
+		speed = 0.005f * MyGui::FPS;
 	}
 
 	// Handles mouse inputs

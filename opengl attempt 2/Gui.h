@@ -21,23 +21,24 @@ class MyGui
 	inline static int ObjectIndex = 0;
 	inline static int ObjectNumber = 0;
 
-	enum condition { begin, end };
+	//enum condition { begin, end };
 	void Highlight();
 
-	bool changed = true;
-	int a = 0;
-	int b = 0;
+	float* prevSelect;
+	float* currentSelect;
+	bool first = true;
+	int prevshape, currshape = 0;
+
+
 
 public:
 	float X, Y, Z = 0.0f;
 	float W, H, D = 1.0f;
 
-	bool Stop = false;
-
 	unsigned int& width;
 	unsigned int& height;
 
-
+	inline static float FPS;
 
 	MyGui(GLFWwindow* window, unsigned int& Width, unsigned int& Height);
 	~MyGui();

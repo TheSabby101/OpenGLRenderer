@@ -29,7 +29,10 @@ struct ObjectV4
 	float x, y, z, w;
 	ObjectV4(float inx, float iny, float inz, float inw)
 		:x(inx), y(iny), z(inz), w(inw)
-	{
-
-	}
+	{}
 };
+
+namespace SR
+{
+
+}

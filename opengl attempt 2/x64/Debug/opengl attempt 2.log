@@ -1,24 +1,32 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (opengl attempt 2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Camera.cpp
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(205): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
   Gui.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(174): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(81,79): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(104,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(132,76): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(140,17): warning C4018: '>': signed/unsigned mismatch
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(158,55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(158,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(158,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(172,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(173,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(174,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(205): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(88,79): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(110,72): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(139,76): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(144,17): warning C4018: '>': signed/unsigned mismatch
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(166,55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(166,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(166,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(176,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(177,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Gui.cpp(178,6): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  LoadShader2.cpp
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\LoadShader2.cpp(92,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Main.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Dependancies\GLFW\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(174): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(212,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(212,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(212,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(205): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(190,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(190,30): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Main.cpp(190,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Object.cpp
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.h(205): warning C4091: 'inline static ': ignored on left of 'Object::Block' when no variable is declared
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(266,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(496,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(497,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\Object.cpp(548,1): warning C4506: no definition for inline function 'void Object::Move(float,float,float)'
+  VAO.cpp
+C:\Users\themi\source\repos\OpenGLRenderer\opengl attempt 2\VAO.cpp(72,87): warning C4312: 'type cast': conversion from 'int' to 'void *' of greater size
   Generating Code...
   opengl attempt 2.vcxproj -> C:\Users\themi\source\repos\OpenGLRenderer\x64\Debug\OpenGLRenderer.exe

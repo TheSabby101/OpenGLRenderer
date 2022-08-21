@@ -6,7 +6,7 @@ class Shader
 {
 private:
 
-	
+	std::string* ShaderCode = new std::string;
 	GLuint VertexShaderID; 
 	GLuint FragmentShaderID;
 

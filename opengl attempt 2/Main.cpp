@@ -15,93 +15,81 @@ static int ScreenWidth = 720;
 static int ScreenHeight = 720;
 int objectcount = 0;
 
-struct vec3F
-{
-	float x, y, z;
-	vec3F(float a, float b, float c)
-	{
-
-		x = a;
-		y = b;
-		z = c;
-
-	}
-	
-};
 
 
-std::vector<GLfloat> OBJImport(std::string objfilepath)
-{
-	vec3F Temp(0, 0, 0);
-	int i = 0;
-	//reading from the OBJ file
-	std::string line = "";
-	std::string prefix = "";
-	std::string OBJ;
-	std::ifstream OBJStream(objfilepath);
-	std::vector<GLfloat> Verticies;
-	
-	if (OBJStream.is_open())
-	{
-		std::cout << objfilepath << " Opened" << std::endl;
-	
-		std::stringstream sstr;
-	//sstr << OBJStream.rdbuf();
-		//OBJ = sstr.str();
-		
-		while (std::getline(OBJStream, line))
-		{
-			
-			sstr.clear();
-			sstr.str(line);
-			sstr >> prefix;
 
-			if (prefix == "#")
-			{
-
-			}
-			else if (prefix == "o")
-			{
-
-			}
-			else if (prefix == "s")
-			{
-
-			}
-			else if (prefix == "vn")
-			{
-				sstr >> Temp.x >> Temp.y >> Temp.z;
-				Verticies.push_back(Temp.x);
-				Verticies.push_back(Temp.y);
-				Verticies.push_back(Temp.z);
-				//std::cout << Verticies[0+ i] << std::endl;
-				//std::cout << Verticies[1+ i] << std::endl;
-				//std::cout << Verticies[2+ i] << std::endl;
-				//std::cout << line << std::endl;
-				i += 3;
-			}
-			else
-			{
-
-			}
-			
-		}
-
-		OBJStream.close();
-	}
-	else
-	{
-		std::cout << "could not open obj at " << objfilepath << std::endl;
-	}
-
-	//converting the Verticies of the OBJ into a usable vector
-
-
-	
-
-
-	return Verticies;
-}
+//std::vector<GLfloat> OBJImport(std::string objfilepath)
+//{
+//	vec3F Temp(0, 0, 0);
+//	int i = 0;
+//	//reading from the OBJ file
+//	std::string line = "";
+//	std::string prefix = "";
+//	std::string OBJ;
+//	std::ifstream OBJStream(objfilepath);
+//	std::vector<GLfloat> Verticies;
+//	
+//	if (OBJStream.is_open())
+//	{
+//		std::cout << objfilepath << " Opened" << std::endl;
+//	
+//		std::stringstream sstr;
+//	//sstr << OBJStream.rdbuf();
+//		//OBJ = sstr.str();
+//		
+//		while (std::getline(OBJStream, line))
+//		{
+//			
+//			sstr.clear();
+//			sstr.str(line);
+//			sstr >> prefix;
+//
+//			if (prefix == "#")
+//			{
+//
+//			}
+//			else if (prefix == "o")
+//			{
+//
+//			}
+//			else if (prefix == "s")
+//			{
+//
+//			}
+//			else if (prefix == "vn")
+//			{
+//				sstr >> Temp.x >> Temp.y >> Temp.z;
+//				Verticies.push_back(Temp.x);
+//				Verticies.push_back(Temp.y);
+//				Verticies.push_back(Temp.z);
+//				//std::cout << Verticies[0+ i] << std::endl;
+//				//std::cout << Verticies[1+ i] << std::endl;
+//				//std::cout << Verticies[2+ i] << std::endl;
+//				//std::cout << line << std::endl;
+//				i += 3;
+//			}
+//			else
+//			{
+//
+//			}
+//			
+//		}
+//
+//		OBJStream.close();
+//	}
+//	else
+//	{
+//		std::cout << "could not open obj at " << objfilepath << std::endl;
+//	}
+//
+//	//converting the Verticies of the OBJ into a usable vector
+//
+//
+//	
+//
+//
+//	return Verticies;
+//}
 
 void DrawAll()
 {
@@ -117,11 +105,7 @@ void BatchDrawAll()
 	for (size_t i = 0; i < Object::BatchDrawIndex.size(); i++)
 	{
 		Object::BatchDrawIndex[i]->BatchDraw();
-
 	}
-
-
-
 }
 
 int main()
@@ -172,8 +156,8 @@ int main()
 
 
 	glEnable(GL_DEPTH_TEST);
-	double prevTime = glfwGetTime();
-	Camera Camera(prevTime, glm::vec3(0.0f, 0.0f, 2.0f), (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
+
+	Camera Camera((unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
 
 
@@ -183,20 +167,20 @@ int main()
 
 	MyGui gui(window, (unsigned int&)ScreenWidth, (unsigned int&)ScreenHeight);
 
-	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	//Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	//Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
-	//Object LightingTest("LightingTest", "Shaders/LightingFragment.frag", "Shaders/LightingVertex.vert", Camera);
-	//Object Sphere("Sphere", "Shaders/SphereFrag.frag", "Shaders/SphereVertex.vert", Camera);
-	//Object Cube("Cube", "res/DebugFolder/test5.png", "Shaders/fragment.frag", "Shaders/vertex.vert", Camera);
+	Object Grass("Grass", Object::grass, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
+	Object Sand("Sand", Object::sand, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
+	Object CraftingBench("CraftingBench", Object::craftingbench, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
+	Object Furnace("Furnace", Object::furnace, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
+	Object Lava("Lava", Object::lava, "res/Atlas.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
+	Object LightingTest("LightingTest", "Shaders/LightingFragment.frag", "Shaders/LightingVertex.vert");
+	Object Sphere("Sphere", "Shaders/SphereFrag.frag", "Shaders/SphereVertex.vert");
+	Object Cube("Cube", "res/DebugFolder/test5.png", "Shaders/fragment.frag", "Shaders/vertex.vert");
 
 		for (int y = -1; y < 0; y++)
 		{
-			for (int z = -50; z< 50; z++)
+			for (int z = -16; z< 16; z++)
 			{
-				for (int x = -50; x < 50; x++)
+				for (int x = -16; x < 16; x++)
 				{
 
 
@@ -208,6 +192,29 @@ int main()
 			}
 		}
 	
+
+		for (int y = -10; y < -1; y++)
+		{
+			for (int z = -16; z < 16; z++)
+			{
+				for (int x = -16; x < 16; x++)
+				{
+					//Sand.BatchAddToList(x, y, z);
+				}
+			}
+		}
+
+		for (int y = -20; y < -10; y++)
+		{
+			for (int z = -16; z < 16; z++)
+			{
+				for (int x = -16; x < 16; x++)
+				{
+					//Lava.BatchAddToList(x, y, z);
+				}
+			}
+		}
+
 		do {
 //			Recieving the loop duration for shader uniforms
 			Object::time = glfwGetTime();
@@ -243,9 +250,5 @@ int main()
 //	Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
-		gui.Stop = true;
-		
-		//delete &gui;
-	
 		
 }

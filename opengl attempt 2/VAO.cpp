@@ -23,9 +23,10 @@ VAO::~VAO()
 
 void VAO::Bind()
 {
-	LocalShader.Bind();
-	LocalVA.Bind();
+	
 	LocalVB.Bind();
+	LocalVA.Bind();
+	LocalShader.Bind();
 	if(TexUsed)
 	LocalTexture->Bind();
 }

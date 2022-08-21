@@ -13,9 +13,6 @@
 
 class Object
 {
-
-//	Query queer;
-	
 private:
 	
 
@@ -50,6 +47,8 @@ public:
 	inline static float AtlasSize = 256.0f;
 	inline static float TextureSize = 16.0f;
 
+
+	//basic cube using a texture atlas
 	inline static float VertexBufferData[192]
 	{
 		
@@ -85,6 +84,7 @@ public:
 	   -0.5f,-0.5f, 0.5f,     AtlasX* TextureSize / AtlasSize,(AtlasY + 1)* TextureSize / AtlasSize,	 	 0.0f,-1.0f,0.0f, //bottom left front	   //Bottom Face
 	};
 
+	//basic cube using a fullsize texture
 	inline static float VertexBufferDataNoAtlas[192]
 	{
 
@@ -119,6 +119,7 @@ public:
 		0.5f,-0.5f, 0.5f,    1.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom right front   //Bottom Face
 	   -0.5f,-0.5f, 0.5f,    0.0f, 1.0f,     0.0f,-1.0f,0.0f, //bottom left front	 //Bottom Face
 	};
+
 
 
 struct texCoords 
@@ -166,7 +167,7 @@ struct texCoords
 
 
 
-	inline static enum Block { grass, dirt, sand,craftingbench,furnace,lava};
+	
 
 	std::vector<ObjectV3> DrawIndex;
 	inline static std::vector<Object*> Objectlist{ 0 };
@@ -186,7 +187,7 @@ struct texCoords
 	//IndexBuffer IB;
 	Shader* ShaderRef;
 	VAO* object;
-	Camera& Cam;
+	//Camera& Cam;
 	
 
 	
@@ -198,11 +199,14 @@ struct texCoords
 
 	unsigned int MeshInstances = 0;
 	std::vector<ObjectV4> InstanceCoordinates{};
+	std::vector<ObjectV4> InstanceDimentions{};
 
+	//Block types for the constructor
+	inline static enum Block { grass, dirt, sand, craftingbench, furnace, lava };
 
-	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
-	Object(const char* Name,Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
-	Object(const char* Name, const char* FragmentPath, const char* VertexPath, Camera& CamRef);
+	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath);
+	Object(const char* Name,Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath);
+	Object(const char* Name, const char* FragmentPath, const char* VertexPath);
 	~Object();
 	void Bind();
 
@@ -213,7 +217,7 @@ struct texCoords
 	void DrawList();
 	void Remove(int i);
 	void BatchDraw();
-	void BatchAddToList(float X, float Y, float Z);
+	void BatchAddToList(float inX, float inY, float inZ, float W = 1, float H = 1, float D = 1);
 	void BatchRemove(int i);
 	void DrawAt(float X, float Y, float Z, float W, float H, float D);
 
@@ -232,3 +236,11 @@ struct texCoords
 };
 
 
+//class Billboard : private Object
+//{
+//
+//
+//
+//
+//
+//};
