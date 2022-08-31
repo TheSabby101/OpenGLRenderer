@@ -1,4 +1,3 @@
-#pragma once
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
@@ -8,7 +7,8 @@
 #include "VAO.h"
 #include "Error.h"
 #include "Camera.h"
-#include "Gui.h"
+//#include "Gui.h"
+//#include "Object.h"
 GLint Query::any_samples_passed;
 GLuint Query::Test[2];
 static int ScreenWidth = 720;
@@ -199,7 +199,7 @@ int main()
 			{
 				for (int x = -16; x < 16; x++)
 				{
-					//Sand.BatchAddToList(x, y, z);
+					Sand.BatchAddToList(x, y, z);
 				}
 			}
 		}
@@ -210,7 +210,7 @@ int main()
 			{
 				for (int x = -16; x < 16; x++)
 				{
-					//Lava.BatchAddToList(x, y, z);
+					Lava.BatchAddToList(x, y, z);
 				}
 			}
 		}
@@ -246,6 +246,17 @@ int main()
 			glfwGetWindowSize(window,&ScreenWidth,&ScreenHeight);
 			glViewport(0, 0, ScreenWidth, ScreenHeight);
 			glfwSwapBuffers(window);
+
+//#ifdef __EMSCRIPTEN__
+//			// Receives a function to call and some user data to provide it.
+//			emscripten_request_animation_frame_loop(one_iter, 0);
+//#else
+//			while (1) {
+//				one_iter();
+//				// Delay to keep frame rate constant (using SDL).
+//				SDL_Delay(time_to_next_frame());
+//			}
+//#endif
 		} 
 //	Check if ESC was pressed or if the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&

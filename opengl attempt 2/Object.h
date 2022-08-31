@@ -198,11 +198,17 @@ struct texCoords
 
 
 	unsigned int MeshInstances = 0;
+
+
+
+	std::vector<ObjectV42> transforms{};
 	std::vector<ObjectV4> InstanceCoordinates{};
 	std::vector<ObjectV4> InstanceDimentions{};
 
+
+
 	//Block types for the constructor
-	inline static enum Block { grass, dirt, sand, craftingbench, furnace, lava };
+	enum Block { grass, dirt, sand, craftingbench, furnace, lava };
 
 	Object(const char* Name, const char* FilePath, const char* FragmentPath, const char* VertexPath);
 	Object(const char* Name,Block blocktype, const char* FilePath, const char* FragmentPath, const char* VertexPath);

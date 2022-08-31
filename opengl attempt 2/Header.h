@@ -1,5 +1,5 @@
 #pragma once
-#include <windows.h>
+//#include <windows.h>
 #define GLEW_STATIC 
 #include <GL/glew.h> 
 #include <GLFW/glfw3.h> 
@@ -21,6 +21,8 @@
 #include "res/3rd party/imgui_impl_glfw.h"
 #include "res/3rd party/imgui_impl_opengl3.h"
 
+//#include "res/3rd party/include/emscripten.h"
+
 //#include "Error.h"
 
 
@@ -30,6 +32,16 @@ struct ObjectV4
 	ObjectV4(float inx, float iny, float inz, float inw)
 		:x(inx), y(iny), z(inz), w(inw)
 	{}
+};
+
+struct  ObjectV42
+{
+	ObjectV4 one, two;
+	ObjectV42(ObjectV4 Coordsin, ObjectV4 Dimentionsin)
+		:one(Coordsin), two(Dimentionsin)
+	{}
+
+
 };
 
 namespace SR

@@ -329,17 +329,32 @@ void Object::BatchDraw()
 {
 	Bind();
 	ShaderToy();
-	
-	std::launch::async, glDrawElementsInstanced(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr, MeshInstances);
-	
+/*
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ObjectV4) * InstanceCoordinates.size(), InstanceCoordinates.data(), GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, object->LocalVB.RendererID[1]);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	
+
 
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(ObjectV4) * InstanceDimentions.size(), InstanceDimentions.data(), GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, object->LocalVB.RendererID[2]);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+*/
+
+//	This method allows me to bind multiple SSBO's contrary to the method above
+
+	//Coordinates Buffer
+	glNamedBufferData(object->LocalVB.RendererID[1], sizeof(ObjectV4) * InstanceCoordinates.size(), InstanceCoordinates.data(), GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, object->LocalVB.RendererID[1]);
+
+	//Scale Buffer
+	glNamedBufferData(object->LocalVB.RendererID[2], sizeof(ObjectV4) * InstanceDimentions.size(), InstanceDimentions.data(), GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 4, object->LocalVB.RendererID[2]);
+
+	//Rotation Buffer ToDo
+
+	std::launch::async, glDrawElementsInstanced(GL_TRIANGLES, sizeof(Indices) / sizeof(int), GL_UNSIGNED_INT, nullptr, MeshInstances);
+	
+
 	Camera::CamRef->Matrix(*ShaderRef, Width, Height);
 }
 
@@ -352,9 +367,13 @@ void Object::BatchAddToList(float inX, float inY, float inZ, float inW, float in
 
 	ObjectV4 V4Dimentions(inW, inH, inD, 0.0);
 	InstanceDimentions.push_back(V4Dimentions);
+	
+	//ObjectV42 V42Transforms(V4Coords, V4Dimentions);
+	//transforms.push_back(V42Transforms);
+
 
 	MeshInstances++;
-
+	
 }
 
 

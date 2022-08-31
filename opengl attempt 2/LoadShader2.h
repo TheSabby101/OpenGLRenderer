@@ -14,7 +14,7 @@ std::unordered_map<std::string, int> CachedLocation;
 public:
 	GLint LinkStatus;
 	bool LinkStatusbool;
-	GLuint ID; const
+	GLuint ID;
 
 	Shader(std::string VertexPath, std::string FragmentPath);
 	~Shader();
